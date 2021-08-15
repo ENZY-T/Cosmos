@@ -1,24 +1,35 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useEffect, useState} from 'react';
 import './App.css';
+import Login from './Pages/Login';
+import Register from './Pages/Register';
+import Home from './Pages/Home';
+import  Nav from './Components/Nav'
+import { BrowserRouter, Route } from 'react-router-dom';
 
 function App() {
-  return (
+    const [name, setName] = useState('');
+    useEffect(()=>{
+        (
+            async () =>{
+                const response = await fetch('http://localhost:8000/api/auth/user', {
+                    headers : {'Content-Type': 'application/json'},
+                    credentials : 'include',
+                });
+                const content = await response.json();
+                setName(content.fName);
+            }
+        )();
+    });
+    return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <BrowserRouter>
+        <Nav name={name} setName={setName} />
+        <main className="form-sign-in">
+            <Route path="/" exact component={() => <Home name={name}/>}/>
+            <Route path="/login" component={() => <Login name={name} setName={setName}/>}/>
+            <Route path="/register" component={Register}/>
+      </main>
+      </BrowserRouter>
     </div>
   );
 }

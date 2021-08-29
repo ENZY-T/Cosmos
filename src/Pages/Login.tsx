@@ -1,7 +1,12 @@
 import React, {SyntheticEvent, useState} from 'react';
 import { Redirect } from 'react-router-dom';
 
-const Login = (props: {name:string, setName:(name:string) => void}) => {
+interface IProps{
+    name:string,
+    setName:(name:string) => void,
+    setAdmin:(admin:boolean) => void
+}
+const Login = ({setAdmin}: IProps) => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -10,7 +15,7 @@ const Login = (props: {name:string, setName:(name:string) => void}) => {
   const submit = async(e:SyntheticEvent) => {
     e.preventDefault();
 
-    const response = await fetch('http://localhost:8000/api/auth',{
+    const response = await fetch('http://localhost:8000/api/auth/login',{
         method : 'POST',
         headers : {'Content-Type':'application/json'},
         credentials: 'include',
@@ -20,7 +25,9 @@ const Login = (props: {name:string, setName:(name:string) => void}) => {
         })
     });
         setRedirect(true);
-        props.setName('');
+        setAdmin((response.status === 200)); // Should be checked for admin rights(only for Dev)
+
+
   }
 
   if(redirect){

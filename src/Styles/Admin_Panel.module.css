@@ -1,18 +1,140 @@
-import React from 'react';
-import {Redirect} from "react-router-dom";
-import Home from "./Home";
+.adminPanel_Container{
+    min-height: 100vh;
+    width: 100%;
 
-const AdminPanel = (props:{IsAdmin:boolean}) => {
-    //
-    if(props.IsAdmin === false){
-        return <Redirect to='/'/>
-    }
+    display: flex;
+    justify-content: left;
+    align-content: stretch;
+    color: var(--globalWhite);
 
-    return (
-        <div>
+    /*Color Variables*/
+    --panelColor: #1d1d1d;
+    /*--bgColor: #444444;*/
+    --itemColor: #1d1d1d;
+    --itemHighColor: #424842;
+}
 
-        </div>
-    );
-};
+.left_Wrapper{
+    background-color: var(--panelColor);
+    height: 100vh;
+    width: 18%;
 
-export default AdminPanel;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+}
+
+.userDisplay{
+    border-radius: var(--globalBorderRadius);
+    height: 150px;
+    width: auto;
+    margin-bottom: 32px;
+    background-color: var(--panelColor);
+    border-bottom: 2px rgba(128, 128, 128, 0.15) solid;
+
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    vertical-align: center;
+}
+
+.userDisplay>i:first-of-type{
+    font-size: 5rem;
+    margin: 10px;
+}
+
+.sectionButtonWrapper{
+    --thisPadding: 50px;
+    padding: 0 var(--thisPadding) 0 var(--thisPadding);
+
+    display: flex;
+    flex-direction: column;
+}
+
+.sectionButton{
+    border-radius: var(--globalBorderRadius);
+    height: 32px;
+    border: var(--globalButtonBorder);
+    margin-bottom: 16px;
+    background-color: #444444;
+    box-shadow: var(--globalBoxShadowLight);
+    transition: all 0.15s ease;
+    font-weight: 500;
+
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.sectionButton:hover{
+    background-color: #626161;
+    box-shadow: var(--globalBoxShadowLight_Hover);
+    transform: scale(1.02, 1.02);
+    cursor: var(--globalMouseHand);
+}
+
+.sectionButton_Clicked{
+    background-color: #343434;
+    box-shadow: var(--globalBoxShadowLight_Clicked);
+    font-weight: 200;
+    transform: scale(0.97, 0.97);
+
+}
+
+.right_Wrapper{
+    height: 100vh;
+    width: 82%;
+    background-color: var(--globalBgColor);
+
+    display: flex;
+    flex-direction: column;
+}
+
+.topBar{
+    background-color: var(--panelColor);
+    width: 100%;
+    height: 50px;
+
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+}
+
+.heading{
+    font-size: 2em;
+    font-weight: 700;
+    flex: 1;
+    text-align: center;
+}
+
+.adminClose{
+    aspect-ratio: 1;
+    height: 30px;
+    margin: 10px;
+    border: 1px solid rgba(5, 130, 131, 0.64);
+    background-color: rgba(211, 32, 76, 0.15);
+    border-radius: 8px;
+
+    color: #a1a1a1;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.adminClose:hover{
+    background-color: rgba(206, 51, 94, 0.44);
+    cursor: pointer;
+}
+
+.adminClose:active{
+    opacity: 0.5;
+}
+
+.contentSpace_Wrapper{
+    padding: 10px;
+}
+

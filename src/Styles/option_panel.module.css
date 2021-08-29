@@ -1,11 +1,5 @@
-import React from 'react';
-
-const OptionPanel = () => {
-    return (
-        <div>
-            
-        </div>
-    );
-};
-
-export default OptionPanel;
+.optionPanel{
+    padding-top: 5px;
+    border: 2px rgba(128, 128, 128, 0.15) solid;
+    height: 100%;
+}

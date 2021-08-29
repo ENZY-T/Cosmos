@@ -1,0 +1,7 @@
+.projCard{
+    aspect-ratio: 1.3;
+    width: 25%;
+    border-radius: 23px;
+    background-color: aquamarine;
+    margin: 10px 10px 10px 10px;
+}

@@ -1,0 +1,9 @@
+.adminContent {
+    margin: 10px;
+    background-color: #333533;
+    border-radius: inherit;
+
+    display: flex;
+    flex-direction: column;
+    color: var(--globalWhite);
+}

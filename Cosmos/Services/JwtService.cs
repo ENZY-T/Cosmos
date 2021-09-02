@@ -6,12 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cosmos.Services 
+namespace Cosmos.Services
 {
     public class JwtService : IJwtService
     {
 
-        private string securityKey = "SecurityKeyCosmosByENZY";
+        private readonly string securityKey = "SecurityKeyCosmosByENZY";
         public string Generate(string id)
         {
             var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(securityKey));

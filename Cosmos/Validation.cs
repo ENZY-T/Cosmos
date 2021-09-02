@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace CosmosLib
+namespace Cosmos
 {
      public static class Validation
     {

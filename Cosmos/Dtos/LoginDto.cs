@@ -1,7 +1,7 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 using System.ComponentModel.DataAnnotations;
 
-namespace CosmosLib.Models
+namespace Cosmos.Models
 {
     [BsonIgnoreExtraElements]
     public class LoginDto

@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson;
+﻿using Cosmos.Models;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -7,56 +8,104 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CosmosLib
+namespace Cosmos
 {
     public class DbClient : IDbClient
     {
-        public IMongoDatabase PNet_db;
+        public IMongoDatabase Cosmos_db;
 
         public DbClient(string ConnStr, string dbName)
         {
-            var client = new MongoClient(ConnStr);
-            PNet_db = client.GetDatabase(dbName);
+            try
+            {
+                var client = new MongoClient(ConnStr);
+                Cosmos_db = client.GetDatabase(dbName);
 
-            MakeUSerEmailUnique();
+                //MakeUSerEmailUnique_Users();
 
+            }
+            catch { }
         }
 
-        private async void MakeUSerEmailUnique()
+        #region Unique key specification per table
+        /// <summary>
+        /// Assigning a unique key if theres no. 
+        /// </summary>
+        private async void MakeUSerEmailUnique_Users()
         {
-            var indexOptions = new CreateIndexOptions() { Unique =true };
-            var indexKeys = Builders<UserModel>.IndexKeys.Ascending( table=> table.Email);
+            var indexOptions = new CreateIndexOptions() { Unique = true, Name = "primary" };
+            var indexKeys = Builders<UserModel>.IndexKeys.Ascending(table => table.Email);
             var indexModel = new CreateIndexModel<UserModel>(indexKeys, indexOptions);
-            await PNet_db.GetCollection<UserModel>("Users").Indexes.CreateOneAsync(indexModel);
+            await Cosmos_db.GetCollection<UserModel>("Users").Indexes.CreateOneAsync(indexModel);
         }
 
+        private async void MakeUSerEmailUnique_Projects()
+        {
+            var indexOptions = new CreateIndexOptions() { Unique = true, Name = "primary" };
+            var indexKeys = Builders<ProjectModel_Full>.IndexKeys.Ascending(table => table.Id);
+            var indexModel = new CreateIndexModel<ProjectModel_Full>(indexKeys, indexOptions);
+            await Cosmos_db.GetCollection<ProjectModel_Full>("Projects").Indexes.CreateOneAsync(indexModel);
+        }
+
+
+        private async void MakeUSerEmailUnique_Articles()
+        {
+            var indexOptions = new CreateIndexOptions() { Unique = true, Name = "primary" };
+            var indexKeys = Builders<ArticleModel_Full>.IndexKeys.Ascending(table => table.Id);
+            var indexModel = new CreateIndexModel<ArticleModel_Full>(indexKeys, indexOptions);
+            await Cosmos_db.GetCollection<ArticleModel_Full>("Projects").Indexes.CreateOneAsync(indexModel);
+        }
+        #endregion
 
         public T GETbyId<T>(string table, ObjectId id)
         {
-            var Coll = PNet_db.GetCollection<T>(table);
-            var filter = Builders<T>.Filter.Eq("Id", id);
-            
-            return Coll.Find(filter).Any() ? Coll.Find(filter).FirstOrDefault() : default(T);
+            var Coll = Cosmos_db.GetCollection<T>(table);
+            try
+            {
+                var filter = Builders<T>.Filter.Eq("Id", id);
+                return Coll.Find(filter).Any() ? Coll.Find(filter).FirstOrDefault() : default(T);
+
+            }
+            catch (Exception)
+            {
+                return default;
+            }
         }
         public List<T> GETbyAny<T>(string table, string field, string searchKey)
         {
-            var Coll = PNet_db.GetCollection<T>(table);
-            var filter = Builders<T>.Filter.Eq(field, searchKey);
-            var result = Coll.Find(filter).ToList();
+            var Coll = Cosmos_db.GetCollection<T>(table);
+            try
+            {
+                var filter = Builders<T>.Filter.Eq(field, searchKey);
+                var result = Coll.Find(filter).ToList();
 
-            return result.Any() ? result : new List<T>();
+                return result.Any() ? result : new List<T>();
+
+            }
+            catch (Exception)
+            {
+                return default;
+            }
         }
 
         public List<T> GET<T>(string table)
         {
-            var Coll = PNet_db.GetCollection<T>(table);
-            return Coll.Find(new BsonDocument()).Any() ? Coll.Find(new BsonDocument()).ToList() : new List<T>();
+            var Coll = Cosmos_db.GetCollection<T>(table);
+            try
+            {
+                var result = Coll.Find(new BsonDocument()).Any() ? Coll.Find(new BsonDocument()).ToList() : new List<T>();
+                return result;
+            }
+            catch (Exception)
+            {
+                return default;
+            }
         }
 
 
         public T INSERT<T>(string table, T record)
         {
-            var Coll = PNet_db.GetCollection<T>(table);
+            var Coll = Cosmos_db.GetCollection<T>(table);
             try
             {
                 Coll.InsertOne(record);
@@ -64,22 +113,41 @@ namespace CosmosLib
             }
             catch (Exception)
             {
-            return default(T);
+                return default(T);
             }
         }
 
-        public void DELETE<T>(string table, int id) 
+        public bool DELETE<T>(string table, string keyName, string keyValue)
         {
-            var Coll = PNet_db.GetCollection<T>(table);
-            var filter = Builders<T>.Filter.Eq("Id", id);
-            Coll.DeleteOne(filter);
+            var Coll = Cosmos_db.GetCollection<T>(table);
+            try
+            {
+                var filter = Builders<T>.Filter.Eq(keyName, keyValue);
+                Coll.DeleteOne(filter);
+                return true;
+
+            }
+            catch (Exception)
+            {
+                return false; ;
+            }
         }
 
-        void IDbClient.UPSERT<T>(string table, int id, T record)
+        public bool UPSERT<T>(string table, BsonDocument filterBsonDoc , T record)
         {
-            var Coll = PNet_db.GetCollection<T>(table);
-            var result = Coll.ReplaceOne(new BsonDocument("Id", id), record, new ReplaceOptions { IsUpsert = true }); ;
+            var Coll = Cosmos_db.GetCollection<T>(table);
+            try
+            {
+                
+                var result = Coll.ReplaceOne(filterBsonDoc, record, new ReplaceOptions { IsUpsert = true }); ;
+                return result.ModifiedCount > 0;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
+
 
     }
 }

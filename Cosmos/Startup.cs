@@ -5,11 +5,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Cosmos.Services;
-using CosmosLib;
+using Cosmos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Cosmos.Services.Interfaces;
 
 namespace Cosmos
 {
@@ -27,7 +28,8 @@ namespace Cosmos
         {
             services.AddCors();
             services.AddScoped<IJwtService, JwtService>();
-            services.AddScoped<IUserService, UserService>();
+            services.AddSingleton<IUserService, UserService>();
+            services.AddSingleton<ICardService, CardService>();
             services.AddTransient<IDbClient>(
                 serviceProv => ActivatorUtilities.CreateInstance<DbClient>(
                     serviceProv, Configuration.GetConnectionString("MongoConnStr"), Configuration.GetValue<string>("DbSettings:MongoDb:Name")

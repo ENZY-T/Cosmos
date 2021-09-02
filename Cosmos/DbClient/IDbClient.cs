@@ -7,16 +7,16 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CosmosLib
+namespace Cosmos
 {
     public interface IDbClient
     {
         List<T> GET<T>(string table);
         T GETbyId<T>(string table, ObjectId id);
         List<T> GETbyAny<T>(string table, string field, string searchKey);
-        void UPSERT<T>(string table, int id, T record);
+        bool UPSERT<T>(string table, BsonDocument filterBsonDoc, T record);
         T INSERT<T>(string table, T record);
-        void DELETE<T>(string table, int id);
+        bool DELETE<T>(string table, string keyName, string keyValue);
 
 
     }

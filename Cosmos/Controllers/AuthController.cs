@@ -2,12 +2,13 @@
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using Cosmos.Services;
-using CosmosLib;
-using CosmosLib.Models;
+using Cosmos;
+using Cosmos.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Cosmos.Dtos;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -41,7 +42,8 @@ namespace Cosmos.Controllers
                         HttpOnly = true
                     });
 
-                    return Ok(new { message = "Success" });
+                    // Returning Status OK with the logged user details
+                    return Ok(new LoggedUserDto(){ UserId=user.Id ,Email=user.Email, FName= user.FName, LName=user.LName});
                 }
                 else
                 {
@@ -70,13 +72,14 @@ namespace Cosmos.Controllers
                 return BadRequest(error: new { message = "Email already in use" });
             }else
             { 
-                return Created(uri: "Success", value: user);
+                return Created("Success", user);
 
             }
         }
 
+
         [HttpGet("user")]
-        public IActionResult User()
+        public IActionResult GetUser()
         {
             try
             {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CosmosLib
+namespace Cosmos
 {
     public class AuthenticationServices : IAuthenticationServices
     {

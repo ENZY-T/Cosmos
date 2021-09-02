@@ -3,7 +3,7 @@ using MongoDB.Bson.Serialization.IdGenerators;
 using MongoDB.Bson.Serialization.Attributes;
 using System.Text.Json.Serialization;
 
-namespace CosmosLib
+namespace Cosmos
 {
     public class UserModel
     {

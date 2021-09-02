@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CosmosLib
+namespace Cosmos
 {
     public interface IValidation
     {

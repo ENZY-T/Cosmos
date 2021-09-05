@@ -22,8 +22,8 @@ namespace Cosmos.Services
 
         public UserModel GetbyId(string objectIdStr)
         {
-            ObjectId objectId = new ObjectId(objectIdStr);
-            return _dbClient.GETbyId<UserModel>("Users", objectId);
+            
+            return _dbClient.GETbyId<UserModel>("Users", objectIdStr);
         }
 
         public UserModel GetbyEmail(string email)

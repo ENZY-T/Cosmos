@@ -12,7 +12,7 @@ namespace Cosmos
     public interface IDbClient
     {
         List<T> GET<T>(string table);
-        T GETbyId<T>(string table, ObjectId id);
+        T GETbyId<T>(string table, string id);
         List<T> GETbyAny<T>(string table, string field, string searchKey);
         bool UPSERT<T>(string table, BsonDocument filterBsonDoc, T record);
         T INSERT<T>(string table, T record);

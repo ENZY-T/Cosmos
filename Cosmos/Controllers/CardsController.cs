@@ -57,12 +57,6 @@ namespace Cosmos.Controllers
         }
         #endregion
 
-        // GET api/Cards/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
 
         #region POST Methods
         // POST api/Cards
@@ -72,7 +66,7 @@ namespace Cosmos.Controllers
             var status = cardService.CreateProj(newProject);
             if (status)
             {
-                return Created("Saved",newProject);
+                return Created("Saved", newProject);
             }
             else
             {
@@ -97,16 +91,69 @@ namespace Cosmos.Controllers
             }
         }
         #endregion
-        // PUT api/Cards/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+
+
+
+        #region DELETE Methods
+        [HttpDelete("articles/{id}")]
+        public IActionResult DelArticle(string id)
         {
+            var status = cardService.DeleteArticle(id);
+            if (status)
+            {
+                return Ok();
+            }
+            else
+            {
+                Response.Headers.Add("Messsage", "Failed");
+                return BadRequest();
+            }
         }
 
-        // DELETE api/Cards/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete("projects/{id}")]
+        public IActionResult DelProject(string id)
         {
+            var status = cardService.DeleteProj(id);
+            if (status)
+            {
+                return Ok();
+            }
+            else
+            {
+                Response.Headers.Add("Messsage", "Failed");
+                return BadRequest();
+            }
+        }
+        #endregion
+
+        [HttpPut("projects/{id}")]
+        public IActionResult UpdateProjects(string id)
+        {
+            var status = cardService.UpdateProj(id);
+            if (status)
+            {
+                return Ok();
+            }
+            else
+            {
+                Response.Headers.Add("Messsage", "Failed");
+                return BadRequest();
+            }
+        }
+
+        [HttpPut("articles/{id}")]
+        public IActionResult UpdateArticles(string id)
+        {
+            var status = cardService.UpdateArticle(id);
+            if (status)
+            {
+                return Ok();
+            }
+            else
+            {
+                Response.Headers.Add("Messsage", "Failed");
+                return BadRequest();
+            }
         }
     }
 }

@@ -57,12 +57,14 @@ namespace Cosmos
         }
         #endregion
 
-        public T GETbyId<T>(string table, ObjectId id)
+        public T GETbyId<T>(string table, string id)
         {
             var Coll = Cosmos_db.GetCollection<T>(table);
             try
             {
-                var filter = Builders<T>.Filter.Eq("Id", id);
+                ObjectId objectId = new ObjectId(id);
+
+                var filter = Builders<T>.Filter.Eq("Id", objectId);
                 return Coll.Find(filter).Any() ? Coll.Find(filter).FirstOrDefault() : default(T);
 
             }

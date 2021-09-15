@@ -2,6 +2,7 @@
 using Cosmos;
 using Cosmos.Models;
 using Cosmos.Services.Interfaces;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -14,21 +15,30 @@ namespace Cosmos.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [RequestSizeLimit(104857600)] //100MB Max HTTP content limit
     public class CardsController : ControllerBase
     {
+        #region Initialization
         private readonly ICardService cardService;
+        private readonly IFileService fileService;
+        private readonly IWebHostEnvironment env;
 
-        public CardsController(ICardService cardService)
+        public CardsController(ICardService cardService, IFileService fileService, IWebHostEnvironment env)
         {
             this.cardService = cardService;
+            this.fileService = fileService;
+            this.env = env;
         }
+        #endregion
 
-        #region GET Method
-        // GET: api/Cards
+
+
+        #region GET ALL Methods
+        // GET: api/Cards/projects
         [HttpGet("projects")]
         public IActionResult GetProjects()
         {
-            List<AdminItemModel> projList = cardService.GetProjAll();
+            List<ProjectModel_Full> projList = cardService.GetProjAll();
             if (projList != null)
             {
                 return Ok(projList);
@@ -40,11 +50,45 @@ namespace Cosmos.Controllers
             }
         }
 
-        // GET: api/Cards
+        // GET: api/Cards/articles
         [HttpGet("articles")]
         public IActionResult GetArticles()
         {
-            List<AdminItemModel> articleList = cardService.GetArticleAll();
+            List<ArticleModel_Full> articleList = cardService.GetArticleAll();
+            if (articleList != null)
+            {
+                return Ok(articleList);
+            }
+            else
+            {
+                Response.Headers.Add("Messsage", "Data not found");
+                return NotFound();
+            }
+        }
+        #endregion
+
+        #region GET by ID METHODS
+        // GET: api/Cards/projects/{id}
+        [HttpGet("projects/{id}")]
+        public IActionResult GetOneProject(string id)
+        {
+            ProjectModel_Full projList = cardService.GetProjById(id);
+            if (projList != null)
+            {
+                return Ok(projList);
+            }
+            else
+            {
+                Response.Headers.Add("Messsage", "Data not found");
+                return NotFound();
+            }
+        }
+
+        // GET: api/Cards/articles/{id}
+        [HttpGet("articles/{id}")]
+        public IActionResult GetOneArticle(string id)
+        {
+            ArticleModel_Full articleList = cardService.GetArticleById(id);
             if (articleList != null)
             {
                 return Ok(articleList);
@@ -61,12 +105,28 @@ namespace Cosmos.Controllers
         #region POST Methods
         // POST api/Cards
         [HttpPost("projects")]
-        public IActionResult CreateProject([FromBody] ProjectModel_Full newProject)
+        [RequestSizeLimit(104857600)] //100 MB
+        public IActionResult CreateProject([FromForm] AdminItemDto newAdminItem)
         {
-            var status = cardService.CreateProj(newProject);
+            // Saving the Files to WEB_ROOT/uploaded_files/projects/
+            var savedURIs = fileService.WriteToFileinLocalFS(newAdminItem.Media, "PROJECTS");
+
+            // If returned List<string> == null, Saving failed OR No image
+            if (savedURIs.Result == null) Response.Headers.Add("Images", "No images/Failed");
+            else Response.Headers.Add("Images", "Saved");
+
+            // Saving the record to DB
+            var status = cardService.CreateProj(new ProjectModel_Full
+            {
+                Title = newAdminItem.Title,
+                Description = newAdminItem.Description,
+                CreatedDate = DateTime.Today,
+                MediaURIs = savedURIs.Result
+            });
+
             if (status)
             {
-                return Created("Saved", newProject);
+                return Created("Saved", null);
             }
             else
             {
@@ -77,12 +137,27 @@ namespace Cosmos.Controllers
 
         // POST api/Cards
         [HttpPost("articles")]
-        public IActionResult CreateArticle([FromBody] ArticleModel_Full newProject)
+        public IActionResult CreateArticle([FromForm] AdminItemDto newAdminItem)
         {
-            var status = cardService.CreateArticle(newProject);
+            // Saving the Files to WEB_ROOT/uploaded_files/articles/
+            var savedURIs = fileService.WriteToFileinLocalFS(newAdminItem.Media, "ARTICLES");
+
+            // If returned List<string> == null, Saving failed OR No image
+            if (savedURIs.Result == null) Response.Headers.Add("Images", "No images/Failed");
+            else Response.Headers.Add("Images", "Saved");
+
+            // Saving the record to DB
+            var status = cardService.CreateArticle(new ArticleModel_Full
+            {
+                Title = newAdminItem.Title,
+                Description = newAdminItem.Description,
+                CreatedDate = DateTime.Today,
+                MediaURIs = savedURIs.Result
+            });
+
             if (status)
             {
-                return Created("Saved", newProject);
+                return Created("Saved", null);
             }
             else
             {
@@ -126,10 +201,12 @@ namespace Cosmos.Controllers
         }
         #endregion
 
-        [HttpPut("projects/{id}")]
-        public IActionResult UpdateProjects(string id)
+
+        #region UPDATE BY ID METHODS
+        [HttpPut("projects")]
+        public IActionResult UpdateProjects([FromForm] AdminItemDto adminItemDto)
         {
-            var status = cardService.UpdateProj(id);
+            var status = cardService.UpdateProj(adminItemDto);
             if (status)
             {
                 return Ok();
@@ -141,10 +218,10 @@ namespace Cosmos.Controllers
             }
         }
 
-        [HttpPut("articles/{id}")]
-        public IActionResult UpdateArticles(string id)
+        [HttpPut("articles")]
+        public IActionResult UpdateArticles([FromForm] AdminItemDto adminItemDto)
         {
-            var status = cardService.UpdateArticle(id);
+            var status = cardService.UpdateArticle(adminItemDto);
             if (status)
             {
                 return Ok();
@@ -155,5 +232,6 @@ namespace Cosmos.Controllers
                 return BadRequest();
             }
         }
+        #endregion
     }
 }

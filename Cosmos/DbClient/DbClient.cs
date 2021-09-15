@@ -57,7 +57,7 @@ namespace Cosmos
         }
         #endregion
 
-        public T GETbyId<T>(string table, string id)
+        public T GetbyId<T>(string table, string id)
         {
             var Coll = Cosmos_db.GetCollection<T>(table);
             try
@@ -73,7 +73,7 @@ namespace Cosmos
                 return default;
             }
         }
-        public List<T> GETbyAny<T>(string table, string field, string searchKey)
+        public List<T> GetbyAny<T>(string table, string field, string searchKey)
         {
             var Coll = Cosmos_db.GetCollection<T>(table);
             try
@@ -90,7 +90,7 @@ namespace Cosmos
             }
         }
 
-        public List<T> GET<T>(string table)
+        public List<T> Get<T>(string table)
         {
             var Coll = Cosmos_db.GetCollection<T>(table);
             try
@@ -98,14 +98,14 @@ namespace Cosmos
                 var result = Coll.Find(new BsonDocument()).Any() ? Coll.Find(new BsonDocument()).ToList() : new List<T>();
                 return result;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return default;
             }
         }
 
 
-        public T INSERT<T>(string table, T record)
+        public T Insert<T>(string table, T record)
         {
             var Coll = Cosmos_db.GetCollection<T>(table);
             try
@@ -119,7 +119,7 @@ namespace Cosmos
             }
         }
 
-        public bool DELETE<T>(string table, string keyName, string keyValue)
+        public bool Delete<T>(string table, string keyName, string keyValue)
         {
             var Coll = Cosmos_db.GetCollection<T>(table);
             try
@@ -135,13 +135,12 @@ namespace Cosmos
             }
         }
 
-        public bool UPSERT<T>(string table, BsonDocument filterBsonDoc , T record)
+        public bool UpdateOne<T>(string table, FilterDefinition<T> filter, UpdateDefinition<T> update)
         {
             var Coll = Cosmos_db.GetCollection<T>(table);
             try
             {
-                
-                var result = Coll.ReplaceOne(filterBsonDoc, record, new ReplaceOptions { IsUpsert = true }); ;
+                var result = Coll.UpdateOne(filter, update);
                 return result.ModifiedCount > 0;
             }
             catch (Exception)

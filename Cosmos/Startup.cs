@@ -35,6 +35,7 @@ namespace Cosmos
                     serviceProv, Configuration.GetConnectionString("MongoConnStr"), Configuration.GetValue<string>("DbSettings:MongoDb:Name")
                 )
             );
+            services.AddTransient<IFileService, FileService>();
 
 
             services.AddControllersWithViews();

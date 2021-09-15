@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson;
+﻿using Cosmos.Models;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -11,12 +12,12 @@ namespace Cosmos
 {
     public interface IDbClient
     {
-        List<T> GET<T>(string table);
-        T GETbyId<T>(string table, string id);
-        List<T> GETbyAny<T>(string table, string field, string searchKey);
-        bool UPSERT<T>(string table, BsonDocument filterBsonDoc, T record);
-        T INSERT<T>(string table, T record);
-        bool DELETE<T>(string table, string keyName, string keyValue);
+        List<T> Get<T>(string table);
+        T GetbyId<T>(string table, string id);
+        List<T> GetbyAny<T>(string table, string field, string searchKey);
+        bool UpdateOne<T>(string table, FilterDefinition<T> filter, UpdateDefinition<T> update);
+        T Insert<T>(string table, T record);
+        bool Delete<T>(string table, string keyName, string keyValue);
 
 
     }

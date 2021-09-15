@@ -17,18 +17,18 @@ namespace Cosmos.Services
         }
         public UserModel Create(UserModel user)
         {
-            return _dbClient.INSERT<UserModel>("Users", user);
+            return _dbClient.Insert<UserModel>("Users", user);
         }
 
         public UserModel GetbyId(string objectIdStr)
         {
             
-            return _dbClient.GETbyId<UserModel>("Users", objectIdStr);
+            return _dbClient.GetbyId<UserModel>("Users", objectIdStr);
         }
 
         public UserModel GetbyEmail(string email)
         {
-            return _dbClient.GETbyAny<UserModel>("Users", "Email", email).FirstOrDefault();
+            return _dbClient.GetbyAny<UserModel>("Users", "Email", email).FirstOrDefault();
         }
     }
 }

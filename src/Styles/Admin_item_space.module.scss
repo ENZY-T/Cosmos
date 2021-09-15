@@ -1,0 +1,32 @@
+.contentSpace_Wrapper{
+  width: 100%;
+  height: 100%;
+  margin:100px 0 0 0;
+  padding: 10px 100px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/*Scroll bar Customization*/
+.contentSpace_Wrapper::-webkit-scrollbar {
+  width: 0.65em;
+}
+
+.contentSpace_Wrapper::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+.contentSpace_Wrapper::-webkit-scrollbar-thumb {
+  background-color: #424842;
+  outline: #424842;
+}
+
+.contentSpace_Wrapper::-webkit-scrollbar-thumb:Hover {
+  background-color: rgba(178, 183, 183, 0.55);
+  outline: #424842;
+}
+/*..............................*/

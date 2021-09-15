@@ -1,79 +1,82 @@
 //SCSS format
 
-.navBar{
-    position: fixed;
-    z-index: 8;
-    width: 100%;
-    height: 40px;
-    margin-bottom: -40px;
+.navBar {
+  position: fixed;
+  z-index: 8;
+  width: 100%;
+  height: 50px;
+  margin-bottom: -40px;
 
-    .bgLayer{
-        position: absolute;
-        background-color: var(--globalGreen);
-        opacity: 0.15;
-        width: 100%;
-        height: 100%;
-    }
+
+  .bgLayer {
+    position: absolute;
+    background-color: var(--globalGreen);
+    opacity: 0.25;
+    width: 100%;
+    height: 100%;
+  }
+
+  display: flex;
+  justify-content: space-between;
+
+  .navLeft {
+    width: 30%;
 
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
+    align-items: center;
 
-    .navLeft{
-        width: 30%;
+    * {
+      height: 100%;
+      object-fit: contain;
+    }
+  }
 
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
+  .navMid {
+    width: 100%;
+    flex: 1;
 
-        *{
-            height: 100%;
-            object-fit: contain;
-        }
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+
+    .searchWrapper {
+      font-size: large;
+      opacity: 0.75;
+      transition: all 0.3s ease-in-out;
     }
 
-    .navMid{
-        width: 100%;
-        flex: 1;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-
-        .searchWrapper{
-            font-size: large;
-            opacity: 0.75;
-            transition: all 0.3s ease-in-out;
-        }
-        .searchWrapper:hover{
-            font-size: large;
-            opacity: 1;
-            transform: scale(1+0.02, 1+0.02);
-        }
-        .searchWrapper:active{
-            font-size: large;
-            opacity: 0.75;
-            transition: none;
-            transform: scale(1-0.02, 1-0.02);
-
-        }
+    .searchWrapper:hover {
+      font-size: large;
+      opacity: 1;
+      transform: scale(1+0.02, 1+0.02);
     }
 
-    .navRight{
-        width: 30%;
-        display: flex;
-        flex-direction: row-reverse;
-        align-items: flex-start;
+    .searchWrapper:active {
+      font-size: large;
+      opacity: 0.75;
+      transition: none;
+      transform: scale(1-0.02, 1-0.02);
 
-        .profile{
-            top: 0;
-            width: 100px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-around;
-            overflow: hidden;
-        }
     }
+  }
+
+  .navRight {
+    width: 30%;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: flex-start;
+
+    .userName {
+      justify-self: flex-start;
+      display: flex;
+      align-items: center;
+      margin-right: 20px;
+      height: 100%;
+    }
+
+  }
 
 }
 

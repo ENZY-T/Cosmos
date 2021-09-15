@@ -1,0 +1,88 @@
+a {
+  text-decoration: none;
+}
+
+.main {
+
+  z-index: 12;
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(0, 0, 0, 0.7);
+
+  display: grid;
+  place-items: center;
+
+  .form {
+    height: 450px;
+    width: 350px;
+    border-radius: 6px;
+    background-color: black;
+    box-shadow: 1px 4px 10px 1px rgba(0, 0, 0, 0.68);
+    overflow: hidden;
+
+    display: flex;
+    padding: 30px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+
+    .bg {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      background: url(https://source.unsplash.com/TV2gg2kZD1o/350x450) no-repeat center;
+      opacity: 0.3;
+      filter: blur(2px);
+    }
+
+    .bg2 {
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      background-image: linear-gradient(180deg, rgba(36, 41, 3, 0.644), rgba(113, 159, 113, 0.29), rgba(36, 41, 3, 0.664));;
+      opacity: 0.8;
+    }
+
+    .btnLayer {
+      display: flex;
+      width: 100%;
+
+      flex-direction: row-reverse;
+
+      & Button {
+        aspect-ratio: 1;
+        height: 30px;
+        width: 30px;
+        border: 1px solid rgba(5, 130, 131, 0.64);
+        background-color: rgba(211, 32, 76, 0.15);
+        border-radius: 8px;
+
+        color: #a1a1a1;
+        font-size: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+      }
+      & Button:hover {
+        background-color: rgba(206, 51, 94, 0.44);
+        cursor: pointer;
+      }
+
+      & Button:active {
+        opacity: 0.5;
+      }
+
+
+    }
+
+    .btnLogin {
+      padding: 0.25em 1em;
+    }
+
+    .textReg {
+      color: azure;
+    }
+  }
+}

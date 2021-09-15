@@ -1,0 +1,61 @@
+.cover {
+  width: auto;
+  height: 100vh;
+  position: relative;
+  z-index: 2;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.background {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background: url('../img/bg24.jpg') fixed center no-repeat;
+  background-size: cover;
+  filter: blur(6px);
+  z-index: -4;
+}
+
+.overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  opacity: 0.5;
+  z-index: -2;
+}
+
+.mainTitle {
+  margin-top: 20vh;
+  margin-left: 10vw;
+  font-weight: 500;
+  font-size: 2.44rem;
+  color: #00a6a6;
+  text-align: left;
+
+  &>p{
+    line-height: 100%;
+    margin: 0;
+  }
+
+  & > p:first-of-type {
+    font-family: 'Advent Pro', sans-serif;
+    font-size: 9rem;
+    font-weight: 700;
+  }
+}
+
+.subTitle {
+  margin-top: 10vh;
+  margin-left: 10vw;
+  font-size: 20px;
+  font-weight: 300;
+  color: #eccaab;
+
+  &>*>*{
+
+  }
+}

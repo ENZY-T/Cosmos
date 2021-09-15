@@ -1,23 +1,25 @@
 .articleSpace {
-    width: 100%;
+  width: auto;
+  margin: 150px 150px;
 
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+  display: flex;
+  color: var(--globalWhite);
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
-.articleWrapper{
-    width: 99%;
-    margin: 0.1%;
-    border: 1px solid rgba(5, 130, 131, 0.5);
+.articleWrapper {
+  width: 99%;
+  margin: 0.1%;
+  /* border: 1px solid rgba(5, 130, 131, 0.5); */
 }
 
-.title{
-    text-align: center;
-    color: white;
-    font-weight: bolder;
-    font-size: 30px;
-    font-family: "Arial Black";
-    margin: 10px auto;
-    width: 100%;
+.title {
+  text-align: left;
+
+  font-weight: 800;
+  font-size: 32px;
+  font-family: 'Arial Black';
+  margin: 50px auto;
+  width: 100%;
 }

@@ -4,14 +4,15 @@
     flex-direction: row;
     justify-content: space-evenly;
     flex-wrap: wrap;
-    width: 99%;
+    width: auto;
+    box-sizing: border-box;
     height: auto;
-    margin: auto;
+    margin: auto 150px;
     padding: 10px;
 }
 
 .title{
-    color: bisque;
+    color: var(--globalWhite);
     font-weight: bolder;
     font-size: 30px;
     font-family: "Arial Black";

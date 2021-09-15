@@ -1,44 +1,49 @@
-import React, {useState} from 'react';
+import React, { useEffect, useState } from 'react'
 import Classes from '../Styles/proj_space.module.css'
-import ProjCard from "./proj_card";
+import ProjCard from './proj_card'
+import axios from 'axios'
+import { serverUrl } from '../GlobalData/Global'
+import { IProject } from '../Services/Dtos'
 
 const ProjSpace = () => {
-    //List of json objects from database.
-    const projArr = () => [
-        {id:1, title : "03", cover :"url03", description : "desc03"},
-        {id:2, title : "03", cover :"url03", description : "desc03"},
-    ]
+  const [projects, setProjects] = useState<Array<IProject>>(
+    Array.of<IProject>()
+  )
 
-    const projArr2 = () => [
-        {id:1, title : "03", cover :"url03", description : "desc03"},
-        {id:2, title : "03", cover :"url03", description : "desc03"},
-        {id:3, title : "01", cover :"url01", description : "desc01"},
-        {id:4, title : "02", cover :"url02", description : "desc02"},
-        {id:5, title : "03", cover :"url03", description : "desc03"},
-        {id:6, title : "03", cover :"url03", description : "desc03"},
-        {id:7, title : "01", cover :"url01", description : "desc01"},
-        {id:8, title : "02", cover :"url02", description : "desc02"},
-        {id:9, title : "03", cover :"url03", description : "desc03"},
-        {id:10, title : "03", cover :"url03", description : "desc03"},
-        {id:11, title : "01", cover :"url01", description : "desc01"},
-        {id:12, title : "02", cover :"url02", description : "desc02"},
-    ]
+  useEffect(() => {
+    projectFetcher()
+  }, [])
 
-    const [cardList,setCardList] = useState(projArr2());
+  // Projects fetching function
+  const projectFetcher = async () => {
+    await axios
+      .get(serverUrl + '/api/cards/projects')
+      .then((res) => setProjects(res.data))
+      .catch((error) => {
+        // showAlert(error.status, error.message)
+        setProjects([])
+      })
+  }
 
-    //injecting the json object data to the project card component
-    const projCardList = cardList.map((item,id)=>{
-        return(
-          <ProjCard key={id} title={item.title} cover={item.cover} description={item.description}/>
-        );
-    })
-    
+  //injecting the json object data to the project card component
+  const projCardList = projects.map((item, id) => {
     return (
-        <div className={Classes.projSpace}>
-            <div className={Classes.title}>Projects</div>
-            {projCardList}
-        </div>
-    );
-};
+      <ProjCard
+        key={id}
+        id={item.id}
+        title={item.title}
+        cover={item.mediaURIs[0]}
+        tagline={item.tagline}
+      />
+    )
+  })
 
-export default ProjSpace;
+  return (
+    <div className={Classes.projSpace}>
+      <div className={Classes.title}>Our Process...</div>
+      {projCardList}
+    </div>
+  )
+}
+
+export default ProjSpace

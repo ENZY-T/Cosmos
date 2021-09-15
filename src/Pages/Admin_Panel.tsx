@@ -1,74 +1,99 @@
-import React, {SyntheticEvent, useState} from 'react';
-import {Redirect, useHistory} from "react-router-dom";
-import Classes from '../Styles/Admin_Panel.module.css'
-import AdminItem from "../Components/admin_item";
+import React, { useEffect, useState } from 'react'
+import { useHistory } from 'react-router-dom'
+import Classes from '../Styles/Admin_Panel.module.scss'
+import AdminItemSpace from '../Components/admin_item_space'
+import { useDispatch } from 'react-redux'
+import { Dispatch } from 'redux'
+import { INavActionTypes, setHideNav, setShowNav } from '../Store/NavState'
+import AdminForm from '../Components/AdminForm'
+import XButton from '../Components/StyledComponents/XButton'
+import XButtonSquareDark_Toggle from '../Components/StyledComponents/XButton_SquareDark_Toggle'
+
+interface IProps {}
 
 //Only for admin
-const AdminPanel = (props:{admin:boolean, setNavState:(navState:boolean)=>void}) => {
-    const history = useHistory();
+const AdminPanel = (props: IProps) => {
+  // States
+  const history = useHistory()
+  const [formVisibility, setFormVisibility] = useState(false)
+  const [projectClicked, setProjectClicked] = useState(true)
+  const dispatchNavState = useDispatch<Dispatch<INavActionTypes>>()
+  dispatchNavState(setHideNav())
 
-    // useStates
-    const [projectClicked, setProjectClicked] = useState(false);
+  // To refresh on closing adminForm, projectClicked state toggles
+  // on adminForm open and close. Due to 2 toggles for open and close, it
+  // restores the state on close(when content visible
+  useEffect(() => {
+    setProjectClicked(!projectClicked)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formVisibility])
 
-    // If NOT admin, redirects to home page
-    if(!props.admin){
-        props.setNavState(true);
-        return <Redirect to='/'/>
-    }
-    // No NavBar in admin panel
-    else {
-        props.setNavState(false);
-    }
+  // Close button action
+  const onCloseClick = () => {
+    dispatchNavState(setShowNav())
+    history.push('/')
+  }
 
-    // Close button action
-    const onCloseClick = () => {
-        props.setNavState(true);
-        history.push('/');
-    };
+  // Conditionally load the profPic or default image
+  const userIcon = <i className='fas fa-user-circle' />
+  // Not implemented yet
 
-    // Conditionally load the profPic or default image
-    const userIcon = (
-        <i className="fas fa-user-circle"/>
-    );
+  // Section buttons clicked logic
+  let projectBtnStyle = [Classes.sectionButton]
+  let articleBtnStyle = [Classes.sectionButton]
+  projectBtnStyle.push(projectClicked ? Classes.sectionBtnClicked : '')
+  articleBtnStyle.push(!projectClicked ? Classes.sectionBtnClicked : '')
 
-    // Section buttons clicked logic
-    let projectBtnStyle = [Classes.sectionButton];
-    let articleBtnStyle = [Classes.sectionButton];
-    projectBtnStyle.push(projectClicked ? Classes.sectionButton_Clicked : Classes.sectionButton);
-    articleBtnStyle.push(!projectClicked ? Classes.sectionButton_Clicked : Classes.sectionButton);
+  return (
+    <div className={Classes.adminPanel}>
+      <div className={Classes.adminPanel_Container}>
+        <div className={Classes.left_Wrapper}>
+          <div className={Classes.userDisplay}>
+            {userIcon}
+            <p>Username</p>
+            <p>Description</p>
+          </div>
 
-    return (
-        <div className={Classes.adminPanel}>
-            <div className={Classes.adminPanel_Container}>
-                <div className={Classes.left_Wrapper}>
-                    <div className={Classes.userDisplay}>
-                        {userIcon}
-                        <p>Username</p>
-                        <p>Description</p>
-                    </div>
-
-                    {/*Section Buttons*/}
-                    <div className={Classes.sectionButtonWrapper}>
-                        <div className={projectBtnStyle.join(' ')} onClick={()=>setProjectClicked(true)} >Projects</div>
-                        <div className={articleBtnStyle.join(' ')} onClick={()=>setProjectClicked(false)} >Articles</div>
-                    </div>
-
-
-                </div>
-                <div className={Classes.right_Wrapper}>
-                    <div className={Classes.topBar}>
-                        <div className={Classes.adminClose} onClick={onCloseClick}>
-                            <i className="fas fa-times"/>
-                        </div>
-                        <div className={Classes.heading}>{projectClicked ? 'Projects' : 'Articles'}</div>
-                    </div>
-                    <div className={Classes.contentSpace_Wrapper}>
-                        <AdminItem/>
-                    </div>
-                </div>
-            </div>
+          {/*Section Buttons*/}
+          <div className={Classes.sectionButtonWrapper}>
+            <XButtonSquareDark_Toggle
+              isClicked={formVisibility}
+              onClick={() => setFormVisibility(!formVisibility)}
+              invisible={false}>
+              Create New
+            </XButtonSquareDark_Toggle>
+            <XButton
+              className={projectBtnStyle.join(' ')}
+              onClick={() => setProjectClicked(true)}
+              invisible={false}>
+              Projects
+            </XButton>
+            <XButton
+              className={articleBtnStyle.join(' ')}
+              onClick={() => setProjectClicked(false)}
+              invisible={false}>
+              Articles
+            </XButton>
+          </div>
         </div>
-    );
-};
+        <div className={Classes.right_Wrapper}>
+          <div className={Classes.topBar}>
+            <div className={Classes.adminClose} onClick={onCloseClick}>
+              <i className='fas fa-times' />
+            </div>
+            <div className={Classes.heading}>
+              {projectClicked ? 'Projects' : 'Articles'}
+            </div>
+          </div>
+          {/* <Notification progress={80} message={'Uploading'} isVisible={true} autoHideDuration={1} /> */}
+          {formVisibility ? (
+            <AdminForm setFormVisibility={setFormVisibility} />
+          ) : null}
+          <AdminItemSpace clickedProjBtn={projectClicked} />
+        </div>
+      </div>
+    </div>
+  )
+}
 
-export default AdminPanel;
+export default AdminPanel

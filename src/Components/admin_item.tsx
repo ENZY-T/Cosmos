@@ -1,34 +1,35 @@
-import React, {useState} from 'react';
+import React from 'react'
 import Classes from '../Styles/Admin_item.module.css'
-import testIcon1 from '../img/ico1.jpg'
+import { IAdminItem } from '../Services/Dtos'
+import { serverUrl } from '../GlobalData/Global'
 
-const AdminItem = () => {
-    // States
-    const [title, setTitle] = useState('');
-    const [date, setDate] = useState((new Date()).toDateString());
-    const [description, setDescription] = useState('');
-    const [image, setImage] = useState('');
+interface IProps {
+  adminItem: IAdminItem
+  delItem: (deletingItem: IAdminItem) => void
+}
 
-    //testing
+const AdminItem = (props: IProps) => {
+  //Casting Multiple CSS classes
+  const classText = []
+  classText.push(Classes.text)
 
-    //Casting Multiple CSS classes
-    const classText = [];
-        classText.push(Classes.text)
+  return (
+    <div className={Classes.adminItem}>
+      <img src={serverUrl + props.adminItem.mediaURIs[0]} alt='' />
+      <div className={Classes.dataPlate}>
+        <div className={classText.join(' ')}>{props.adminItem.title}</div>
+        <div>{`Created on : ${props.adminItem.createdDate}`}</div>
+      </div>
+      <div className={Classes.tagline}>{props.adminItem.tagline}</div>
+      <div className={Classes.btnPanel}>
+        <i className='fas fa-edit' />
+        <i
+          onClick={() => props.delItem(props.adminItem)}
+          className='fas fa-trash-alt'
+        />
+      </div>
+    </div>
+  )
+}
 
-    return (
-        <div className={Classes.adminItem}>
-            <img src={testIcon1} alt=""/>
-            <div className={Classes.dataPlate}>
-                <div className={classText.join(' ')} >Item 01</div>
-                <div>{`Created on : ${date}`}</div>
-            </div>
-            <div className={Classes.description} >{'Hello the test description'}</div>
-            <div className={Classes.btnPanel} >
-                <i className="fas fa-edit"/>
-                <i className="fas fa-trash-alt"/>
-            </div>
-        </div>
-    );
-};
-
-export default AdminItem;
+export default AdminItem

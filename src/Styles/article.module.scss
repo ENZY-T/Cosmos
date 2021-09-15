@@ -1,0 +1,141 @@
+.article {
+  margin: auto;
+  width: 100%;
+  aspect-ratio: 18/6;
+  max-height: 1000px;
+  background: transparent;
+  backdrop-filter: blur(10px);
+
+  display: flex;
+  flex-direction: column;
+}
+
+/*.article:hover{*/
+/*    background-color: aqua;*/
+/*    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);*/
+/*}*/
+
+.articleWrapper {
+  max-height: 500px;
+  margin: auto;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(5, 130, 131, 0.25) 0%,
+    rgba(5, 130, 131, 0) 120%
+  );
+
+  display: grid;
+  grid-template-columns: 1fr 0.5fr 1fr;
+  grid-template-rows: 1fr;
+}
+
+.reverse {
+  background: linear-gradient(
+    270deg,
+    rgba(5, 130, 131, 0.25) 0%,
+    rgba(5, 130, 131, 0) 120%
+  );
+  direction: rtl;
+}
+
+.textWrapper {
+  z-index: 4;
+  position: absolute;
+  height: 100%;
+  // width: 60%;
+  grid-column: 1/3;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.9) 0%,
+    rgba(0, 0, 0, 0.9) 60%,
+    rgba(5, 130, 131, 0) 100%
+  );
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  text-align: center;
+  padding: 2%;
+}
+
+.textReverse {
+  background: linear-gradient(
+    270deg,
+    rgba(0, 0, 0, 0.9) 0%,
+    rgba(0, 0, 0, 0.9) 60%,
+    rgba(5, 130, 131, 0) 100%
+  );
+}
+
+.title {
+  color: #dfccbf;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.description {
+  color: #dfccbf;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 23px;
+  font-weight: 300;
+}
+
+.mediaWrapper {
+  position: absolute;
+  // width: 60%;
+  height: 100%;
+  grid-column: 2/4;
+
+  display: grid;
+
+  text-align: center;
+  overflow: hidden;
+
+  > div {
+    height: auto;
+    width: auto;
+  }
+
+  //Video Wrapper-responsible for video styles
+  > div:nth-child(1) {
+    object-fit: contain;
+    height: 100% !important;
+    width: auto !important;
+
+    display: grid;
+    justify-content: end;
+  }
+
+  > div > video {
+    border-radius: 2px;
+  }
+
+  //Overlay
+  > div:nth-child(2) {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(
+      270deg,
+      rgba(0, 0, 0, 0.651) 0%,
+      rgba(0, 0, 0, 0.651) 60%,
+      rgba(5, 130, 131, 0) 100%
+    );
+
+    display: grid;
+    place-items: center;
+
+    :hover {
+      cursor: pointer;
+      color: azure;
+    }
+
+    > * {
+      font-size: 10rem;
+    }
+  }
+}

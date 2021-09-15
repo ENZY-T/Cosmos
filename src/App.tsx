@@ -1,52 +1,63 @@
-import React, {useEffect, useState} from 'react';
-import {BrowserRouter, Route, Switch} from 'react-router-dom';
-import './App.css';
-import Login from './Pages/Login';
-import Register from './Pages/Register';
-import Home from './Pages/Home';
-import  Nav from './Components/Nav'
-import AdminPanel from "./Pages/Admin_Panel";
+import React, { useEffect } from 'react'
+import './App.css'
+import axios from 'axios'
+import { ILoggedUserActionTypes, setLoggedUser } from './Store/LoggedUser'
+import { useDispatch } from 'react-redux'
+import { Dispatch } from 'redux'
+import { IUserActionTypes, setLogged } from './Store/LoggedState'
+import Nav from './Components/Nav'
+import { BrowserRouter, Switch } from 'react-router-dom'
+import Register from './Components/Register'
+import Login from './Components/Login'
+import AdminPanel from './Pages/Admin_Panel'
+import PrivateRoute from './Services/PrivateRoute'
+import Home from './Pages/Home'
+import { Route } from 'react-router'
+import { serverUrl } from './GlobalData/Global'
+import Footer from './Components/Footer'
+import Loader from './Components/Loader'
+import View from './Pages/View'
+import LiveEditor from './Pages/LiveEditor'
 
 function App() {
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [navState,setNavState] = useState(true)
-    const [admin,setAdmin] = useState(false) // Should be set to false(this is for Dev only)
+  //Hooks
+  const dispatch = useDispatch<Dispatch<IUserActionTypes>>()
+  const dispatchLoggedUser = useDispatch<Dispatch<ILoggedUserActionTypes>>()
 
-    useEffect(()=>{
-        (
-            async () =>{
-                const response = await fetch('http://localhost:8000/api/auth/user', {
-                    headers : {'Content-Type': 'application/json'},
-                    credentials : 'include',
-                });
-                const content = await response.json();
-                setName(content.fName);
-                setEmail(content.email);
-            }
-        )();
-    },[]);
+  useEffect(() => {
+    // Fetching the logged user back
+    ;(async () =>
+      await axios
+        .get(serverUrl + '/api/auth/user', { withCredentials: true })
+        .then((res) => {
+          res.status === 200 &&
+            dispatch<IUserActionTypes>(setLogged()) &&
+            dispatchLoggedUser(setLoggedUser(res.data))
+        }))()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
-    return (
-    <div className="App">
-        <BrowserRouter>
-            <Nav name={name} setName={setName} navState={navState} admin={admin} />
+  return (
+    <div className='App'>
+      <BrowserRouter>
+        <Nav />
+        {/*Switching only one view*/}
 
-            {/*Switching only one view*/}
-            <Switch>
-                <Route path="/" exact component={() => <Home name={name}/>}/>
-                <Route path="/home" component={() => <Home name={name}/>}/>
-                <Route path='/AdminPanel' component={() => <AdminPanel admin={admin} setNavState={setNavState}/> }/>
-
-                <main className="form-sign-in">
-                    <Route path="/register" component={Register}/>
-                    <Route path="/login" component={() => <Login name={name} setName={setName} setAdmin={setAdmin}/>}/>
-                </main>
-            </Switch>
-        </BrowserRouter>
+        <Route path='/' exact component={() => <Home />} />
+        <Route path='/projects/:id' exact component={View} />
+        <Route path='/admin/liveeditor/:id' component={LiveEditor} />
+        <Switch>
+          <Route path='/login' exact component={() => <Login />} />
+          <Route path='/register' exact component={Register} />
+        </Switch>
+        <Switch>
+          <PrivateRoute path='/AdminPanel' component={() => <AdminPanel />} />
+          <Footer />
+        </Switch>
+      </BrowserRouter>
+      <Loader isPending={false} />
     </div>
-  );
+  )
 }
 
-
-export default App;
+export default App

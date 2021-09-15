@@ -1,0 +1,57 @@
+.view {
+  min-height: 140vh;
+  display: grid;
+  grid-template: 50px 100px 450px 6fr/150px 150px 1fr 150px 150px;
+  backdrop-filter: blur(100px);
+
+  color: var(--globalCream);
+
+  > a{
+    grid-area: 2/5/3/6;
+    margin: auto;
+  }
+
+  & > h1 {
+    grid-area: 2/3/3/4;
+    text-align: center;
+    align-self: flex-end;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+
+    font-size: 3rem;
+    margin-bottom: 25px;
+  }
+
+  & > .gallery {
+    grid-area: 3/3/4/4;
+    overflow: hidden;
+
+    border: solid 5px var(--globalGreen_Trans);
+    padding: -2.5px;
+
+    & > div {
+      border: none;
+      height: 100%;
+      width: 100%;
+    }
+
+    * span {
+      color: red;
+    }
+  }
+
+  & > .text {
+    grid-area: 4/2/6/5;
+    margin: 50px 50px;
+    padding: 20px;
+
+    text-align: justify;
+
+    & > * {
+      line-height: 1.5rem;
+
+      font-size: 1.2rem;
+      font-weight: 200;
+    }
+  }
+}

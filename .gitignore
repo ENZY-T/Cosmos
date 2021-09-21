@@ -24,6 +24,7 @@ _UpgradeReport_Files/
 # Directories #
 ###############
 bin/
+wwwroot/
 obj/
 TestResults/
 ###################

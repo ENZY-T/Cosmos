@@ -18,6 +18,8 @@ namespace Cosmos
         bool UpdateOne<T>(string table, FilterDefinition<T> filter, UpdateDefinition<T> update);
         T Insert<T>(string table, T record);
         bool Delete<T>(string table, string keyName, string keyValue);
+        Task<bool> DeleteAll<T>(string table);
+
 
 
     }

@@ -32,7 +32,6 @@ namespace Cosmos.Controllers
         #endregion
 
 
-
         #region GET ALL Methods
         // GET: api/Cards/projects
         [HttpGet("projects")]
@@ -101,7 +100,6 @@ namespace Cosmos.Controllers
         }
         #endregion
 
-
         #region POST Methods
         // POST api/Cards
         [HttpPost("projects")]
@@ -112,16 +110,18 @@ namespace Cosmos.Controllers
             var savedURIs = fileService.WriteToFileinLocalFS(newAdminItem.Media, "PROJECTS");
 
             // If returned List<string> == null, Saving failed OR No image
-            if (savedURIs.Result == null) Response.Headers.Add("Images", "No images/Failed");
+            if (savedURIs.Result == null || savedURIs.Result?.Count<1) Response.Headers.Add("Images", "No images/Failed");
             else Response.Headers.Add("Images", "Saved");
 
             // Saving the record to DB
             var status = cardService.CreateProj(new ProjectModel_Full
             {
                 Title = newAdminItem.Title,
+                Tagline = newAdminItem.Tagline,
                 Description = newAdminItem.Description,
                 CreatedDate = DateTime.Today,
-                MediaURIs = savedURIs.Result
+                MediaURIs = savedURIs.Result,
+                MediaType = newAdminItem.MediaType
             });
 
             if (status)
@@ -143,16 +143,18 @@ namespace Cosmos.Controllers
             var savedURIs = fileService.WriteToFileinLocalFS(newAdminItem.Media, "ARTICLES");
 
             // If returned List<string> == null, Saving failed OR No image
-            if (savedURIs.Result == null) Response.Headers.Add("Images", "No images/Failed");
+            if (savedURIs.Result == null || savedURIs.Result?.Count < 1) Response.Headers.Add("Images", "No images/Failed");
             else Response.Headers.Add("Images", "Saved");
 
             // Saving the record to DB
             var status = cardService.CreateArticle(new ArticleModel_Full
             {
                 Title = newAdminItem.Title,
+                Tagline = newAdminItem.Tagline,
                 Description = newAdminItem.Description,
                 CreatedDate = DateTime.Today,
-                MediaURIs = savedURIs.Result
+                MediaURIs = savedURIs.Result,
+                MediaType = newAdminItem.MediaType
             });
 
             if (status)
@@ -166,8 +168,6 @@ namespace Cosmos.Controllers
             }
         }
         #endregion
-
-
 
         #region DELETE Methods
         [HttpDelete("articles/{id}")]
@@ -201,6 +201,38 @@ namespace Cosmos.Controllers
         }
         #endregion
 
+        #region DELETE ALL
+        [HttpDelete("projects")]
+        public IActionResult DeleteAllProjects()
+        {
+            var status = cardService.DeleteAllProjects();
+
+            if (status)
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpDelete("articles")]
+        public IActionResult DeleteAllArticles()
+        {
+            var status = cardService.DeleteAllArticles();
+
+            if (status)
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        #endregion
 
         #region UPDATE BY ID METHODS
         [HttpPut("projects")]

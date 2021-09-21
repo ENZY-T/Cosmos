@@ -11,6 +11,7 @@ namespace Cosmos.Services
 {
     public class FileService : IFileService
     {
+        #region Initialization
         private readonly IWebHostEnvironment env;
         // Absolute path to uploads directory
         private readonly string RootUploadsPath;
@@ -44,17 +45,46 @@ namespace Cosmos.Services
                 if (!dirInfo.Exists) dirInfo.Create();
             }
         }
+        #endregion
 
-        /// <summary>
-        /// Delete all the files that are given as a URI List.
-        /// Used to deleted all the related media files when a DB record is deleted
-        /// </summary>
-        /// <param name="uriList">List of file URIs as a List object</param>
-        /// <returns></returns>
-        public bool DeleteFilesinLocalFS(List<string> uriList)
+        public bool CleanURIs(List<string> oldUriList, List<string> newUriList)
+        {
+            List<string> URIsToBeCleaned = new List<string>();
+            oldUriList.ForEach(oldUri =>
+            {
+                // Getting old URI to be cleaned
+                if (!newUriList.Any(newUri => newUri == oldUri))
+                {
+                    URIsToBeCleaned.Add(oldUri);
+                }
+            });
+            // Deleting the URIs found to be cleaned
+            bool status = DeleteFilesinLocalFSAsync(URIsToBeCleaned).Result;
+            return status;
+        }
+
+        public async Task<bool> DeleteAll(string KeyToDir)
+        {
+            try
+            {
+                string absPath = Path.Combine(RootUploadsPath, DirTree[KeyToDir]);
+                DirectoryInfo dirInfo = new DirectoryInfo(absPath);
+                await Task.Run(() => dirInfo.GetFiles().ToList().ForEach(file => file.Delete()));
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+            return true;
+        }
+
+
+        public async Task<bool> DeleteFilesinLocalFSAsync(List<string> uriList)
         {
             bool anyErrorFound = false;
-            if (uriList == null) return false;
+
+            // If the URI list is null it is OK to give success on deletion
+            if (uriList == null || uriList?.Count < 1) return true;
 
             foreach (string uri in uriList)
             {
@@ -62,7 +92,7 @@ namespace Cosmos.Services
                 {
                     // Path.Combine behaves unusually... Not working here. Check out later
                     string absPath = env.WebRootPath + uri;
-                    File.Delete(absPath);
+                    await Task.Run(() => File.Delete(absPath));
                 }
                 catch (Exception ex)
                 {
@@ -73,15 +103,9 @@ namespace Cosmos.Services
             if (anyErrorFound) return false; else return true;
         }
 
-        /// <summary>
-        /// Takes the file as the argument and saves the file asynchronously in "WEBROOT/uploaded_files" folder.
-        /// </summary>
-        /// <param name="files">File to be saved</param>
-        /// <param name="dirKey">string key of the DirTree Eg: "PROJECTS"</param>
-        /// <returns>List of URI's of the saved files</returns>
         public async Task<List<string>> WriteToFileinLocalFS(List<IFormFile> files, string dirKey)
         {
-            if (files != null)
+            if (files != null || files?.Count<1)
             {
                 List<string> savedURIs = new List<string>();
                 foreach (var file in files)
@@ -109,7 +133,8 @@ namespace Cosmos.Services
                 }
                 return savedURIs;
             }
-            return null;
+            else return new List<string>();
+            
         }
     }
 }

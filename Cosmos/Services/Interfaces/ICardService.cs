@@ -22,6 +22,8 @@ namespace Cosmos.Services.Interfaces
         bool CreateArticle(ArticleModel_Full articleModel_Full);
         bool DeleteArticle(string id);
         bool UpdateArticle(AdminItemDto adminItemDto);
+        bool DeleteAllProjects();
+        bool DeleteAllArticles();
         #endregion
 
     }

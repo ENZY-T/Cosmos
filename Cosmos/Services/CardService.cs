@@ -1,5 +1,8 @@
-﻿using Cosmos.Models;
+﻿using Cosmos.Dtos.Intefaces;
+using Cosmos.Models;
+using Cosmos.Models.Interfaces;
 using Cosmos.Services.Interfaces;
+using Microsoft.AspNetCore.Http;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
@@ -11,14 +14,19 @@ namespace Cosmos.Services
 {
     public class CardService : ICardService
     {
+        #region Initialization
         private readonly IDbClient dbClient;
         private readonly IFileService fileService;
+        private readonly ICardHelperService cardHelperService;
 
-        public CardService(IDbClient dbClient, IFileService fileService)
+        public CardService(IDbClient dbClient, IFileService fileService, ICardHelperService cardHelperService)
         {
             this.dbClient = dbClient;
             this.fileService = fileService;
+            this.cardHelperService = cardHelperService;
         }
+        #endregion
+
 
         #region CREATE
         public bool CreateArticle(ArticleModel_Full articleModel_Full)
@@ -41,7 +49,7 @@ namespace Cosmos.Services
             if (articleModel_Full == null) return false;
 
             // Deleting the related media files
-            bool mediaFilesCleanStatus = fileService.DeleteFilesinLocalFS(articleModel_Full.MediaURIs);
+            bool mediaFilesCleanStatus = fileService.DeleteFilesinLocalFSAsync(articleModel_Full.MediaURIs).Result;
 
             bool status = dbClient.Delete<ArticleModel_Full>("Articles", nameof(articleModel_Full.Id), articleModel_Full.Id);
             return mediaFilesCleanStatus && status;
@@ -53,7 +61,7 @@ namespace Cosmos.Services
             if (project == null) return false;
 
             // Deleting the related media files
-            bool mediaFilesCleanStatus = fileService.DeleteFilesinLocalFS(project.MediaURIs);
+            bool mediaFilesCleanStatus = fileService.DeleteFilesinLocalFSAsync(project.MediaURIs).Result;
 
             bool status = dbClient.Delete<ProjectModel_Full>("Projects", nameof(project.Id), project.Id);
             return mediaFilesCleanStatus && status;
@@ -80,7 +88,7 @@ namespace Cosmos.Services
         public List<ArticleModel_Full> GetArticleAll()
         {
             List<ArticleModel_Full> ArticleList = dbClient.Get<ArticleModel_Full>("Articles");
-            if (ArticleList == null || ArticleList.Count == 0)
+            if (ArticleList == null || ArticleList?.Count == 0)
             {
                 return null;
             }
@@ -95,7 +103,7 @@ namespace Cosmos.Services
         public List<ProjectModel_Full> GetProjAll()
         {
             List<ProjectModel_Full> projList = dbClient.Get<ProjectModel_Full>("Projects");
-            if (projList == null || projList.Count == 0)
+            if (projList == null || projList?.Count == 0)
             {
                 return null;
             }
@@ -115,25 +123,8 @@ namespace Cosmos.Services
             if (record == null) return false;
 
             // Getting the properties to be updated
-            List<UpdateDefinition<ArticleModel_Full>> updateList = new List<UpdateDefinition<ArticleModel_Full>>();
-            try
-            {
-                foreach (var adminProp in adminItemDto.GetType().GetProperties())
-                {
-
-                    var value = adminProp.GetValue(adminItemDto);
-                    if (adminProp.Name != "CreatedDate" && adminProp.Name != "Id" && !string.IsNullOrEmpty((string)value))
-                    {
-                        updateList.Add(Builders<ArticleModel_Full>.Update.Set(adminProp.Name, (string)value));
-                        var x = record.GetType().GetProperty(adminProp.Name);
-
-                        x.SetValue(record, (string)value);
-                    }
-
-                }
-                record.CreatedDate = DateTime.Today;
-            }
-            catch (Exception ex) { }
+            List<UpdateDefinition<ArticleModel_Full>> updateList = cardHelperService.GetUpdateItemList<AdminItemDto,ArticleModel_Full>(adminItemDto,record);
+            
 
             // Updating
             var filter = Builders<ArticleModel_Full>.Filter.Eq("Id", adminItemDto.Id);
@@ -153,35 +144,48 @@ namespace Cosmos.Services
             if (record == null) return false;
 
             // Getting the properties to be updated
-            List<UpdateDefinition<ProjectModel_Full>> updateList = new List<UpdateDefinition<ProjectModel_Full>>();
-            try
-            {
-                foreach (var adminProp in adminItemDto.GetType().GetProperties())
-                {
-
-                    var value = adminProp.GetValue(adminItemDto);
-                    if (adminProp.Name != "CreatedDate" && adminProp.Name != "Id" && !string.IsNullOrEmpty((string)value))
-                    {
-                        updateList.Add(Builders<ProjectModel_Full>.Update.Set(adminProp.Name, (string)value));
-                        var x = record.GetType().GetProperty(adminProp.Name);
-
-                        x.SetValue(record, (string)value);
-                    }
-
-                }
-                record.CreatedDate = DateTime.Today;
-            }
-            catch (Exception ex) { }
+            List<UpdateDefinition<ProjectModel_Full>> updateList = cardHelperService.GetUpdateItemList<AdminItemDto, ProjectModel_Full>(adminItemDto, record);
 
             // Updating
             var filter = Builders<ProjectModel_Full>.Filter.Eq("Id", adminItemDto.Id);
             bool status = false;
             foreach (var update in updateList)
             {
-                status = dbClient.UpdateOne<ProjectModel_Full>("Projects", filter, update);
-
+                status = status || dbClient.UpdateOne<ProjectModel_Full>("Projects", filter, update);
             }
             return status;
+        }
+
+        public bool DeleteAllProjects()
+        {
+            var status = dbClient.DeleteAll<ProjectModel_Full>("Projects").Result;
+
+            // Clean the media files in FS
+            bool delStatus = fileService.DeleteAll("PROJECTS").Result;
+            if (status && delStatus)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool DeleteAllArticles()
+        {
+            var status = dbClient.DeleteAll<ArticleModel_Full>("Articles").Result;
+
+            // Clean the media files in FS
+            bool delStatus = fileService.DeleteAll("ARTICLES").Result;
+            if (status && delStatus)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
         #endregion
 

@@ -27,9 +27,10 @@ namespace Cosmos
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
-            services.AddScoped<IJwtService, JwtService>();
-            services.AddSingleton<IUserService, UserService>();
-            services.AddSingleton<ICardService, CardService>();
+            services.AddTransient<IJwtService, JwtService>();
+            services.AddTransient<IUserService, UserService>();
+            services.AddTransient<ICardService, CardService>();
+            services.AddTransient<ICardHelperService, CardHelperService>();
             services.AddTransient<IDbClient>(
                 serviceProv => ActivatorUtilities.CreateInstance<DbClient>(
                     serviceProv, Configuration.GetConnectionString("MongoConnStr"), Configuration.GetValue<string>("DbSettings:MongoDb:Name")

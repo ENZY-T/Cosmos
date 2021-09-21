@@ -13,6 +13,7 @@ namespace Cosmos.Dtos
         public string Email { get; set; }
         public string FName { get; set; }
         public string LName { get; set; }
+        public string Role { get; set; }
 
     }
 }

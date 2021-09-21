@@ -135,6 +135,21 @@ namespace Cosmos
             }
         }
 
+        public async Task<bool> DeleteAll<T>(string table)
+        {
+            var Coll = Cosmos_db.GetCollection<T>(table);
+            try
+            {
+                await Coll.DeleteManyAsync(new BsonDocument());
+                return true;
+
+            }
+            catch (Exception)
+            {
+                return false; ;
+            }
+        }
+
         public bool UpdateOne<T>(string table, FilterDefinition<T> filter, UpdateDefinition<T> update)
         {
             var Coll = Cosmos_db.GetCollection<T>(table);

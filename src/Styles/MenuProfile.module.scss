@@ -1,9 +1,30 @@
-.profile, .profile>div{
+.profile, .profile > div {
+  border-radius: 4px;
   top: 0;
-  width: 100px;
+  width: 150px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   overflow: hidden;
+
+  a {
+    margin: auto;
+  }
+}
+
+.profileClicked, .profileClicked > div {
+  box-shadow: var(--globalBoxShadow);
+  border-radius: 6px;
+  top: 0;
+  width: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  overflow: hidden;
+  backdrop-filter: brightness(0.5);
+
+  a {
+    margin: auto;
+  }
 }
 

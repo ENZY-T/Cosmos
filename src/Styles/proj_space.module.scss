@@ -1,0 +1,38 @@
+.projSpace {
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: auto;
+  box-sizing: border-box;
+  height: auto;
+  background-color: var(--secondary-bg-color-dark);
+
+  padding: 140px;
+}
+
+.title {
+  color: White;
+  font-family: 'Poppins', sans-serif;
+  width: 100%;
+  font-weight: 800;
+  font-size: 3rem;
+  text-align: center;
+  margin: 10px auto 150px;
+
+  > span {
+    border-radius: 0;
+    border: solid 1px var(--secondaryText-Green);
+    border-width: 1px 0;
+    padding: 5px 0;
+
+
+    > span {
+      background-color: var(--secondaryText-Green-Trans);
+      padding: 0 10px;
+      border-radius: 4px;
+
+    }
+  }
+}

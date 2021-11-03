@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import Classes from '../Styles/Admin_item_space.module.scss'
 import { IAdminItem } from '../Services/Dtos'
 import AdminItem from './admin_item'
 import axios from 'axios'
 import { serverUrl } from '../GlobalData/Global'
+import EditBox from "./EditBox";
+import {AdminPanelContext, IAdminPanelContext} from "../Context/AdminPanelContext";
 
 // Props interface
 interface IProps {
@@ -11,22 +13,28 @@ interface IProps {
 }
 
 const AdminItemSpace = (props: IProps) => {
-  // States
+  //#region States
   // const [clickedProjBtn, setClickedProjBtn] = useState(props.clickedProjBtn)
   const [articles, setArticles] = useState<IAdminItem[]>([])
   const [projects, setProjects] = useState<IAdminItem[]>([])
   const [alertVisible, setAlertVisible] = useState(false)
   const [alertMsg, setAlertMsg] = useState('')
+  //#endregion
+
+  //region Use Context
+  const {needRefresh, refreshPanel} = {...useContext(AdminPanelContext)}
+  //endregion
+
+  //#region Fetching
   useEffect(() => {
     // setClickedProjBtn(props.clickedProjBtn)
     props.clickedProjBtn ? projectFetcher() : articleFetcher()
   }, [props.clickedProjBtn])
 
-  //#region Fetching Data
   useEffect(() => {
     articleFetcher()
     projectFetcher()
-  }, [props.clickedProjBtn, ])
+  }, [props.clickedProjBtn, needRefresh])
 
   //For fetching articles as IAdminItem's
   const articleFetcher = async () => {
@@ -48,7 +56,6 @@ const AdminItemSpace = (props: IProps) => {
         setProjects([])
       })
   }
-
   //#endregion
 
   //#region Alerting
@@ -63,19 +70,26 @@ const AdminItemSpace = (props: IProps) => {
   }
   //#endregion
 
-  //#region Deleting item
+  //#region Deleting
   const projectDeleter = async (id: string) => {
     await axios
       .delete(`${serverUrl}/api/cards/projects/${id}`)
-      .then((res) => projectFetcher())
-      .catch((error) => showAlert(error.status, error.message))
+      .then((res) => {
+        projectFetcher()
+      })
+      .catch((error) => {
+        projectFetcher()
+      })
   }
 
   const articleDeleter = async (id: string) => {
     await axios
       .delete(`${serverUrl}/api/cards/articles/${id}`)
       .then((res) => articleFetcher())
-      .catch((error) => showAlert(error.status, error.message))
+      .catch((error) => {
+        alert(error)
+        projectFetcher()
+      })
   }
 
   const delItem = (deletingItem: IAdminItem) => {
@@ -87,21 +101,37 @@ const AdminItemSpace = (props: IProps) => {
   //#region Populate items
   // Articles
   const articlesJsx = articles.map((item) => {
-    return <AdminItem delItem={delItem} key={item.id} adminItem={item} />
+    return (
+      <AdminItem
+        isProjectsClicked={props.clickedProjBtn}
+        delItem={delItem}
+        key={item.id}
+        adminItem={item}
+      />
+    )
   })
   //Projects
   const projectsJxs = projects.map((item) => {
-    return <AdminItem delItem={delItem} key={item.id} adminItem={item} />
+    return (
+      <AdminItem
+        isProjectsClicked={props.clickedProjBtn}
+        delItem={delItem}
+        key={item.id}
+        adminItem={item}
+      />
+    )
   })
   // Conditionally render either article_AdminItems or  project_AdminItems
   const itemList = props.clickedProjBtn ? projectsJxs : articlesJsx
   //#endregion
+
 
   // Rendering out
   return (
     <div className={Classes.contentSpace_Wrapper}>
       {/*<Alert msg={alertMsg} setVisible={setAlertVisible} visible={alertVisible}/>*/}
       {itemList}
+
     </div>
   )
 }

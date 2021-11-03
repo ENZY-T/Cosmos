@@ -1,8 +1,11 @@
+.homeWrapper {
+}
+
 .cover {
   width: auto;
   height: 100vh;
   position: relative;
-  z-index: 2;
+  z-index: 200;
 
   display: flex;
   flex-direction: column;
@@ -13,10 +16,11 @@
   position: absolute;
   height: 100%;
   width: 100%;
-  background: url('../img/bg24.jpg') fixed center no-repeat;
+  background: url('../img/bg4.jpg') fixed center no-repeat;
   background-size: cover;
-  filter: blur(6px);
-  z-index: -4;
+  // filter: blur(6px);
+  // filter: brightness(200%);
+  z-index: -400;
 }
 
 .overlay {
@@ -24,8 +28,8 @@
   width: 100%;
   height: 100%;
   background-color: black;
-  opacity: 0.5;
-  z-index: -2;
+  opacity: 0.4;
+  z-index: -200;
 }
 
 .mainTitle {
@@ -33,10 +37,10 @@
   margin-left: 10vw;
   font-weight: 500;
   font-size: 2.44rem;
-  color: #00a6a6;
   text-align: left;
 
-  &>p{
+  & > p {
+    color: #00a6a6;
     line-height: 100%;
     margin: 0;
   }
@@ -55,7 +59,15 @@
   font-weight: 300;
   color: #eccaab;
 
-  &>*>*{
-
+  & > * > * {
   }
+}
+
+.textContent {
+  //background-color: var(--section-4-bg-color);
+  color: var(--primaryText-Dark);
+  font-size: 1.3rem;
+  font-weight: 500;
+  padding: 130px 150px;
+  text-align: justify;
 }

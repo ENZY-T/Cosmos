@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Article from './article'
-import Classes from '../Styles/article_space.module.css'
+import Classes from '../Styles/article_space.module.scss'
 import { IArticle } from '../Services/Dtos'
 import axios from 'axios'
 import { serverUrl } from '../GlobalData/Global'
@@ -46,7 +46,7 @@ const ArticleSpace = () => {
     <div className={Classes.articleSpace}>
       {/*Title*/}
       <div className={Classes.title}>
-        <h1>COSMOS. WE SOLVE...</h1>
+        <h1><span><span>COSMOS.</span> We Solve.</span></h1>
       </div>
       {/*Wrapper for article items*/}
       <div className={Classes.articleWrapper}>

@@ -3,8 +3,7 @@ a {
 }
 
 .main {
-
-  z-index: 12;
+  z-index: 1200;
   position: fixed;
   height: 100vh;
   width: 100vw;
@@ -25,13 +24,16 @@ a {
     padding: 30px;
     flex-direction: column;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-between;
 
     .bg {
       position: absolute;
+      top: 0;
+      left: 0;
       height: 100%;
       width: 100%;
-      background: url(https://source.unsplash.com/TV2gg2kZD1o/350x450) no-repeat center;
+      background: url(https://source.unsplash.com/TV2gg2kZD1o/350x450) no-repeat
+        center;
       opacity: 0.3;
       filter: blur(2px);
     }
@@ -39,8 +41,14 @@ a {
     .bg2 {
       height: 100%;
       width: 100%;
+      top: 0;
       position: absolute;
-      background-image: linear-gradient(180deg, rgba(36, 41, 3, 0.644), rgba(113, 159, 113, 0.29), rgba(36, 41, 3, 0.664));;
+      background-image: linear-gradient(
+        180deg,
+        rgba(36, 41, 3, 0.644),
+        rgba(113, 159, 113, 0.29),
+        rgba(36, 41, 3, 0.664)
+      );
       opacity: 0.8;
     }
 
@@ -56,14 +64,13 @@ a {
         width: 30px;
         border: 1px solid rgba(5, 130, 131, 0.64);
         background-color: rgba(211, 32, 76, 0.15);
-        border-radius: 8px;
+        border-radius: 4px;
 
         color: #a1a1a1;
         font-size: 20px;
         display: flex;
         justify-content: center;
         align-items: center;
-
       }
       & Button:hover {
         background-color: rgba(206, 51, 94, 0.44);
@@ -73,8 +80,11 @@ a {
       & Button:active {
         opacity: 0.5;
       }
+    }
 
-
+    > h3 {
+      font-size: 2rem;
+      margin: 0 0 20px;
     }
 
     .btnLogin {
@@ -83,6 +93,11 @@ a {
 
     .textReg {
       color: azure;
+
+      a{
+        font-weight: 700;
+        text-decoration: underline;
+      }
     }
   }
 }

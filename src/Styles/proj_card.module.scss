@@ -4,14 +4,14 @@
 $clrText_Hover: azure;
 
 .projCard {
-  width: 350px;
-  height: 250px;
-  aspect-ratio: 1.3;
-  margin: 16px;
-  border-radius: 16px;
-  background-color: rgba(5, 130, 131, 0.15);
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  transition: all 0.2s ease-out;
+  width: 360px;
+  aspect-ratio: 1/1;
+  margin: 15px;
+  border-radius: 4px;
+  background-color: #05828326;
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 2px 0px,
+    rgba(2, 2, 2, 0.4) 0px 2px 6px 2px;
+  transition: all 0.1s ease-out;
 
   display: flex;
   flex-direction: column;
@@ -22,24 +22,25 @@ $clrText_Hover: azure;
 
   &:hover {
     color: $clrText_Hover;
-    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: var(--globalBoxShadow_Hover);
     cursor: pointer;
-    transform: scale(1.01, 1.01);
+    transform: scale(1.02, 1.02);
 
     //Children hover effects
     .cover {
       filter: blur(2px);
-      transition: all 0.2s ease-out;
+      transition: all 2s ease-out;
+      transform: scale(1, 1);
     }
 
     .overlay {
       background-color: var(--globalGreen);
-      opacity: 0.75;
-      transition: all 0.2s ease-out;
+      opacity: 0.7;
+      transition: all 0.5s ease-out;
     }
 
     .tagline {
-      color: antiquewhite;
+      visibility: visible;
     }
 
     .title {
@@ -50,19 +51,20 @@ $clrText_Hover: azure;
 
   //Children
   .cover {
-    z-index: 2;
+    transform: scale(1.1, 1.1);
+    z-index: 200;
     width: 100%;
     height: 100%;
-    object-fit: fill;
+    object-fit: cover;
     position: relative;
     align-self: center;
     display: flex;
   }
 
   .overlay {
-    z-index: 4;
+    z-index: 400;
     background-color: black;
-    opacity: 0.6;
+    opacity: 0.05;
     position: absolute;
     height: 100%;
     width: 100%;
@@ -71,33 +73,35 @@ $clrText_Hover: azure;
     align-items: center;
   }
 
-  .description {
-    z-index: 8;
-    position: absolute;
-    //visibility: hidden;
-    width: 100%;
-
-    color: var(--globalWhite);
-    font-weight: 400;
-    word-wrap: break-word;
-    padding: 48px;
-  }
-
   .title {
-    z-index: 8;
+    z-index: 800;
     bottom: 0;
-    height: 35px;
+    height: auto;
+    min-height: 35px;
     width: 100%;
     position: absolute;
     background-color: rgba(0, 0, 0, 0.65);
 
-    font-weight: 800;
+    font-weight: 600;
     font-size: 17px;
     color: var(--globalWhite);
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
+  }
+  .tagline {
+    visibility: hidden;
+    z-index: 800;
+    position: absolute;
+    width: 100%;
+
+    color: white;
+    font-weight: 400;
+    word-wrap: break-word;
+    padding: 48px;
+    place-items: center;
+    text-align: center;
   }
 }
 

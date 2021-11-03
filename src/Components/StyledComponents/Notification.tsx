@@ -43,7 +43,7 @@ interface sProps {
 
 const WrapperBox = styled.div<sProps>`
   position: absolute;
-  z-index: 12;
+  z-index: 1200;
   border-radius: 5px;
   width: 400px;
   margin: 0 auto;
@@ -74,7 +74,7 @@ const WrapperBox = styled.div<sProps>`
     border-radius: 3px;
 
     & > div {
-      background-color: #014a5e;
+      background-color: #3c3f41;
       height: 100%;
       width: ${(sProps) => sProps.progress.toString() + '%'};
       border-radius: 3px;

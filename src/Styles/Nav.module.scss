@@ -2,18 +2,21 @@
 
 .navBar {
   position: fixed;
-  z-index: 8;
+  z-index: 2000;
   width: 100%;
   height: 50px;
+  margin-top: 5px;
   margin-bottom: -40px;
 
-
   .bgLayer {
+    margin-top: -5px;
     position: absolute;
-    background-color: var(--globalGreen);
-    opacity: 0.25;
+    background-color: rgba(255, 255, 255, 0.15);
+    //background-color: #21333e;
+    //background-color: transparent;
+    // opacity: 0.25;
     width: 100%;
-    height: 100%;
+    height: 60px;
   }
 
   display: flex;
@@ -21,25 +24,54 @@
 
   .navLeft {
     width: 30%;
-
+    height: 75px;
     display: flex;
     justify-content: flex-start;
-    align-items: center;
+    align-items: flex-start;
 
-    * {
-      height: 100%;
-      object-fit: contain;
+
+    .navbar_brand {
+      img {
+        border-radius: 4px;
+        height: 75px;
+        aspect-ratio: 1/1;
+        margin-left: 10px;
+        margin-top: 5px;
+        //filter: hue-rotate(120deg);
+      }
+    }
+
+    .nameBanner{
+      height: 75px;
+      border-radius: 4px;
+      margin-left: 10px;
+      margin-top: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      h3{
+        margin: 0;
+        font-weight: 600;
+        font-size: 1.7rem;
+        font-family: 'Montserrat', sans-serif;
+
+        span{
+          font-weight: 900;
+          color: var(--secondaryText-Green);
+          background-color: var(--secondaryText-Green-Trans);
+          border-radius: 3px;
+          padding: 0 15px
+        }
+      }
     }
   }
 
   .navMid {
-    width: 100%;
-    flex: 1;
 
     display: flex;
     align-items: center;
     justify-content: center;
-
 
     .searchWrapper {
       font-size: large;
@@ -58,7 +90,6 @@
       opacity: 0.75;
       transition: none;
       transform: scale(1-0.02, 1-0.02);
-
     }
   }
 
@@ -67,6 +98,7 @@
     display: flex;
     flex-direction: row-reverse;
     align-items: flex-start;
+    flex: 1;
 
     .userName {
       justify-self: flex-start;
@@ -76,8 +108,13 @@
       height: 100%;
     }
 
+    .navBtnWrapper{
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+      align-self: center;
+      flex: 1;
+      padding: 0 50px;
+    }
   }
-
 }
-
-

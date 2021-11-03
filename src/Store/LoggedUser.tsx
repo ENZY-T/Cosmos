@@ -1,17 +1,17 @@
 //Interfaces
 import { ILoggedUser } from '../Services/Dtos'
 
-interface userLoggedAction {
+interface setLoggedUserAction {
   type: string
   payload: ILoggedUser
 }
 
-interface userLoggedOutAction {
+interface unsetUserAction {
   type: string
   payload: ILoggedUser | null
 }
 
-export type ILoggedUserActionTypes = userLoggedAction | userLoggedOutAction
+export type ILoggedUserActionTypes = setLoggedUserAction | unsetUserAction
 
 // Actions
 export const setLoggedUser = (loggedUser: ILoggedUser) => ({

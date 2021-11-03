@@ -1,0 +1,56 @@
+
+.staticHost {
+
+  .ab-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  //region Headings with 2 color shades
+  h2 {
+    z-index: 1200;
+    margin: 1.5rem 0;
+    font-weight: 700;
+    font-size: 3rem;
+    font-family: 'Poppins', sans-serif;
+
+    > span {
+      color: var(--secondaryText-Green);
+      background-color: var(--secondaryText-Green-Trans);
+      border-radius: 3px;
+      padding: 0 15px
+    }
+  }
+
+
+  //endregion
+  section {
+    overflow: hidden;
+  }
+
+  section.cover {
+    height: 350px;
+    width: 100%;
+  }
+
+  section.cover::before {
+    content: '';
+    z-index: 200;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: black;
+    opacity: 0.7;
+  }
+
+
+  img {
+    object-fit: cover;
+    width: 100%;
+  }
+
+}

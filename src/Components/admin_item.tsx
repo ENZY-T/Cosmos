@@ -1,35 +1,58 @@
-import React from 'react'
+import React, {useState} from 'react'
 import Classes from '../Styles/Admin_item.module.css'
-import { IAdminItem } from '../Services/Dtos'
-import { serverUrl } from '../GlobalData/Global'
+import {IAdminItem} from '../Services/Dtos'
+import {serverUrl} from '../GlobalData/Global'
+import XPrompt from "./XPrompt";
+import EditBox from "./EditBox";
 
 interface IProps {
-  adminItem: IAdminItem
-  delItem: (deletingItem: IAdminItem) => void
+    adminItem: IAdminItem
+    delItem: (deletingItem: IAdminItem) => void
+    isProjectsClicked: boolean
 }
 
 const AdminItem = (props: IProps) => {
-  //Casting Multiple CSS classes
-  const classText = []
-  classText.push(Classes.text)
+    const [promptOpen, setPromptOpen] = useState(false)
+    const [isEditBoxOpen, setEditBoxOpen] = useState(false)
 
-  return (
-    <div className={Classes.adminItem}>
-      <img src={serverUrl + props.adminItem.mediaURIs[0]} alt='' />
-      <div className={Classes.dataPlate}>
-        <div className={classText.join(' ')}>{props.adminItem.title}</div>
-        <div>{`Created on : ${props.adminItem.createdDate}`}</div>
-      </div>
-      <div className={Classes.tagline}>{props.adminItem.tagline}</div>
-      <div className={Classes.btnPanel}>
-        <i className='fas fa-edit' />
-        <i
-          onClick={() => props.delItem(props.adminItem)}
-          className='fas fa-trash-alt'
-        />
-      </div>
-    </div>
-  )
+
+    //Casting Multiple CSS classes
+    const classText = []
+    classText.push(Classes.text)
+    return (
+        <div className={Classes.adminItem}>
+            <img
+                src={
+                    props.adminItem.mediaURIs && serverUrl + props.adminItem.mediaURIs[0]
+                }
+                alt='No Preview'
+            />
+            <div className={Classes.dataPlate}>
+                <div className={classText.join(' ')}>{props.adminItem.title}</div>
+                <hr/>
+                <div className={Classes.createdDate}>{`Created : ${new Date(
+                    props.adminItem.createdDate
+                ).toDateString()}`}</div>
+            </div>
+            <div className={Classes.tagline}>{props.adminItem.tagline}</div>
+            <div className={Classes.btnPanel}>
+                {props.isProjectsClicked && (
+                    <i onClick={() => setEditBoxOpen(true)} className='fas fa-edit'/>
+                )}
+                <i
+                    aria-disabled
+                    onClick={() => props.delItem(props.adminItem)}
+                    className='fas fa-trash-alt'
+                />
+            </div>
+            <XPrompt
+                title={'Edit All in Editor Box'} promptText={'Do you want to continue ?'}
+                setYes={setEditBoxOpen} isOpen={promptOpen} setOpen={setPromptOpen}/>
+            {isEditBoxOpen && (
+                <EditBox itemType={'Project'} adminItem={props.adminItem} isFullWidth setFormVisibility={setEditBoxOpen}/>
+            )}
+        </div>
+    )
 }
 
 export default AdminItem

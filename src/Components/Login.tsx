@@ -2,12 +2,13 @@ import axios from 'axios'
 import React, { SyntheticEvent, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Link, useHistory } from 'react-router-dom'
-import { IUserActionTypes, setLogged } from '../Store/LoggedState'
+import { IUserAuthenticationActionTypes, userAuthenticated } from '../Store/LoggedState'
 import { Dispatch } from 'redux'
 import { ILoggedUserActionTypes, setLoggedUser } from '../Store/LoggedUser'
 import { serverUrl } from '../GlobalData/Global'
 import Classes from '../Styles/login.module.scss'
 import XButton from './StyledComponents/XButton'
+import {ThirdPartyLogins} from "../Services/ThirdPartyLogins";
 
 //Interface for Props
 interface IProps {}
@@ -22,7 +23,7 @@ const Login = (props: IProps) => {
   const history = useHistory()
 
   // Redux store calls
-  const dispatch = useDispatch<Dispatch<IUserActionTypes>>()
+  const dispatch = useDispatch<Dispatch<IUserAuthenticationActionTypes>>()
   const dispatchLoggedUser = useDispatch<Dispatch<ILoggedUserActionTypes>>()
 
   //#endregion
@@ -41,7 +42,7 @@ const Login = (props: IProps) => {
         const isOK = response.status === 200
         //On success login
         if (isOK) {
-          dispatch<IUserActionTypes>(setLogged())
+          dispatch<IUserAuthenticationActionTypes>(userAuthenticated())
           setRedirect(true)
         }
       })
@@ -51,7 +52,6 @@ const Login = (props: IProps) => {
     await axios
       .get(`${serverUrl}/api/auth/user`, { withCredentials: true })
       .then((res) => {
-        console.log(res)
         res.status === 200 && dispatchLoggedUser(setLoggedUser(res.data))
       })
   }
@@ -59,7 +59,6 @@ const Login = (props: IProps) => {
   if (redirect) {
     history.push('/')
   }
-
   return (
     <div>
       <main className={Classes.main}>
@@ -67,11 +66,11 @@ const Login = (props: IProps) => {
           <div className={Classes.bg} />
           <div className={Classes.bg2} />
           <div className={Classes.btnLayer}>
-            <button>
-              <Link className='fas fa-times' to='/' />
-            </button>
+
+              <Link to='/' ><button type='button' className='fas fa-times' /></Link>
+
           </div>
-          <h2>Sign in</h2>
+          <h3>Sign in</h3>
           <input
             type='email'
             className='form-control'
@@ -92,6 +91,7 @@ const Login = (props: IProps) => {
           <XButton className={Classes.btnLogin} invisible={false} type='submit'>
             Sign in
           </XButton>
+          <ThirdPartyLogins setSuccess={setRedirect}/>
           <div className={Classes.textReg}>
             Haven't signed up? <Link to='/register'>Register</Link>{' '}
           </div>

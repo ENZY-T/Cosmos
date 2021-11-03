@@ -1,30 +1,46 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Redirect, Route } from 'react-router'
 import { RouteProps } from 'react-router-dom'
-import { useSelector } from 'react-redux'
-import { AppState } from '../Store/RootStore'
+import axios from 'axios'
+import { serverUrl } from '../GlobalData/Global'
+import GearLoader from '../Components/GearLoader'
 
 interface PrivateRouteProps extends RouteProps {}
 
 const PrivateRoute: React.FC<PrivateRouteProps> = ({ ...rest }) => {
-  const isAuth = useSelector<AppState, boolean>((state) => state.loggingReducer)
+  // const isAuth = useSelector<AppState, boolean>((state) => state.loggingReducer)
+  const [admin, setAdmin] = useState(false)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    fetchData()
+  }, [])
 
   // Fetch and check whether the user is a admin
-  // ;(async () => {
-  //     let isMounted = true;
-  //     await axios
-  //         .get(serverUrl + '/api/auth/user', {withCredentials: true})
-  //         .then((res) => {
-  //             isMounted && res.status === 200 && setAuth(true)
-  //         })
-  //         .catch((error) => {
-  //             console.log(error.message)
-  //         })
-  //     return isMounted = false
-  // })()
+  const fetchData = async () => {
+    await axios
+      .get(serverUrl + '/api/auth/user', { withCredentials: true })
+      .then((res) => {
+        if (res.status === 200) {
+          if (res.data.role === 'admin') {
+            setAdmin(true)
+          } else {
+            setAdmin(false)
+          }
+          setLoading(false)
+        }
+      })
+      .catch(() => {
+        setAdmin(false)
+        setLoading(false)
+      })
+  }
 
-  console.log(isAuth)
-  if (!isAuth) {
+  if (loading) {
+    return <GearLoader isPending={loading} />
+  }
+
+  if (!admin) {
     return <Redirect to='/' />
   } else {
     return <Route {...rest} />

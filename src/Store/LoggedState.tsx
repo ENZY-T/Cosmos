@@ -7,16 +7,16 @@ interface loggedOutAction {
     type: string,
 }
 
-export type IUserActionTypes = loggedOutAction | loggedAction;
+export type IUserAuthenticationActionTypes = loggedOutAction | loggedAction;
 
 // Actions
-export const setLogged = () => ({type: 'LOG'});
-export const setLoggedOut = () => ({type: 'LOGOUT'});
+export const userAuthenticated = () => ({type: 'LOG'});
+export const userUnauthenticated = () => ({type: 'LOGOUT'});
 
 // Default, Not logged any user
 const defaultState: boolean = false;
 // Reducer
-export const loggingReducer = (state = defaultState, action: IUserActionTypes) => {
+export const loggingReducer = (state = defaultState, action: IUserAuthenticationActionTypes) => {
     switch (action.type) {
         case "LOG":
             return true;

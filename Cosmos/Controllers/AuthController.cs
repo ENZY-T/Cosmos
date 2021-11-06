@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Cosmos.Dtos;
+using static Google.Apis.Auth.GoogleJsonWebSignature;
+using Google.Apis.Auth;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -43,7 +45,7 @@ namespace Cosmos.Controllers
                     });
 
                     // Returning Status OK with the logged user details
-                    return Ok(new LoggedUserDto(){ UserId=user.Id ,Email=user.Email, FName= user.FName, LName=user.LName});
+                    return Ok(new LoggedUserDto() { UserId = user.Id, Email = user.Email, FName = user.FName, LName = user.LName });
                 }
                 else
                 {
@@ -70,8 +72,9 @@ namespace Cosmos.Controllers
             if (user == null)
             {
                 return BadRequest(error: new { message = "Email already in use" });
-            }else
-            { 
+            }
+            else
+            {
                 return Created("Success", user);
 
             }
@@ -107,5 +110,39 @@ namespace Cosmos.Controllers
             return Ok(new { message = "Success" });
         }
 
+        #region Third party logind
+        [HttpPost("google")]
+        public async Task<IActionResult> GoogleSignInAsync([FromQuery] string token)
+        {
+            Payload payload = new Payload();
+            try
+            {
+                payload = await ValidateAsync(token, new ValidationSettings
+                {
+                    Audience = new[]
+                    {
+                        //Environment.GetEnvironmentVariable("CLIENT_ID") // To Get Client ID from LaunchSettings.json... Configure it to get from appsettings.json. Otherwise not working after publishing
+                        "739532960944-v3n8196hltf8hfnilr25nai2fkibeqh9.apps.googleusercontent.com" //Not better. Code to get this from appsettings.json
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                return Unauthorized();
+            }
+            var result = _userService.ThirdPartySignIn(new UserModel
+            {
+                FName=payload.Name.Split(' ').First(),
+                LName=payload.Name.Split(' ').LastOrDefault(),
+                Email = payload.Email,
+                ExternalId = payload.Subject,
+                ExternalType = "GOOGLE"
+            });
+
+            var jwtToken = _jwtService.Generate(result.Id);
+            Response.Cookies.Append("jwt", jwtToken);
+            return Ok(new LoggedUserDto() { UserId = result.Id, Email = result.Email, FName = result.FName, LName = result.LName });
+        }
+        #endregion
     }
 }

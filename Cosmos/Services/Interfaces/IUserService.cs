@@ -11,6 +11,8 @@ namespace Cosmos.Services
     {
         UserModel Create(UserModel user);
         UserModel GetbyId(string objectIdStr);
-        public UserModel GetbyEmail(string email);
+        UserModel GetbyEmail(string email);
+
+        UserModel ThirdPartySignIn(UserModel user);
     }
 }

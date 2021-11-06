@@ -27,7 +27,7 @@ namespace Cosmos.Services
                 foreach (var adminProp in adminItemDto.GetType().GetProperties())
                 {
                     var value = adminProp.GetValue(adminItemDto);
-                    // Updating the media files if there's a update for them
+                    // Adding to UpdateTaskList if there's a update for them
                     if (adminProp.Name == "Media" && value != null)
                     {
                         isMediaFilesReceived = true;
@@ -51,11 +51,17 @@ namespace Cosmos.Services
                         fileService.CleanURIs(record.MediaURIs, value as List<string>);     // Later=>Use the return status to generate the success statement
 
                     }
-                    else if (adminProp.Name != "CreatedDate" && adminProp.Name != "Id" && !string.IsNullOrEmpty((string)value))
+                    else if (adminProp.Name != "CreatedDate" && adminProp.Name != "Id" && value != null)
                     {
-                        updateList.Add(Builders<T>.Update.Set(adminProp.Name, (string)value));
+                        if((string)value == "[clear]")
+                        {
+                            updateList.Add(Builders<T>.Update.Set<string>(adminProp.Name, null));
+                        }
+                        else
+                        {
+                            updateList.Add(Builders<T>.Update.Set(adminProp.Name, (string)value));
+                        }
                     }
-
                 }
                 record.CreatedDate = DateTime.Today;
             }

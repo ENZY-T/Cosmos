@@ -11,6 +11,10 @@ namespace Cosmos
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
         public string Email { get; set; }
+        // For third party sign ups
+        [JsonIgnore]
+        public string ExternalId { get; set; }
+        public string ExternalType { get; set; }
         [JsonIgnore]
         public string Password { get; set; }
         public string Role { get; set; }

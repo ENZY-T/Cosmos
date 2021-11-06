@@ -3,7 +3,8 @@
     "Cosmos": {
       "commandName": "Project",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "CLIENT_ID": "739532960944-v3n8196hltf8hfnilr25nai2fkibeqh9.apps.googleusercontent.com"
       },
       "dotnetRunMessages": "true",
       "applicationUrl": "https://localhost:8001;http://localhost:8000"

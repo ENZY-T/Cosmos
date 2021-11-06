@@ -2,23 +2,21 @@ name: .NET
 
 on:
   push:
-    branches: [ Backend-master ]
+    branches: [Backend-master]
   pull_request:
-    branches: [ Backend-master ]
+    branches: [Backend-master]
 
 jobs:
   build:
-
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 5.0.x
-    - name: Restore dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build -r linux-x64
-
+      - uses: actions/checkout@v2
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 5.0.x
+      - name: Restore dependencies
+        run: dotnet restore
+      - name: Build
+        run: dotnet build -c Release --no-restore

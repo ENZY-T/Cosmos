@@ -56,8 +56,18 @@ function App() {
 
 
                 <Switch>
-                    <Route path='/login' exact component={Login}/>
-                    <Route path='/register' exact component={Register}/>
+                    <Route path='/login' exact component={() => (
+                        <>
+                            <Login/>
+                            <Home/>
+                        </>
+                    )}/>
+                    <Route path='/register' exact component={() => (
+                        <>
+                            <Register/>
+                            <Home/>
+                        </>
+                    )}/>
                 </Switch>
                 <Switch>
                     <PrivateRoute path='/AdminPanel' component={() => <AdminPanel/>}/>

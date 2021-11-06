@@ -4,7 +4,7 @@ import Classes from '../Styles/article_space.module.scss'
 import { IArticle } from '../Services/Dtos'
 import axios from 'axios'
 import { serverUrl } from '../GlobalData/Global'
-const vPath = require('../video/131747.mp4') // call as : vPath.default
+// const vPath = require('../video/131747.mp4') // call as : vPath.default
 
 // const dummyArticle: IArticle = {
 //   id: '',

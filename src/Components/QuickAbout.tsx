@@ -33,27 +33,27 @@ const QuickAbout = (props: IProps) => {
             <div className={Classes.taglines}>
                 <div className={Classes.knowledge}>
                     <h4>
-                        <CertifiedIcon/> Knowledge
+                        <CertifiedIcon/>Engineering Expertise
                     </h4>
-                    <p>Lorem ipsum dolor sit amet consectetur adipiscing elit.</p>
+                    <p>We got the most creative and high level engineers working with us for your solution </p>
                 </div>
                 <div className={Classes.tradition}>
                     <h4>
-                        <CardMembershipIcon/> Experience
+                        <CardMembershipIcon/> Clientside Orientation
                     </h4>
-                    <p>Lorem ipsum dolor sit amet consectetur adipiscing elit.</p>
+                    <p>Aim to deliver the best service with the Flexibility, Customer care and Maintainance </p>
                 </div>
                 <div className={Classes.security}>
                     <h4>
-                        <SecurityIcon/> Security
+                        <SecurityIcon/> Reliability and consultancy
                     </h4>
-                    <p>Lorem ipsum dolor sit amet consectetur adipiscing elit.</p>
+                    <p>Highly reliable, Scalable and Eco-friendly inclination for Automation Solutions </p>
                 </div>
                 <div className={Classes.certificate}>
                     <h4>
-                        <VerifiedUserIcon/> Certification
+                        <VerifiedUserIcon/> Trust and Stability
                     </h4>
-                    <p>Lorem ipsum dolor sit amet consectetur adipiscing elit.</p>
+                    <p>We acquired a high grade community base and higher stability in the field withing short time for automation expertise. </p>
                 </div>
             </div>
         </div>

@@ -6,7 +6,7 @@ import PlayCircleFilledRoundedIcon from '@material-ui/icons/PlayCircleFilledRoun
 import PauseCircleFilledRoundedIcon from '@material-ui/icons/PauseCircleFilledRounded'
 import {serverUrl} from '../GlobalData/Global'
 
-const vPath = require('../video/vid02.mp4') // call as : vPath.default
+// const vPath = require('../video/vid02.mp4') // call as : vPath.default
 
 // Props for this comp.
 interface IProps {

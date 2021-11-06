@@ -28,12 +28,12 @@ jobs:
         run: dotnet test -c Release --no-build
 
       - name: Publish
-        run: dotnet publish -r linux-x64 -o deploy
+        run: dotnet publish -r linux-x64 -o /home/deploy
 
       - name: Copy via ssh
         uses: garygrossgarten/github-action-scp@v0.5.3
         with:
-          local: /home/runner/work/cosmos/cosmos/src/deploy/
+          local: /home/deploy/
           remote: ${{ secrets.REMOTE_TARGET }}
           host: ${{ secrets.REMOTE_HOST }}
           username: ${{ secrets.REMOTE_USER }}

@@ -9,6 +9,8 @@ on:
   #   branches: [Frontend-master]
 
 jobs:
+  env:
+    process.env.CI: false
   build:
     runs-on: ubuntu-20.04
 

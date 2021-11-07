@@ -4,8 +4,9 @@
 name: Automatic Deployment of Frontend
 
 on:
-  push:
-    branches: [Frontend-master]
+  workflow_dispatch
+  # push:
+  #   branches: [Frontend-master]
 
 jobs:
   build:

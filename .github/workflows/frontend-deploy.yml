@@ -38,7 +38,7 @@ jobs:
       - name: Copy to deployment server via scp
         uses: garygrossgarten/github-action-scp@v0.5.3
         with:
-          local: /home/runner/work/Cosmos/Cosmos/build/
+          local: ./build/
           remote: /var/www/html
           host: ${{ secrets.REMOTE_HOST }}
           username: ${{ secrets.REMOTE_USER }}

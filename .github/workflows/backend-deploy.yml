@@ -1,14 +1,12 @@
-name: .NET
+name: Backend Continuous Deployment
 
 on:
   push:
     branches: [Backend-master]
-  pull_request:
-    branches: [Backend-master]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     steps:
       - uses: actions/checkout@v2

@@ -67,7 +67,7 @@ namespace Cosmos
                     .AllowAnyMethod()
                     .AllowCredentials()
             );
-
+            
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

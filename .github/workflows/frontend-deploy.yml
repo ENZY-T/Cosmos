@@ -1,7 +1,7 @@
 # This workflow will do a clean install of node dependencies, cache/restore them, build the source code and run tests across different versions of node
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
-name: Automatic Deployment of Frontend
+name: Frontend Deployment
 
 on:
   workflow_dispatch
@@ -18,7 +18,8 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checking out branch
+        uses: actions/checkout@v2
         with:
           ref: 'Frontend-master'
 
@@ -28,7 +29,26 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
 
-      - run: npm i
+      - name: Install dependencies
+        run: npm i
 
-      - run: npm run build --if-present
-#      - run: npm test
+      - name: Build for production
+        run: npm run build --if-present
+
+      - name: Copy to deployment server via scp
+        uses: garygrossgarten/github-action-scp@v0.5.3
+        with:
+          local: /home/runner/work/Cosmos/Cosmos/deploy/
+          remote: ${{ secrets.REMOTE_TARGET }}
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          password: ${{ secrets.REMOTE_PASS }}
+          concurrency: 500
+
+      - name: Restart cosmos-webapp-be service
+        uses: garygrossgarten/github-action-ssh@v0.3.0
+        with:
+          command: systemctl start cosmos-webapp-be
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          password: ${{ secrets.REMOTE_PASS }}

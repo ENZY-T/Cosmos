@@ -38,8 +38,8 @@ jobs:
       - name: Copy to deployment server via scp
         uses: garygrossgarten/github-action-scp@v0.5.3
         with:
-          local: /home/runner/work/Cosmos/Cosmos/deploy/
-          remote: ${{ secrets.REMOTE_TARGET }}
+          local: /home/runner/work/Cosmos/build/
+          remote: /var/www/html
           host: ${{ secrets.REMOTE_HOST }}
           username: ${{ secrets.REMOTE_USER }}
           password: ${{ secrets.REMOTE_PASS }}
@@ -48,7 +48,7 @@ jobs:
       - name: Restart cosmos-webapp-be service
         uses: garygrossgarten/github-action-ssh@v0.3.0
         with:
-          command: systemctl start cosmos-webapp-be
+          command: nginx -s reload
           host: ${{ secrets.REMOTE_HOST }}
           username: ${{ secrets.REMOTE_USER }}
           password: ${{ secrets.REMOTE_PASS }}

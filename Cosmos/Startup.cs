@@ -62,7 +62,7 @@ namespace Cosmos
 
             app.UseCors(options =>
                 options
-                    .WithOrigins(new[] { "http://localhost:3000", "http://localhost:80" })
+                    .WithOrigins(new[] { "http://localhost:3000", "https://www.cosmos.lk" })
                     .AllowAnyHeader()
                     .AllowAnyMethod()
                     .AllowCredentials()

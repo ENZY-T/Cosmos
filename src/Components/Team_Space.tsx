@@ -1,14 +1,13 @@
 import React from 'react';
-import Person_Card from "./Person_Card";
 import Classes from '../Styles/Team_Space.module.scss'
-import {dummyPerson} from "../Services/Dtos";
 import {teamCrew} from "../GlobalData/Global";
+import PersonCard from "./Person_Card";
 
 const TeamSpace = () => {
 
 
     const personListJsx = teamCrew.map((item, pos) => {
-        return <Person_Card key={pos} person={item}/>
+        return <PersonCard key={pos} person={item}/>
     })
 
     return (

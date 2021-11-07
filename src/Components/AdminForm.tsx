@@ -1,7 +1,7 @@
 import React, {SyntheticEvent, useContext, useState} from 'react'
 import Classes from '../Styles/AdminForm.module.scss'
 import XButton from './StyledComponents/XButton'
-import axios, {AxiosResponse} from 'axios'
+import axios from 'axios'
 import {serverUrl} from '../GlobalData/Global'
 import {XNotification} from './StyledComponents/Notification'
 import styled from 'styled-components'
@@ -42,7 +42,7 @@ const AdminForm = (props: IProps) => {
     console.log(description)
 
     //region Use Context
-    const {needRefresh, refreshPanel} = {...useContext(AdminPanelContext)}
+    const {refreshPanel} = {...useContext(AdminPanelContext)}
     //endregion
 
 
@@ -101,10 +101,10 @@ const AdminForm = (props: IProps) => {
                         Math.round((progressEvent.loaded / progressEvent.total) * 100)
                     ),
             })
-            .then((res) => handleSubmitComplete(res))
+            .then(() => handleSubmitComplete())
     }
 
-    const handleSubmitComplete = (response: AxiosResponse<any>) => {
+    const handleSubmitComplete = () => {
         ;(document.getElementById('fileInput') as HTMLInputElement).value = ''
         refreshPanel?.()
         props.setFormVisibility(false)

@@ -1,30 +1,27 @@
-import React, {ReactChild, ReactNode} from 'react';
-import XList from "../../XList";
-import styled from "styled-components";
-import Classes from "../../Styles/About.module.scss";
+import React, {ReactNode} from 'react';
 
-interface IProps{
-    className?:string
-    children:{
-        col1:ReactNode
-        col2:ReactNode
+interface IProps {
+    className?: string
+    children: {
+        col1: ReactNode
+        col2: ReactNode
     }
 }
 
-const XLayout2Col = (props:IProps) => {
+const XLayout2Col = (props: IProps) => {
 
     const styles = {
-        container:{
-            display:'flex',
-            flexDirection:'row' as 'row',
-            padding:'50px'
+        container: {
+            display: 'flex',
+            flexDirection: 'row' as 'row',
+            padding: '50px'
         },
-        col1:{
-            flex:'1',
-            paddingRight:'50px'
+        col1: {
+            flex: '1',
+            paddingRight: '50px'
         },
-        col2:{
-            minWidth:'360px'
+        col2: {
+            minWidth: '360px'
         }
     }
 

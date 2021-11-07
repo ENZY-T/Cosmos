@@ -10,12 +10,9 @@ import MenuProfile from './menu-Profile'
 import {contactDetails, globalSettings} from '../GlobalData/Global'
 import NavMenu from "./Nav_Menu";
 
-// Interface for the props
-interface IProps {
-}
 
 // Navbar Component
-const Nav = (props: IProps) => {
+const Nav = () => {
     // useStates
     //Redux calls
     const loggedState = useSelector<AppState, boolean>(

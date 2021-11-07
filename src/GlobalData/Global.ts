@@ -1,5 +1,4 @@
 //Avatar Imports
-import imgSiteEng from '../img/Avatars/site_eng.jpg'
 import imgFoodProc from '../img/Avatars/FoodProcessingEng.jpg'
 import img3dDesignEng from '../img/Avatars/3dDesignEng.jpg'
 import imgIotEng from '../img/Avatars/IotEng.jpg'
@@ -8,7 +7,7 @@ import imgAssistEng from '../img/Avatars/AssistantEng.jpg'
 
 import {IPerson} from '../Services/Dtos'
 
-export const serverUrl = 'http://localhost:8000'
+export const serverUrl = 'http://localhost:5000'
 
 
 export const globalSettings = {

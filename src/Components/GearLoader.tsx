@@ -37,7 +37,7 @@ const GearLoader = (props: IProps) => {
             r='66'
             fill='transparent'
             // stroke='white'
-            stroke-width='40'
+            strokeWidth='40'
             filter='url(#blur)'></circle>
         </svg>
       </div>

@@ -41,7 +41,8 @@ namespace Cosmos.Controllers
 
                     Response.Cookies.Append("jwt", jwt, new CookieOptions()
                     {
-                        HttpOnly = true
+                        HttpOnly = true,
+                        Secure = true,
                     });
 
                     // Returning Status OK with the logged user details

@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Cosmos.Services.Interfaces;
+using Microsoft.AspNetCore.HttpOverrides;
 
 namespace Cosmos
 {
@@ -38,8 +39,9 @@ namespace Cosmos
             );
             services.AddTransient<IFileService, FileService>();
 
-
             services.AddControllersWithViews();
+
+            services.Configure<ForwardedHeadersOptions>(options =>options.ForwardedHeaders = ForwardedHeaders.XForwardedFor);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -48,27 +50,30 @@ namespace Cosmos
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseForwardedHeaders();
             }
             else
             {
                 app.UseExceptionHandler("/Home/Error");
+                app.UseForwardedHeaders();
+
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
 
             app.UseCors(options =>
                 options
-                    //.WithOrigins(new[] { "http://localhost:3000", "https://www.cosmos.lk" }) //Specific Origins
-                    .SetIsOriginAllowed(origin=>true) //Any origin
+                    .WithOrigins("http://localhost:3000", "https://www.cosmos.lk") //Specific Origins
+                    //.SetIsOriginAllowed(origin => true) //Any origin
                     .AllowAnyHeader()
                     .AllowAnyMethod()
                     .AllowCredentials()
             );
-            
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

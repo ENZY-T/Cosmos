@@ -48,7 +48,9 @@ jobs:
       - name: Restart nginx
         uses: garygrossgarten/github-action-ssh@v0.3.0
         with:
-          command: nginx -s reload
+          command: |
+            nginx -s reload
+
           host: ${{ secrets.REMOTE_HOST }}
           username: ${{ secrets.REMOTE_USER }}
           password: ${{ secrets.REMOTE_PASS }}

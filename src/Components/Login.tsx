@@ -2,13 +2,16 @@ import axios from 'axios'
 import React, { SyntheticEvent, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Link, useHistory } from 'react-router-dom'
-import { IUserAuthenticationActionTypes, userAuthenticated } from '../Store/LoggedState'
+import {
+  IUserAuthenticationActionTypes,
+  userAuthenticated,
+} from '../Store/LoggedState'
 import { Dispatch } from 'redux'
 import { ILoggedUserActionTypes, setLoggedUser } from '../Store/LoggedUser'
 import { serverUrl } from '../GlobalData/Global'
 import Classes from '../Styles/login.module.scss'
 import XButton from './StyledComponents/XButton'
-import {ThirdPartyLogins} from "../Services/ThirdPartyLogins";
+import { ThirdPartyLogins } from '../Services/ThirdPartyLogins'
 
 //Interface for Props
 interface IProps {}
@@ -66,9 +69,9 @@ const Login = (props: IProps) => {
           <div className={Classes.bg} />
           <div className={Classes.bg2} />
           <div className={Classes.btnLayer}>
-
-              <Link to='/' ><button type='button' className='fas fa-times' /></Link>
-
+            <Link to='/'>
+              <button type='button' className='fas fa-times' />
+            </Link>
           </div>
           <h3>Sign in</h3>
           <input
@@ -91,7 +94,7 @@ const Login = (props: IProps) => {
           <XButton className={Classes.btnLogin} invisible={false} type='submit'>
             Sign in
           </XButton>
-          <ThirdPartyLogins setSuccess={setRedirect}/>
+          <ThirdPartyLogins setSuccess={setRedirect} />
           <div className={Classes.textReg}>
             Haven't signed up? <Link to='/register'>Register</Link>{' '}
           </div>

@@ -44,8 +44,9 @@ namespace Cosmos
 
             services.Configure<ForwardedHeadersOptions>(options => {
                 //options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedHost;
+                options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
                 //options.ForwardedHeaders = ForwardedHeaders.XForwardedFor;
-                options.ForwardedHeaders = ForwardedHeaders.None;
+                //options.ForwardedHeaders = ForwardedHeaders.None;
             });
         }
 

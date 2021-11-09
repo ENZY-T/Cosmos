@@ -1,9 +1,9 @@
 name: Backend Deployment
 
 on:
-  workflow_dispatch
-  # push:
-  #   branches: [Backend-master]
+  # workflow_dispatch
+  push:
+    branches: [Backend-master]
 
 jobs:
   build:

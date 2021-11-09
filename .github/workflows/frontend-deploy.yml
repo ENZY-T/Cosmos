@@ -4,9 +4,9 @@
 name: Frontend Deployment
 
 on:
-  workflow_dispatch
-  # push:
-  #   branches: [Frontend-master]
+  # workflow_dispatch
+  push:
+    branches: [Frontend-master]
 
 jobs:
   build:

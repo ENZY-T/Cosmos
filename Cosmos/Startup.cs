@@ -44,8 +44,8 @@ namespace Cosmos
 
             services.Configure<ForwardedHeadersOptions>(options => {
                 //options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedHost;
-                options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
-                //options.ForwardedHeaders = ForwardedHeaders.XForwardedFor;
+                //options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+                options.ForwardedHeaders = ForwardedHeaders.XForwardedFor;
                 //options.ForwardedHeaders = ForwardedHeaders.None;
             });
         }
@@ -53,15 +53,16 @@ namespace Cosmos
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            Console.WriteLine("pipeHit");
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseForwardedHeaders();
+                //app.UseForwardedHeaders();
             }
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                app.UseForwardedHeaders();
+                //app.UseForwardedHeaders();
 
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 //app.UseHsts();

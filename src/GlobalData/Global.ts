@@ -7,12 +7,13 @@ import imgAssistEng from '../img/Avatars/AssistantEng.jpg'
 
 import { IPerson } from '../Services/Dtos'
 
-export const serverUrl = 'https://cosmos.lk:5001'
+export const serverUrl = 'https://cosmos.lk'
 
 export const globalSettings = {
   isPurchaseOpen: false,
 }
 
+//Details
 export const contactDetails = {
   tele: '+94 76 596 4999',
   email: 'info@cosmos.lk',

@@ -70,8 +70,8 @@ namespace Cosmos
 
             app.UseCors(options =>
                 options
-                    ////.WithOrigins("http://www.cosmos.lk") //Specific Origins
-                    //.SetIsOriginAllowed(origin => true) //Any origin
+                    .WithOrigins("http://www.cosmos.lk") //Specific Origins
+                                                         //.SetIsOriginAllowed(origin => true) //Any origin
                     .AllowAnyHeader()
                     .AllowAnyMethod()
                     .AllowCredentials()

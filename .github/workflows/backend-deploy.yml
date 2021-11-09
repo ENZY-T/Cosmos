@@ -29,12 +29,12 @@ jobs:
         run: dotnet test -c Release --no-build
 
       - name: Publish
-        run: dotnet publish -r linux-x64 -o deploy
+        run: dotnet publish -r linux-x64 -o /var/www/cosmos-webapp-be/
 
       - name: Copy to deployment server via scp
         uses: garygrossgarten/github-action-scp@v0.5.3
         with:
-          local: /home/runner/work/Cosmos/Cosmos/deploy/
+          local: /var/www/cosmos-webapp-be/
           remote: ${{ secrets.REMOTE_BE_TARGET }}
           host: ${{ secrets.REMOTE_HOST }}
           username: ${{ secrets.REMOTE_USER }}

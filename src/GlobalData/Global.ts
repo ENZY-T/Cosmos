@@ -7,7 +7,7 @@ import imgAssistEng from '../img/Avatars/AssistantEng.jpg'
 
 import { IPerson } from '../Services/Dtos'
 
-export const serverUrl = 'http://cosmos.lk:5000'
+export const serverUrl = 'https://cosmos.lk:5001'
 
 export const globalSettings = {
   isPurchaseOpen: false,

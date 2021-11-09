@@ -29,12 +29,13 @@ jobs:
         run: dotnet test -c Release --no-build
 
       - name: Publish
-        run: dotnet publish -r linux-x64 -o cosmos-webapp-be/
+        run: dotnet publish -f net5.0 --self-contained -r linux-x64 -p:TrimMode=Link -p:PublishTrimmed=True -o ./deploy/
+        # run: dotnet publish -f net5.0 --self-contained -r linux-x64  -p:PublishSingleFile=true -p:TrimMode=Link -p:PublishTrimmed=True -o ./deploy/
 
       - name: Copy to deployment server via scp
         uses: garygrossgarten/github-action-scp@v0.5.3
         with:
-          local: /home/runner/work/Cosmos/Cosmos/cosmos-webapp-be
+          local: ./deploy/
           remote: ${{ secrets.REMOTE_BE_TARGET }}
           host: ${{ secrets.REMOTE_HOST }}
           username: ${{ secrets.REMOTE_USER }}

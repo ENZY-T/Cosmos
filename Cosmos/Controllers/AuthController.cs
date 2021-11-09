@@ -32,7 +32,6 @@ namespace Cosmos.Controllers
         [HttpPost("login")]
         public IActionResult Login([FromBody] LoginDto loginDto)
         {
-            Console.WriteLine("Login Attempt");
             var user = _userService.GetbyEmail(loginDto.Email);
             if (user != null)
             {

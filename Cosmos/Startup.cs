@@ -53,7 +53,6 @@ namespace Cosmos
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            Console.WriteLine("pipeHit");
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -74,7 +73,7 @@ namespace Cosmos
 
             app.UseCors(options =>
                 options
-                    //.WithOrigins("http://www.cosmos.lk") //Specific Origins
+                    //.WithOrigins("https://www.cosmos.lk") //Specific Origins
                     .SetIsOriginAllowed(origin => true) //Any origin
                     .AllowAnyHeader()
                     .AllowAnyMethod()

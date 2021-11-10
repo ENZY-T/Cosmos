@@ -8,6 +8,7 @@ import imgAssistEng from '../img/Avatars/AssistantEng.jpg'
 import { IPerson } from '../Services/Dtos'
 
 export const serverUrl = 'https://cosmos.lk'
+// export const serverUrl = 'http://localhost:5000'
 
 export const globalSettings = {
   isPurchaseOpen: false,
@@ -18,10 +19,10 @@ export const contactDetails = {
   tele: '+94 76 596 4999',
   email: 'info@cosmos.lk',
   address: {
-    street: '6th Mile Post',
-    city: 'Mawathagama',
-    district: 'Kurunegala',
-    country: 'Sri Lanka',
+    street: 'Regional Office',
+    city: 'No. 370, Orex City',
+    district: ' Ekala',
+    country: ' Ja-ela',
   },
 }
 

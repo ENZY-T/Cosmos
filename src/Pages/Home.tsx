@@ -28,7 +28,7 @@ const Home = () => {
         </div>
         <div className={Classes.mainTitle}>
           <p>COSMOS</p>
-          <p>PRIVATE LIMITED</p>
+          <p>ENGINEERING SOLUTIONS</p>
         </div>
         <div className={Classes.subTitle}>
           <span>
@@ -40,7 +40,7 @@ const Home = () => {
         </div>
         <div className={Classes.overlay} />
       </div>
-      <div style={{ padding: '8.45% 9.75% 0 9.75%' }}>
+      <div style={{ padding: '5.45% 9.75% 5.45% 9.75% ' }}>
         <QuickAbout />
       </div>
       <div id='our_services'>
@@ -49,12 +49,12 @@ const Home = () => {
       {/*<div className={Classes.textContent}>*/}
       {/*    <p></p>*/}
       {/*</div>*/}
-      <Mission />
-      <ProjSpace />
-      {/*<div className={Classes.textContent}>*/}
-      {/*    <p></p>*/}
-      {/*</div>*/}
-      <TeamSpace />
+        <ProjSpace />
+        <Mission />
+        {/*<div className={Classes.textContent}>*/}
+        {/*    <p></p>*/}
+        {/*</div>*/}
+        <TeamSpace />
     </div>
   )
 }

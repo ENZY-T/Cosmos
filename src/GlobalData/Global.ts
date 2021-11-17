@@ -16,13 +16,23 @@ export const globalSettings = {
 
 //Details
 export const contactDetails = {
-  tele: '+94 76 596 4999',
+  tele: '+94 76 569 4999',
   email: 'info@cosmos.lk',
-  address: {
-    street: 'Regional Office',
-    city: 'No. 370, Orex City',
-    district: ' Ekala',
-    country: ' Ja-ela',
+  tele2: '',
+  email2: '',
+  addressRegOffice: {
+    entity: 'Regional Office',
+    street: ' No. 370, Orex City',
+    city: ' Ekala',
+    district: ' Ja-ela',
+    country: ' Sri Lanka',
+  },
+  addressLab: {
+    entity: 'Laboratory',
+    street: ' Yatiwala',
+    city: ' Mawathagama',
+    district: '',
+    country: '',
   },
 }
 

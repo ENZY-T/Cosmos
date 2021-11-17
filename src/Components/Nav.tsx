@@ -38,18 +38,18 @@ const Nav = () => {
                     <img src={Logo} alt='Logo'/>
                 </Link>
                 <div className={Classes.nameBanner}>
-                    <h3><span>COSMOS</span><br/>AUTOMATION SYSTEMS</h3>
+                    <h3><span>COSMOS</span><br/>AUTOMATION SYSTEMS PVT. LTD.</h3>
                 </div>
             </div>
             <div className={Classes.navMid}>
-                <div className={Classes.searchWrapper}>
-                    <i className='fas fa-search'/>
-                </div>
+                <XButton invisible={!globalSettings.isPurchaseOpen}>Purchase</XButton>
+                {/*<div className={Classes.searchWrapper}>*/}
+                {/*    <i className='fas fa-search'/>*/}
+                {/*</div>*/}
                 {/*Call Me Button*/}
                 <a href={`tel:${contactDetails.tele}`}>
                     <XButton invisible={false}>{contactDetails.tele}</XButton>
                 </a>
-                <XButton invisible={!globalSettings.isPurchaseOpen}>Purchase</XButton>
             </div>
             <div className={Classes.navRight}>
                 <MenuProfile/>

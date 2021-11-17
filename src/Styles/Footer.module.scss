@@ -2,17 +2,17 @@
   overflow: hidden;
   height: 350px;
   display: grid;
-  grid-template: 1fr 45px / 1fr 1fr 2fr;
+  grid-template: 1fr 45px / 2fr 2fr 2fr 4fr;
   grid-template-areas:
-    'contactIconCol addressCol form'
-    '. . socialIcons';
+    'contactIconCol addressCol addressCol2 form'
+    '. . . socialIcons';
 
   * {
     color: var(--globalCream);
   }
 
   .footerBgImage {
-    grid-area: 1/1/3/4;
+    grid-area: 1/1/-1/-1;
     position: absolute;
     width: 100%;
     transform: translateY(-53%);
@@ -20,7 +20,7 @@
   }
 
   .footerBgOverlay {
-    grid-area: 1/1/3/4;
+    grid-area: 1/1/-1/-1;
     position: absolute;
     top: 0;
     left: 0;
@@ -60,6 +60,13 @@
 
   & p {
     margin: 0;
+    line-height: 100%;
+
+    &:first-line{
+      font-weight: bold;
+      line-height: 200%
+
+    }
   }
 }
 
@@ -76,8 +83,31 @@
   align-items: center;
 }
 
+.addressCol2 {
+  font-size: 1.2rem;
+  grid-area: addressCol2;
+  width: 300px;
+
+  padding: 75px 0 25px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.addressCol>div:first-of-type,.addressCol2>div:first-of-type{
+  &:first-line{
+    font-weight: bold;
+    line-height: 200%
+
+  }
+
+}
+
 // Form
 .form {
+  grid-area: form;
+
   overflow: hidden;
   padding: 50px 100px 0 100px;
   display: grid;

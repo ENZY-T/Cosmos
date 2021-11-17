@@ -23,7 +23,7 @@
   justify-content: space-between;
 
   .navLeft {
-    width: 30%;
+    width: auto;
     height: 75px;
     display: flex;
     justify-content: flex-start;
@@ -53,12 +53,13 @@
       h3{
         margin: 0;
         font-weight: 600;
-        font-size: 1.7rem;
+        font-size: 0.95rem;
         font-family: 'Montserrat', sans-serif;
 
         span{
           font-weight: 900;
-          color: var(--secondaryText-Green);
+          font-size: 3rem;
+          color: #dedcdc;
           background-color: var(--secondaryText-Green-Trans);
           border-radius: 3px;
           padding: 0 15px
@@ -71,7 +72,8 @@
 
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-end;
+    flex: 1;
 
     .searchWrapper {
       font-size: large;
@@ -98,7 +100,6 @@
     display: flex;
     flex-direction: row-reverse;
     align-items: flex-start;
-    flex: 1;
 
     .userName {
       justify-self: flex-start;

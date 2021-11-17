@@ -82,7 +82,6 @@ export const teamCrew: IPerson[] = [
     name: 'Bhagya Gunarathna',
     position: 'Assistant Engineer',
     avatar: imgAssistEng,
-    twitter: 'https://twitter.com/UmeshanUC',
   },
 ]
 

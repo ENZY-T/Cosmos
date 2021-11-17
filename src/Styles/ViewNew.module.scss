@@ -3,7 +3,7 @@
   min-height: 140vh;
   display: grid;
   //grid-template: 50px auto 450px 6fr/150px 150px 1fr 150px 150px;
-  grid-template: 0px 450px 160px 350px minmax(450px, auto) / repeat(12, 1fr);
+  grid-template: 0px 450px 60px 350px minmax(450px, auto) / repeat(12, 1fr);
   //backdrop-filter: blur(100px);
 
   color: var(--globalCream);
@@ -16,6 +16,21 @@
   > a {
     grid-area: 2/5/3/6;
     margin: auto;
+  }
+
+
+  //Title
+  & > h2 {
+    grid-area: 2/1/3/-1;
+
+    z-index: 1200;
+    color: #ffffff;
+    line-height: 3;
+    font-family: 'roboto', sans-serif;
+    font-size: 3rem;
+    align-self: center;
+    text-align: center;
+    backdrop-filter: brightness(0.5);
   }
 
   //Gallery
@@ -50,19 +65,6 @@
       stroke: var(--primaryText-color);
       stroke-width: 4px;
     }
-  }
-
-  //Title
-  & > h2 {
-    grid-area: 3/2/4/7;
-    margin-top: 40px;
-
-    color: #2d373c;
-    line-height: 1.5;
-    font-family: 'roboto', sans-serif;
-    font-size: 2.2rem;
-    align-self: center;
-    text-align: left;
   }
 
   //Inline-Gallery

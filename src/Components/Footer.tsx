@@ -21,7 +21,7 @@ const Footer = () => {
             <div className={Classes.footerBgOverlay}/>
 
             <div className={Classes.contactIconCol}>
-                <a title='Click to make a cellular call' href='tel:+94%2077%200533845'>
+                <a title='Click to make a cellular call' href={`tel:${contactDetails.tele}`}>
                     <i className='fas fa-phone-alt'/>
                 </a>
                 <p>{contactDetails.tele}</p>

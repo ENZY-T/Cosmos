@@ -140,7 +140,7 @@ const AdminForm = (props: IProps) => {
           {/* Title */}
           <input
             type='text'
-            placeholder='Title'
+            placeholder='Tit`le'
             required
             autoFocus
             onChange={(e) => setTitle(e.target.value)}></input>

@@ -17,7 +17,7 @@ export const ThirdPartyLogins = (props: { setSuccess?: (success: boolean) => voi
                     googleLogin((r as GoogleLoginResponse).tokenId, dispatch, props.setSuccess)
                 }}
                 onFailure={error => {
-                    console.log(error.message.toString())
+                    console.log(error.message?.toString())
                     props.setSuccess && props.setSuccess(false)
                 }}/>
         </div>

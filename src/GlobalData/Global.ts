@@ -72,7 +72,7 @@ export const teamCrew: IPerson[] = [
   },
   {
     name: 'U. Weerasekara',
-    position: 'IOT Engineer',
+    position: 'IOT Engineer(Undergraduate)',
     avatar: imgIotEng,
     twitter: 'https://twitter.com/UmeshanUC',
     fb: 'https://www.facebook.com/umeshan.weerasekara',

@@ -10,6 +10,12 @@
   background-color: var(--secondary-bg-color-dark);
 
   padding: 140px;
+
+  @media screen and(max-width: 768px){
+    padding: 10%;
+    flex-direction: column;
+    align-items: center;
+  }
 }
 
 .title {

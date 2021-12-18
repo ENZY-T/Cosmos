@@ -17,7 +17,7 @@ const XList = (props: { list: string[], className?:string }) => {
 
             {props.list.map((item, pos,list) => (
                 <>
-                    <HashLink smooth to='/#our_services'>
+                    <HashLink className={'xList'} smooth to='/#our_services'>
                     <ListItem key={pos} sx={{borderRadius: '4px'}} button>
                         <ListItemAvatar>
                             <ArticleIcon fontSize="large"/>

@@ -35,3 +35,9 @@
     float: right;
   }
 }
+
+@media screen and (max-width: 768px) {
+  .nav-masthead{
+    flex-direction: row!important;
+  }
+}

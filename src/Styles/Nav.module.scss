@@ -41,7 +41,7 @@
       }
     }
 
-    .nameBanner{
+    .nameBanner {
       height: 75px;
       border-radius: 4px;
       margin-left: 10px;
@@ -50,13 +50,13 @@
       align-items: center;
       justify-content: center;
 
-      h3{
+      h3 {
         margin: 0;
         font-weight: 600;
         font-size: 0.95rem;
         font-family: 'Montserrat', sans-serif;
 
-        span{
+        span {
           font-weight: 900;
           font-size: 3rem;
           color: #dedcdc;
@@ -107,15 +107,56 @@
       align-items: center;
       margin-right: 20px;
       height: 100%;
+      align-self: center;
     }
 
-    .navBtnWrapper{
+    .navBtnWrapper {
       display: flex;
       flex-direction: row;
       justify-content: flex-end;
       align-self: center;
       flex: 1;
       padding: 0 50px;
+    }
+  }
+}
+
+@media screen and(max-width: 768px) {
+  .navBar {
+    position: relative;
+    height: auto;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+
+    .bgLayer {
+      height: 100%;
+      background-color: rgb(51, 51, 51);
+    }
+
+    > * {
+      width: 100% !important;
+      justify-content: center!important;
+      margin-bottom: 20px;
+      min-height: 80px;
+
+    }
+
+    .navMid {
+      justify-content: center;
+
+      .btnTopTelLink {
+        width: 50%;
+
+        .btnTopTel{
+          width: 100%;
+          height: 50px;
+        }
+      }
+    }
+
+    .navBtnWrapper{
+      flex: unset!important;
     }
   }
 }

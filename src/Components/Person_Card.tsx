@@ -4,11 +4,11 @@ import {IPerson} from "../Services/Dtos";
 
 const PersonCard = (props: { person:IPerson }) => {
     return (
-        <div className={`row gx-5 ${Classes.personCard}`} >
+        <div className={`row justify-content-center gx-5 ${Classes.personCard}`} >
             <div className="col align-self-center">
                 <img src={props.person.avatar} alt="Person" className={`person ${Classes.avatar}`} />
             </div>
-            <div className="col-auto align-self-center text-left">
+            <div className=" col-auto align-items-center align-self-center text-left">
                 <h3>{props.person.name}</h3>
                 <p>{props.person.position}</p>
                 <ul className="navbar-nav social share-list ml-auto">

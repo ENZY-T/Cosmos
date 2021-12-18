@@ -43,7 +43,7 @@ const StaticPageHost = () => {
                 {titleJsx()}
             </section>
 
-            <XLayout2Col>
+            <XLayout2Col className={'layout-2-col'}>
                 {{
                     col1:
                         <Switch>
@@ -51,7 +51,7 @@ const StaticPageHost = () => {
                             <Route path={`${match.url}/contactus`} component={ContactUs}/>
                             <Route path={`${match.url}/gallery`} component={Gallery}/>
                         </Switch>,
-                    col2: <XList list={globalCosmos.services}/>
+                    col2: <XList list={globalCosmos.services} className={'list'}/>
                 }}
             </XLayout2Col>
 

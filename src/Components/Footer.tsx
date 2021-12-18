@@ -52,8 +52,8 @@ const Footer = () => {
                     {contactDetails.addressLab.district} <br/>
                     {contactDetails.addressLab.country} <br/>
                 </div>
-                <div>{contactDetails.email2}</div>
-                <div>{contactDetails.tele2}</div>
+                {/*<div>{contactDetails.email2}</div>*/}
+                {/*<div>{contactDetails.tele2}</div>*/}
             </div>
             {/*    <hr/>*/}
 

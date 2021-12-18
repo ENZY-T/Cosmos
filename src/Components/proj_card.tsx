@@ -8,13 +8,14 @@ interface IProps {
     title: string
     cover: string
     tagline: string
+    styles?: React.CSSProperties
 }
 
 const ProjCard = (props: IProps) => {
 
     return (
         //Link to the View page
-        <Link to={`/projects/${props.id}`}>
+        <Link style={props.styles} className={`Classes.wrapper`} to={`/projects/${props.id}`}>
             <div className={`${Classes.projCard}`}>
                 {/*Image*/}
                 <img className={Classes.cover} src={serverUrl + props.cover} alt=''/>

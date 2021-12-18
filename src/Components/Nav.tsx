@@ -42,13 +42,13 @@ const Nav = () => {
                 </div>
             </div>
             <div className={Classes.navMid}>
-                <XButton invisible={!globalSettings.isPurchaseOpen}>Purchase</XButton>
+                {/*<XButton invisible={!globalSettings.isPurchaseOpen}>Purchase</XButton>*/}
                 {/*<div className={Classes.searchWrapper}>*/}
                 {/*    <i className='fas fa-search'/>*/}
                 {/*</div>*/}
                 {/*Call Me Button*/}
-                <a href={`tel:${contactDetails.tele}`}>
-                    <XButton invisible={false}>{contactDetails.tele}</XButton>
+                <a className={Classes.btnTopTelLink} href={`tel:${contactDetails.tele}`}>
+                    <XButton className={Classes.btnTopTel} invisible={false}>{contactDetails.tele}</XButton>
                 </a>
             </div>
             <div className={Classes.navRight}>

@@ -36,7 +36,7 @@ const NavMenu = () => {
   }
 
   return (
-    <nav className='nav nav-masthead justify-content-center'>
+    <nav className={`nav nav-masthead justify-content-center`}>
       <Link to='/' className={`nav-link ${navLinkStatus.home}`}>
         Home
       </Link>

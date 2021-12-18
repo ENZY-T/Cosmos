@@ -30,8 +30,8 @@ const RelatedProjects = () => {
     return (
         <>
             {relates.map(item => {
-                return <div style={{transform:'scale(0.75)'}} >
-                    <ProjCard id={item.id}
+                return <div style={{transform:'scale(0.65)'}} >
+                    <ProjCard id={item.id} key={item.id}
                               title={item.title}
                               cover={item.mediaURIs[0]}
                               tagline={item.tagline}

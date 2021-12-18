@@ -73,4 +73,14 @@
   .container, .taglines {
     flex-direction: column;
   }
+
+  .container{
+    *{
+      width: 100%!important;
+    }
+  }
+
+  .main{
+    padding: 0!important;
+  }
 }

@@ -179,7 +179,8 @@
 
 @media screen and (max-width: 768px) {
   .view {
-    grid-template: 0px 450px 0px 350px 150px auto / repeat(12, 1fr);
+    display: grid;
+    grid-template: 0px 450px 100px 350px auto auto / repeat(12, 1fr);
 
     > .gallery {
       aspect-ratio: 64/35;
@@ -187,15 +188,18 @@
 
     .content {
       margin-top: 50px;
-      grid-area: 5/2/6/-2;
-    }
-
-    .text{
-      margin-bottom: 75px;
+      grid-area: 5/2/-2/-2;
     }
 
     .relatesSpace{
       flex-direction: column!important;
+
+    }
+
+    .relates{
+      grid-area: 7/1/-1/-1;
+      margin-top: 50px;
+
     }
   }
 }

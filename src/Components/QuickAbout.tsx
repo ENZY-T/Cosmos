@@ -17,7 +17,7 @@ const QuickAbout = (props: IProps) => {
         <div className={Classes.container}>
             <div className={Classes.main}>
                 {props.children ? props.children.header
-                    : (<h2><span>COSMOS</span> Automation Systems</h2>)
+                    : (<h2><span>COSMOS<br/></span> Automation Systems</h2>)
                 }
                 <p>
                     COSMOS Automation (Pvt) Ltd., we serve total community for the engineering solution

@@ -136,10 +136,29 @@
 
     > * {
       width: 100% !important;
-      justify-content: center!important;
+      //justify-content: center!important;
       margin-bottom: 20px;
       min-height: 80px;
 
+    }
+
+    .navLeft{
+      margin: 0;
+      .navbar_brand{
+        img{
+          margin: 5px;
+          height: 60px;
+        }
+      }
+
+      h3{
+        font-size: xx-small!important;
+        font-weight: normal!important;
+
+        span{
+          font-size: xx-large!important;
+        }
+      }
     }
 
     .navMid {
@@ -153,6 +172,9 @@
           height: 50px;
         }
       }
+    }
+
+    .navRight{
     }
 
     .navBtnWrapper{

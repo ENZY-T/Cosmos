@@ -24,8 +24,6 @@
     border-radius: 3px;
   }
 
-
-
   ul{
     font-size: 1.2rem;
     flex-direction: row;
@@ -33,7 +31,6 @@
 
     li{
       padding-right: 10px;
-
     }
 
     .navLink {
@@ -49,6 +46,30 @@
         cursor: pointer;
         color: #dedcdc !important;
         background-color: rgba(255, 255, 255, 0.15);
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .personCard{
+    margin: 20px 0;
+    width: 50%;
+
+    .avatar{
+      margin-bottom: 10px;
+    }
+    p,h3{
+      text-align: center;
+      font-size: 85%;
+    }
+
+    ul{
+      font-size: 1rem;
+      justify-content: center;
+
+      >li{
+        padding-right: 2%!important;
       }
     }
   }

@@ -16,7 +16,7 @@ const About = () => {
         <QuickAbout>
           {{
             header: (
-              <HeadingGreenBoxed titleGreen={'Who'} titleRaw={'We Are'} />
+              <HeadingGreenBoxed titleGreen={'Who'} titleRaw={'We Are'} className={'fontSize-onMobile rem-2_2'}/>
             ),
           }}
         </QuickAbout>

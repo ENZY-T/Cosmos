@@ -22,14 +22,15 @@
     >h2{
       margin: 1.5rem 0 2rem 0;
       font-weight: 700;
-      font-size: 3rem;
+      font-size: 1.5rem;
       font-family: 'Poppins', sans-serif;
 
       >span{
         color: var(--secondaryText-Green);
         background-color: var(--secondaryText-Green-Trans);
         border-radius: 3px;
-        padding: 0 15px
+        padding: 0 15px;
+        font-size: 2.5rem;
       }
     }
   }
@@ -40,7 +41,7 @@
     flex-wrap: wrap;
 
     h4{
-      font-size: 1.5rem;
+      font-size: 1.2rem;
       font-weight: 700;
       line-height: 1.2;
       margin: 24px 0;
@@ -77,6 +78,7 @@
   .container{
     *{
       width: 100%!important;
+      text-align: center;
     }
   }
 

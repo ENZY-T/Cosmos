@@ -78,12 +78,12 @@ p {
 
   /*Misc*/
   --globalBoxShadow: rgba(0, 0, 0, 0.16) 0px 3px 6px,
-    rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  rgba(0, 0, 0, 0.23) 0px 3px 6px;
   --globalBoxShadow_Hover: rgba(0, 0, 0, 0.19) 0px 10px 20px,
-    rgba(0, 0, 0, 0.23) 0px 6px 6px;
+  rgba(0, 0, 0, 0.23) 0px 6px 6px;
   --globalBoxShadowLight: 0 1px 2px 0px rgba(178, 183, 183, 0.45);
   --globalBoxShadowDark: 0px 2px 4px -1px rgba(0 0 0 0.2),
-    0px 4px 5px 0px rgba(0 0 0 0.14), 0px 1px 10px 0px rgba(0 0 0 0.12);
+  0px 4px 5px 0px rgba(0 0 0 0.14), 0px 1px 10px 0px rgba(0 0 0 0.12);
   --globalBoxShadowLight_Clicked: inset 0 -2px 6px 2px rgba(0, 0, 0, 0.39);
   --globalBoxShadowLight_Hover: 0 2px 6px 2px rgba(178, 183, 183, 0.2);
   --globalBorderRadius: 6px;
@@ -154,21 +154,31 @@ a {
   transform: translate(-50%, -50%);
 }
 
-.hw-100{
+.hw-100 {
   height: 100%;
   width: 100%;
 }
 
-.font-poppin-3-center-dark{
+.font-poppin-3-center-dark {
   font-family: 'Poppins', sans-serif;
   font-size: 3rem;
   color: #1c1c1c;
   text-align: center;
 }
 
-.flex-row{
+.flex-row {
   display: flex;
   flex-direction: row;
 }
+
+@media screen and (max-width: 768px) {
+  .fontSize-onMobile {
+    &.rem-2_2 {
+      font-size: 2.2rem !important;
+    }
+  }
+
+}
+
 /*endregion*/
 

@@ -160,14 +160,34 @@
 }
 
 @media screen and(max-width: 768px) {
-  .articleWrapper {
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr;
-
+  .article {
     max-height: unset;
-    height: auto;
-    *{
-      position: relative;
+
+    .articleWrapper {
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr auto;
+
+      max-height: unset;
+      height: auto;
+
+      * {
+        position: relative;
+      }
+
+      .textWrapper {
+        .title {
+          padding-top: 50px;
+          margin-top: 50px;
+          border-top: rgb(222, 220, 220);
+          border-top-style: solid;
+          border-top-width: 1px;
+          font-size: 1.5rem;
+        }
+
+        .tagline {
+          font-size: 1.1rem;
+        }
+      }
     }
   }
 }

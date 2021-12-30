@@ -18,13 +18,13 @@
   .main {
     padding: 0 35px;
 
-    >h2{
+    > h2 {
       margin: 1.5rem 0;
       font-weight: 700;
       font-size: 3rem;
       font-family: 'Poppins', sans-serif;
 
-      >span{
+      > span {
         color: var(--secondaryText-Green);
         background-color: var(--secondaryText-Green-Trans);
         border-radius: 3px;
@@ -38,7 +38,7 @@
     flex-direction: row;
     flex-wrap: wrap;
 
-    h4{
+    h4 {
       text-align: center;
       font-size: 1.5rem;
       font-weight: 600;
@@ -64,8 +64,19 @@
   .container, .taglines {
     flex-direction: column;
 
-    >div{
+    > div {
       width: 100%;
+    }
+
+  }
+
+  .container{
+    h2 {
+      font-size: 2.5rem!important;
+    }
+
+    h4{
+      font-size: 1.25rem!important;
     }
   }
 }

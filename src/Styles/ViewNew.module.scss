@@ -3,15 +3,15 @@
   min-height: 140vh;
   display: grid;
   //grid-template: 50px auto 450px 6fr/150px 150px 1fr 150px 150px;
-  grid-template: 0px 450px 60px 350px minmax(450px, auto) / repeat(12, 1fr);
+  grid-template: 0 450px 60px 350px minmax(450px, auto) / repeat(12, 1fr);
   //backdrop-filter: blur(100px);
 
   color: var(--globalCream);
 
-.adminLiveEditLink{
-  grid-area: 3/-1/4/-2;
-  align-self: flex-start;
-}
+  .adminLiveEditLink {
+    grid-area: 3/-1/4/-2;
+    align-self: flex-start;
+  }
 
   > a {
     grid-area: 2/5/3/6;
@@ -134,7 +134,7 @@
       margin: 0;
       color: var(--primaryText-color);
       padding: 10px;
-      font-family: roboto;
+      font-family: roboto, sans-serif;
 
       > span {
         background-color: var(--secondaryText-Green-Trans);
@@ -180,7 +180,16 @@
 @media screen and (max-width: 768px) {
   .view {
     display: grid;
-    grid-template: 0px 450px 100px 350px auto auto / repeat(12, 1fr);
+    grid-template: 0 auto 50px auto auto auto / repeat(12, 1fr);
+
+    .adminLiveEditLink {
+      display: none;
+    }
+
+    h2{
+      font-size: 2rem;
+      letter-spacing: 0.1rem;
+    }
 
     > .gallery {
       aspect-ratio: 64/35;
@@ -191,12 +200,12 @@
       grid-area: 5/2/-2/-2;
     }
 
-    .relatesSpace{
-      flex-direction: column!important;
+    .relatesSpace {
+      flex-direction: column !important;
 
     }
 
-    .relates{
+    .relates {
       grid-area: 7/1/-1/-1;
       margin-top: 50px;
 

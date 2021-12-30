@@ -28,8 +28,7 @@ const XLayout2Col = (props: IProps) => {
     return (
         <section className={props.className} style={styles.container}>
             <div style={styles.col1}>{props.children.col1}</div>
-            <div style={styles.col2}>{props.children.col2}</div>
-
+            <div style={styles.col2} className={'unsetMin'}>{props.children.col2}</div>
         </section>
     );
 };

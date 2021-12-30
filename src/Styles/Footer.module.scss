@@ -229,34 +229,36 @@
     'socialIcons';
     font-size: 0.8rem !important;
 
-    i{
+    i {
       font-size: 2rem;
     }
 
     .contactIconCol {
-      padding: 5%!important;
+      padding: 5% !important;
 
-      >i {
+      > i {
         margin-left: 40px;
       }
     }
 
     .contactIconCol, .addressCol1 {
       justify-content: space-between !important;
-      padding: 5%!important;
+      padding: 5% !important;
+      padding-top: 10%!important;
+
     }
 
-    div,p{
+    div, p {
       font-size: 0.8rem !important;
     }
 
-    .addressCol{
-      padding: 5%!important;
+    .addressCol {
+      padding: 5% !important;
     }
 
     .addressCol2 {
       justify-content: center !important;
-      padding: 5%!important;
+      padding: 5% !important;
     }
 
     h1 {
@@ -285,14 +287,14 @@
   .form {
     padding: 5% !important;
 
-    button{
+    button {
       width: 80%;
       height: 50px;
     }
   }
 
-  .socialIcons{
-    padding: 5%!important;
+  .socialIcons {
+    padding: 5% !important;
   }
 
 }

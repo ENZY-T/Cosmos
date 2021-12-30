@@ -191,6 +191,18 @@ a {
     }
   }
 
+  .containerMargin-onMobile{
+    margin: 5% !important;
+  }
+
+  .containerPadding-onMobile{
+    padding: 5% !important;
+  }
+
+  .unsetMin{
+    min-height: unset!important;
+    min-width: unset!important;
+  }
 }
 
 /*endregion*/

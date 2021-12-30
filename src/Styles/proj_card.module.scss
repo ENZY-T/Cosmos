@@ -20,10 +20,6 @@ $clrText_Hover: azure;
   align-items: center;
   justify-content: space-evenly;
 
-  @media screen and (max-width: 768px) {
-    aspect-ratio: 4/3;
-    width: 100%;
-  }
 
   &:hover {
     color: $clrText_Hover;
@@ -116,5 +112,10 @@ $clrText_Hover: azure;
     width: 100% !important;
     border-radius: 6px;
 
+  }
+  .projCard {
+    margin: 0 !important;
+    aspect-ratio: 4/3;
+    width: 100%;
   }
 }

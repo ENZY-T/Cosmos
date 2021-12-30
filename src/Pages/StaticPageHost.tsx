@@ -43,7 +43,7 @@ const StaticPageHost = () => {
                 {titleJsx()}
             </section>
 
-            <XLayout2Col className={'layout-2-col'}>
+            <XLayout2Col className={'layout-2-col containerPadding-onMobile'}>
                 {{
                     col1:
                         <Switch>

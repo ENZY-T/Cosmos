@@ -4,6 +4,9 @@ import { HashLink } from 'react-router-hash-link';
 import {Avatar, Divider, List, ListItem, ListItemAvatar, ListItemText} from "@mui/material";
 
 const XList = (props: { list: string[], className?:string }) => {
+
+
+
     return (
         <List className={props.className}
             sx={{

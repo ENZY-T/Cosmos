@@ -197,7 +197,7 @@
 
     .content {
       margin-top: 50px;
-      grid-area: 5/2/-2/-2;
+      grid-area: 5/1/-2/-1;
     }
 
     .relatesSpace {
@@ -208,7 +208,7 @@
     .relates {
       grid-area: 7/1/-1/-1;
       margin-top: 50px;
-
+      padding: 5%;
     }
   }
 }

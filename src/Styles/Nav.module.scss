@@ -182,3 +182,12 @@
     }
   }
 }
+
+@media screen and(max-width: 768px){
+  .navRight,.navMid{
+    justify-content: center;
+    min-height: unset;
+  }
+
+
+}

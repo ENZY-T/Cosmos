@@ -234,6 +234,8 @@
     }
 
     .contactIconCol {
+      padding: 5%!important;
+
       >i {
         margin-left: 40px;
       }
@@ -241,15 +243,20 @@
 
     .contactIconCol, .addressCol1 {
       justify-content: space-between !important;
+      padding: 5%!important;
     }
 
     div,p{
       font-size: 0.8rem !important;
+    }
 
+    .addressCol{
+      padding: 5%!important;
     }
 
     .addressCol2 {
       justify-content: center !important;
+      padding: 5%!important;
     }
 
     h1 {
@@ -276,12 +283,16 @@
   }
 
   .form {
-    padding: 0 50px 0 !important;
+    padding: 5% !important;
 
     button{
       width: 80%;
       height: 50px;
     }
+  }
+
+  .socialIcons{
+    padding: 5%!important;
   }
 
 }

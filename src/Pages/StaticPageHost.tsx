@@ -6,7 +6,7 @@ import '../Styles/StaticHost.scss'
 import coverImg from '../img/cover_about.jpg'
 import Gallery from "./Gallery";
 import {StaticHostContext} from "../Context/StaticHostContext";
-import Heading_greenBoxed from "../Components/StyledComponents/Heading_greenBoxed";
+import HeadingGreenBoxed from "../Components/StyledComponents/Heading_greenBoxed";
 import XLayout2Col from "../Components/StyledComponents/XLayout_2Col";
 import XList from "../XList";
 import {globalCosmos} from "../GlobalData/Global";
@@ -27,11 +27,11 @@ const StaticPageHost = () => {
             //     return (<><span>Gallery</span></>)
 
             case 'about':
-                return (<Heading_greenBoxed titleGreen={'About'} titleRaw={'Us'} className={'ab-center'}/>)
+                return (<HeadingGreenBoxed titleGreen={'About'} titleRaw={'Us'} className={'ab-center fontSize-onMobile rem-2_5 w-100'}/>)
             case 'gallery':
-                return (<Heading_greenBoxed titleGreen={'Gallery'} className={'ab-center'}/>)
+                return (<HeadingGreenBoxed titleGreen={'Gallery'} className={'ab-center fontSize-onMobile rem-2_5 w-100'}/>)
             case 'contactus':
-                return (<Heading_greenBoxed titleGreen={'Contact'} titleRaw={'Us'} className={'ab-center'}/>)
+                return (<HeadingGreenBoxed titleGreen={'Contact'} titleRaw={'Us'} className={'ab-center fontSize-onMobile rem-2_5 w-100'}/>)
         }
     }
 

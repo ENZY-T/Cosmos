@@ -28,7 +28,7 @@ const IProfileIcon = styled.i`
 `
 
 
-const MenuProfile = () => {
+const MenuProfile = (props:{className?:string}) => {
     //should have for: loggedState and pass it to adminPanel Button & profile icons
     // const [thisNode, setThisNode] = useState<HTMLElement | null>(null);
     const [profileClicked, setProfileClicked] = useState(false)
@@ -113,7 +113,7 @@ const MenuProfile = () => {
     }
 
     return (
-        <div ref={wrapperNode} className={`${profileClicked ? Classes.profileClicked : Classes.profile}`}>
+        <div ref={wrapperNode} className={`${profileClicked ? Classes.profileClicked : Classes.profile} ${props?.className?.toString()}`}>
             {userIcon(false)}
             {profileClicked ? menuState_Clicked(loggedState) : null}
         </div>

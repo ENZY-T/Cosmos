@@ -85,7 +85,7 @@ const Nav = () => {
                 </a>
             </div>
             <div className={`${Classes.navRight} ${burgBtnState.hideInMobile}`}>
-                <MenuProfile/>
+                <MenuProfile className={'is-hidden-mobile'}/>
                 <div className={Classes.userName}>
                     {loggedState ? `Hi, ${loggedUser?.fName}` : 'Guest'}
                 </div>

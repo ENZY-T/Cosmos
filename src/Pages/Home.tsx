@@ -1,21 +1,21 @@
-import React, { useContext } from 'react'
-import { useDispatch } from 'react-redux'
-import { Dispatch } from 'redux'
-import ArticleSpace from '../Components/article_space'
-import ProjSpace from '../Components/proj_space'
-import { INavActionTypes, setShowNav } from '../Store/NavState'
-import Classes from '../Styles/Home.module.scss'
-import QuickAbout from '../Components/QuickAbout'
-import TeamSpace from '../Components/Team_Space'
-import Mission from '../Components/Mission'
-import { StaticHostContext } from '../Context/StaticHostContext'
+import React, { useContext } from 'react';
+import { useDispatch } from 'react-redux';
+import { Dispatch } from 'redux';
+import ArticleSpace from '../Components/article_space';
+import ProjSpace from '../Components/proj_space';
+import { INavActionTypes, setShowNav } from '../Store/NavState';
+import Classes from '../Styles/Home.module.scss';
+import QuickAbout from '../Components/QuickAbout';
+import TeamSpace from '../Components/Team_Space';
+import Mission from '../Components/Mission';
+import { StaticHostContext } from '../Context/StaticHostContext';
 
 const Home = () => {
-  useDispatch<Dispatch<INavActionTypes>>()(setShowNav())
+  useDispatch<Dispatch<INavActionTypes>>()(setShowNav());
 
   //region Use Context
-  const { setActivePage } = { ...useContext(StaticHostContext) }
-  setActivePage?.('home')
+  const { setActivePage } = { ...useContext(StaticHostContext) };
+  setActivePage?.('home');
   //endregion
 
   return (
@@ -28,7 +28,7 @@ const Home = () => {
         </div>
         <div className={Classes.mainTitle}>
           <p>COSMOS</p>
-          <p>ENGINEERING SOLUTIONS</p>
+          <p>Automation Systems (Pvt) Ltd.</p>
         </div>
         <div className={Classes.subTitle}>
           <span>
@@ -49,14 +49,14 @@ const Home = () => {
       {/*<div className={Classes.textContent}>*/}
       {/*    <p></p>*/}
       {/*</div>*/}
-        <ProjSpace />
-        <Mission />
-        {/*<div className={Classes.textContent}>*/}
-        {/*    <p></p>*/}
-        {/*</div>*/}
-        <TeamSpace />
+      <ProjSpace />
+      <Mission />
+      {/*<div className={Classes.textContent}>*/}
+      {/*    <p></p>*/}
+      {/*</div>*/}
+      <TeamSpace />
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

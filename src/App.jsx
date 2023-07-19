@@ -1,8 +1,8 @@
 import React, {useEffect} from 'react'
 import './App.scss'
 import axios from 'axios'
-import {setUser} from './Store/Slices/UserSlice'
-import {useDispatch} from 'react-redux'
+import {setIsLogged, setUser} from './Store/Slices/UserSlice'
+import {useDispatch, useSelector} from 'react-redux'
 import Nav from './Components/Nav'
 import {BrowserRouter, Switch} from 'react-router-dom'
 import Register from './Components/Register'
@@ -18,14 +18,11 @@ import ViewNew from './Pages/ViewNew'
 import LiveEditorNew from './Pages/Live-Editor-New'
 import StaticPageHost from './Pages/StaticPageHost'
 import StaticHostContextProvider from './Context/StaticHostContext'
-import {useSelector} from 'react-redux'
-import {navState} from "./Store/Slices/AppStateSlice";
-import {setIsLogged} from "./Store/Slices/UserSlice";
 
 function App() {
     //Hooks
-    const isUserLogged = useSelector(state=>state.userState.isLogged)
-    const loggedUser = useSelector(state=>state.userState.user)
+    const isUserLogged = useSelector(state => state.userState.isLogged)
+    const loggedUser = useSelector(state => state.userState.user)
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -34,10 +31,14 @@ function App() {
             await axios
                 .get(serverUrl + '/api/auth/user', {withCredentials: true})
                 .then((res) => {
-                    res.status === 200 &&
-                    dispatch(setIsLogged(true)) &&
-                    dispatch(setUser(res.data))
-                }).catch(err=>{
+                    if (res.status === 200) {
+                        dispatch(setIsLogged(true))
+                        dispatch(setUser(res.data))
+                    } else {
+                        dispatch(setIsLogged(false))
+                    }
+                }).catch(err => {
+                    dispatch(setIsLogged(false))
 
                 }))()
         // eslint-disable-next-line react-hooks/exhaustive-deps

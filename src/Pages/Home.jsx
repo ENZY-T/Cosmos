@@ -36,7 +36,9 @@ const Home = () => {
 
     //region Use Context
     const {setActivePage} = {...useContext(StaticHostContext)};
-    setActivePage?.('home');
+    useEffect(()=>{
+        setActivePage?.('home')
+    },[])
     //endregion
 
     return (<div className={Classes.HomeWrapper}>

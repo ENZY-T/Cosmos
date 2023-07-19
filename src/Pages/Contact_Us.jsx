@@ -1,10 +1,12 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {StaticHostContext} from "../Context/StaticHostContext";
 
 const ContactUs = () => {
     //region useContext
     const {setActivePage} = {...useContext(StaticHostContext)}
-    setActivePage?.('contactus')
+    useEffect(()=>{
+        setActivePage?.('contactus')
+    },[])
     //endregion
 
     return (

@@ -35,7 +35,6 @@ function App() {
                 .get(serverUrl + '/api/auth/user', {withCredentials: true})
                 .then((res) => {
                     res.status === 200 &&
-                        alert('hit')
                     dispatch(setIsLogged(true)) &&
                     dispatch(setUser(res.data))
                 }).catch(err=>{

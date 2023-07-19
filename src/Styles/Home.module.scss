@@ -1,0 +1,95 @@
+.homeWrapper {
+}
+
+.cover {
+  width: auto;
+  height: 80vh;
+  position: relative;
+  z-index: 200;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.background {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background: url('../img/bg4.jpg') fixed center no-repeat;
+  background-size: cover;
+  // filter: blur(6px);
+  // filter: brightness(200%);
+  z-index: -400;
+}
+
+.overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  opacity: 0.4;
+  z-index: -200;
+}
+
+.mainTitle {
+  margin-top: 20vh;
+  margin-left: 10vw;
+  font-weight: 500;
+  font-size: 2.3rem;
+  text-align: left;
+
+  & > p {
+    color: #00a6a6;
+    line-height: 100%;
+    margin: 0;
+  }
+
+  & > p:first-of-type {
+    font-family: 'Advent Pro', sans-serif;
+    font-size: 9rem;
+    font-weight: 700;
+  }
+}
+
+.subTitle {
+  margin-top: 10vh;
+  margin-left: 10vw;
+  font-size: 20px;
+  font-weight: 300;
+  color: #eccaab;
+
+  & > * > * {
+  }
+}
+
+.textContent {
+  //background-color: var(--section-4-bg-color);
+  color: var(--primaryText-Dark);
+  font-size: 1.3rem;
+  font-weight: 500;
+  padding: 130px 150px;
+  text-align: justify;
+}
+
+@media screen and (max-width: 768px) {
+  .mainTitle{
+    margin-left: auto;
+    margin-right: auto;
+    >p{
+      font-size: 1.27rem;
+    }
+    >p:first-of-type{
+      text-align: center;
+      font-size: 5rem!important;
+    }
+  }
+
+  .subTitle{
+    font-size: 1rem;
+    margin-left: auto!important;
+    margin-right: auto!important;
+    text-align: center;
+
+  }
+}

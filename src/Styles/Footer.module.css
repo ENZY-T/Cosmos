@@ -1,0 +1,233 @@
+.footer {
+  overflow: hidden;
+  height: 350px;
+  display: grid;
+  grid-template: 1fr 45px/2fr 2fr 2fr 4fr;
+  grid-template-areas: "contactIconCol addressCol addressCol2 form" ". . . socialIcons";
+}
+.footer * {
+  color: var(--globalCream);
+}
+.footer .footerBgImage {
+  grid-area: 1/1/-1/-1;
+  position: absolute;
+  width: 100%;
+  transform: translateY(-53%);
+  filter: blur(6px);
+}
+.footer .footerBgOverlay {
+  grid-area: 1/1/-1/-1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: #000000;
+  opacity: 0.8;
+}
+
+.contactIconCol {
+  grid-area: contactIconCol;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 75px 50px 25px 100px;
+  text-align: center;
+}
+.contactIconCol i {
+  font-size: 3rem;
+}
+.contactIconCol i:hover:first-of-type {
+  color: azure;
+  cursor: pointer;
+  transform: scale(1.04, 1.04);
+}
+.contactIconCol p {
+  margin: 0;
+  line-height: 100%;
+}
+.contactIconCol p:first-line {
+  font-weight: bold;
+  line-height: 200%;
+}
+
+.addressCol {
+  font-size: 1.2rem;
+  grid-area: addressCol;
+  width: 300px;
+  padding: 75px 0 25px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.addressCol2 {
+  font-size: 1.2rem;
+  grid-area: addressCol2;
+  width: 300px;
+  padding: 75px 0 25px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.addressCol > div:first-of-type:first-line, .addressCol2 > div:first-of-type:first-line {
+  font-weight: bold;
+  line-height: 200%;
+}
+
+.form {
+  grid-area: form;
+  overflow: hidden;
+  padding: 50px 100px 0 100px;
+  display: grid;
+  grid-template: repeat(6, 1fr)/repeat(2, 1fr);
+  justify-items: center;
+  align-items: center;
+}
+.form > *:nth-child(1) {
+  grid-area: 1/1/2/3;
+  font-weight: 800;
+  margin: 0;
+}
+.form > *:nth-child(2) {
+  grid-area: 2/1/3/4;
+  margin: 0;
+  align-self: flex-start;
+}
+.form input,
+.form textarea {
+  color: var(--globalWhite);
+  border: solid 1px #6a6a6a;
+  outline: none;
+  background-color: #333333;
+  min-height: 30px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 5px;
+  resize: none;
+}
+.form textarea::placeholder,
+.form input::placeholder {
+  opacity: 0.5;
+}
+.form div {
+  grid-area: 3/1/4/3;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.form div > input {
+  border-radius: 1px;
+  outline: none;
+}
+.form textarea {
+  height: 100%;
+  grid-column: span 2;
+  grid-row: span 2;
+}
+.form button {
+  grid-column: span 2;
+  padding: 0.25em 1em;
+  border: solid 1px #6a6a6a;
+  background-color: #333333;
+  border-radius: 1px;
+  width: 200px;
+}
+.form button:hover {
+  background-color: #6a6a6a;
+}
+.form button:active {
+  background-color: #333333;
+  transition: none;
+  transform: scale(0.98, 0.98);
+}
+
+.socialIcons {
+  justify-self: stretch;
+  grid-area: socialIcons;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 2.5px 100px;
+}
+.socialIcons > a {
+  margin-left: 20px;
+  font-size: 2.5rem;
+}
+.socialIcons > a:hover {
+  cursor: pointer;
+  transform: scale(1.03, 1.03);
+}
+.socialIcons > a i:hover {
+  color: azure;
+}
+
+@media screen and (max-width: 768px) {
+  .footer {
+    height: auto;
+    justify-content: center;
+    grid-template: repeat(4, auto) 90px/1fr;
+    grid-template-areas: "contactIconCol" "addressCol" "addressCol2" "form" "socialIcons";
+    font-size: 0.8rem !important;
+  }
+  .footer i {
+    font-size: 2rem;
+  }
+  .footer .contactIconCol {
+    padding: 5% !important;
+  }
+  .footer .contactIconCol > i {
+    margin-left: 40px;
+  }
+  .footer .contactIconCol, .footer .addressCol1 {
+    justify-content: space-between !important;
+    padding: 5% !important;
+    padding-top: 10% !important;
+  }
+  .footer div, .footer p {
+    font-size: 0.8rem !important;
+  }
+  .footer .addressCol {
+    padding: 5% !important;
+  }
+  .footer .addressCol2 {
+    justify-content: center !important;
+    padding: 5% !important;
+  }
+  .footer h1 {
+    font-size: 2.5rem !important;
+  }
+  .footer .footerBgImage {
+    height: 100%;
+    width: unset;
+    object-fit: cover;
+    transform: unset;
+  }
+  .footer > div:not(.footerBgOverlay) {
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    padding: 50px 50px 0 50px;
+    width: 100%;
+    text-align: center;
+    height: auto;
+  }
+  .form {
+    padding: 5% !important;
+  }
+  .form button {
+    width: 80%;
+    height: 50px;
+  }
+  .socialIcons {
+    padding: 5% !important;
+  }
+}
+
+/*# sourceMappingURL=Footer.module.css.map */

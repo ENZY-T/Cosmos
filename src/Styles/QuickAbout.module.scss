@@ -1,0 +1,88 @@
+.container {
+  color: initial;
+  font-family: sans-serif;
+  //padding: 8.45% 9.75% 0 9.75%;
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  > div {
+    width: 50%;
+  }
+
+  p{
+    text-align: justify;
+  }
+
+  //Main
+  .main {
+    padding: 0 30px 0 0;
+
+    >h2{
+      margin: 1.5rem 0 2rem 0;
+      font-weight: 700;
+      font-size: 1.5rem;
+      font-family: 'Poppins', sans-serif;
+
+      >span{
+        color: var(--secondaryText-Green);
+        background-color: var(--secondaryText-Green-Trans);
+        border-radius: 3px;
+        padding: 0 15px;
+        font-size: 2.5rem;
+      }
+    }
+  }
+
+  .taglines {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    h4{
+      font-size: 1.2rem;
+      font-weight: 700;
+      line-height: 1.2;
+      margin: 24px 0;
+    }
+
+
+    > div {
+      width: 46%;
+      margin: 0 2% 35px 2%;
+
+    }
+
+    > div:nth-child(1) {
+
+    }
+
+    > div:nth-child(2) {
+    }
+
+    > div:nth-child(3) {
+    }
+
+    > div:nth-child(4) {
+    }
+  }
+
+}
+
+@media screen and (max-width: 768px) {
+  .container, .taglines {
+    flex-direction: column;
+  }
+
+  .container{
+    *{
+      width: 100%!important;
+      text-align: center;
+    }
+  }
+
+  .main{
+    padding: 0!important;
+  }
+}

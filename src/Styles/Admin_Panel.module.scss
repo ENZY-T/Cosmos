@@ -1,0 +1,138 @@
+.adminPanel {
+  .adminPanel_Container {
+    min-height: 100vh;
+    width: 100%;
+    overflow-x: hidden;
+
+    display: flex;
+    justify-content: left;
+    align-content: stretch;
+    color: var(--globalWhite);
+
+    /*Color Variables*/
+    --panelColor: #1d1d1d;
+    /*--bgColor: #444444;*/
+    --itemColor: #1d1d1d;
+    --itemHighColor: #424842;
+
+    p {
+      color: var(--globalWhite);
+    }
+  }
+
+  .left_Wrapper {
+    background-color: var(--panelColor);
+    height: 100vh;
+    width: 275px;
+    min-width: 275px;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+  }
+
+  .userDisplay {
+    border-radius: var(--globalBorderRadius);
+    height: 150px;
+    width: auto;
+    margin-bottom: 32px;
+    background-color: var(--panelColor);
+    border-bottom: 2px rgba(128, 128, 128, 0.15) solid;
+
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    vertical-align: center;
+  }
+
+  .userDisplay > i:first-of-type {
+    font-size: 5rem;
+    margin: 10px;
+  }
+
+  .sectionButtonWrapper {
+    --thisPadding: 50px;
+    padding: 0 var(--thisPadding) 0 var(--thisPadding);
+
+    display: flex;
+    flex-direction: column;
+  }
+
+  /*Section Buttons*/
+  .sectionButton {
+    padding: 0.25em 1em !important;
+    border: solid 1px #6a6a6a !important;
+    background-color: #333333 !important;
+    border-radius: 1px !important;
+  }
+
+  .sectionButton:hover {
+    background-color: #6a6a6a !important;
+  }
+
+  .sectionButton:active {
+    background-color: #333333 !important;
+    transition: none !important;
+    transform: scale(1.04, 1.04) !important;
+  }
+
+  .sectionBtnClicked {
+    transform: scale(1.08, 1.08) !important;
+    background-color: #6a6a6a !important;
+    color: azure !important;
+  }
+
+  /*---------------------*/
+
+  .right_Wrapper {
+    height: 100vh;
+    width: 83%;
+    background-color: var(--globalBgColor);
+
+    display: flex;
+    flex-direction: column;
+  }
+
+  .topBar {
+    background-color: var(--panelColor);
+    width: 100%;
+    height: 50px;
+
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    padding: 0 10px;
+  }
+
+  .heading {
+    font-size: 2em;
+    font-weight: 700;
+    flex: 1;
+    text-align: center;
+  }
+
+  .adminClose {
+    aspect-ratio: 1;
+    height: 30px;
+    margin: 10px;
+    border: 1px solid rgba(5, 130, 131, 0.64);
+    background-color: rgba(211, 32, 76, 0.15);
+    border-radius: 8px;
+
+    color: #a1a1a1;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .adminClose:hover {
+    background-color: rgba(206, 51, 94, 0.44);
+    cursor: pointer;
+  }
+
+  .adminClose:active {
+    opacity: 0.5;
+  }
+}

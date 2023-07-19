@@ -1,0 +1,49 @@
+.projSpace {
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: auto;
+  box-sizing: border-box;
+  height: auto;
+  background-color: var(--secondary-bg-color-dark);
+  padding: 140px;
+}
+@media screen and (max-width: 768px) {
+  .projSpace {
+    padding: 10%;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+.title {
+  color: White;
+  font-family: "Poppins", sans-serif;
+  width: 100%;
+  font-weight: 800;
+  font-size: 3rem;
+  text-align: center;
+  margin: 10px auto 150px;
+}
+.title > span {
+  border-radius: 0;
+  border: solid var(--secondaryText-Green);
+  border-width: 1px 0;
+  padding: 5px 0;
+}
+.title > span > span {
+  background-color: var(--secondaryText-Green-Trans);
+  padding: 0 10px;
+  border-radius: 4px;
+}
+
+@media screen and (max-width: 768px) {
+  .title {
+    font-size: 2.5rem;
+    margin-bottom: 50px;
+  }
+}
+
+/*# sourceMappingURL=proj_space.module.css.map */

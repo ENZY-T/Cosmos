@@ -1,0 +1,152 @@
+.navBar {
+  position: fixed;
+  z-index: 2000;
+  width: 100%;
+  height: 50px;
+  margin-top: 5px;
+  margin-bottom: -40px;
+  display: flex;
+  justify-content: space-between;
+}
+.navBar .bgLayer {
+  margin-top: -5px;
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.15);
+  width: 100%;
+  height: 60px;
+}
+.navBar .navLeft {
+  width: auto;
+  height: 75px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+.navBar .navLeft .navbar_brand img {
+  border-radius: 4px;
+  height: 75px;
+  aspect-ratio: 1/1;
+  margin-left: 10px;
+  margin-top: 5px;
+}
+.navBar .navLeft .nameBanner {
+  height: 75px;
+  border-radius: 4px;
+  margin-left: 10px;
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.navBar .navLeft .nameBanner h3 {
+  margin: 0;
+  font-weight: 600;
+  font-size: 0.95rem;
+  font-family: "Montserrat", sans-serif;
+}
+.navBar .navLeft .nameBanner h3 span {
+  font-weight: 900;
+  font-size: 3rem;
+  color: #dedcdc;
+  background-color: var(--secondaryText-Green-Trans);
+  border-radius: 3px;
+  padding: 0 15px;
+}
+.navBar .navMid {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex: 1;
+}
+.navBar .navMid .searchWrapper {
+  font-size: large;
+  opacity: 0.75;
+  transition: all 0.3s ease-in-out;
+}
+.navBar .navMid .searchWrapper:hover {
+  font-size: large;
+  opacity: 1;
+  transform: scale(1.02, 1.02);
+}
+.navBar .navMid .searchWrapper:active {
+  font-size: large;
+  opacity: 0.75;
+  transition: none;
+  transform: scale(0.98, 0.98);
+}
+.navBar .navRight {
+  width: auto;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: flex-start;
+}
+.navBar .navRight .userName {
+  justify-self: flex-start;
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+  height: 100%;
+  align-self: center;
+}
+.navBar .navRight .navBtnWrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-self: center;
+  flex: 1;
+  padding: 0 50px;
+}
+
+@media screen and (max-width: 768px) {
+  .navBar {
+    position: relative;
+    height: auto;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .navBar .bgLayer {
+    height: 100%;
+    background-color: rgb(51, 51, 51);
+  }
+  .navBar > * {
+    width: 100% !important;
+    margin-bottom: 20px;
+    min-height: 80px;
+  }
+  .navBar .navLeft {
+    margin: 0;
+  }
+  .navBar .navLeft .navbar_brand img {
+    margin: 5px;
+    height: 60px;
+  }
+  .navBar .navLeft h3 {
+    font-size: xx-small !important;
+    font-weight: normal !important;
+  }
+  .navBar .navLeft h3 span {
+    font-size: xx-large !important;
+  }
+  .navBar .navMid {
+    justify-content: center;
+  }
+  .navBar .navMid .btnTopTelLink {
+    width: 50%;
+  }
+  .navBar .navMid .btnTopTelLink .btnTopTel {
+    width: 100%;
+    height: 50px;
+  }
+  .navBar .navBtnWrapper {
+    flex: unset !important;
+  }
+}
+@media screen and (max-width: 768px) {
+  .navRight, .navMid {
+    justify-content: center;
+    min-height: unset;
+  }
+}
+
+/*# sourceMappingURL=Nav.module.css.map */

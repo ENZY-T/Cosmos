@@ -11,6 +11,7 @@ import XLayout2Col from "../Components/StyledComponents/XLayout_2Col";
 import XList from "../XList";
 import {globalCosmos} from "../GlobalData/Global";
 import ContactUs from "./Contact_Us";
+import TestPage from "./TestPage";
 
 
 const StaticPageHost = () => {
@@ -53,6 +54,7 @@ const StaticPageHost = () => {
                             <Route path={`${match.url}/about`} component={About}/>
                             <Route path={`${match.url}/contactus`} component={ContactUs}/>
                             <Route path={`${match.url}/gallery`} component={Gallery}/>
+                            {/*<Route path={`${match.url}/test`} component={TestPage}/>*/}
                         </Switch>,
                     col2: <XList list={globalCosmos.services} className={'list'}/>
                 }}

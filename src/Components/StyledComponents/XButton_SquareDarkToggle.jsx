@@ -32,8 +32,8 @@ const XButtonSquareDarkToggle = styled.button`
   }
 
   //For Clicked State
-  transform: ${(sProps) => (sProps.isClicked ? 'scale(1.08, 1.08)' : '')};
-  background-color: ${(sProps) => (sProps.isClicked ? ' #6a6a6a' : '')};
-  color: ${(sProps) => (sProps.isClicked ? 'azure' : '')};
+  transform: ${(sProps) => (sProps.isclicked = 'true' ? 'scale(1.08, 1.08)' : '')};
+  background-color: ${(sProps) => (sProps.isclicked = 'true' ? ' #6a6a6a' : '')};
+  color: ${(sProps) => (sProps.isclicked = 'true' ? 'azure' : '')};
 `
 export default XButtonSquareDarkToggle

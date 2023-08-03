@@ -5,14 +5,9 @@ import {Divider, List, ListItem, ListItemAvatar, ListItemText} from "@mui/materi
 
 const XList = (props) => {
 
-
     return (<List className={props.className}
                   sx={{
-                      width: '100%',
-                      maxWidth: 360,
-                      color: 'text.primary',
-                      bgcolor: 'action.selected',
-                      borderRadius: '4px'
+                      width: '100%', maxWidth: 360, color: 'black', bgcolor: '#e1e1e1', borderRadius: '4px'
                   }}
                   component="nav" aria-label="mailbox folders">
 

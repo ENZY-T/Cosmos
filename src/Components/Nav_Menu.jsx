@@ -39,6 +39,10 @@ const NavMenu = () => {
             <Link to='/cosmos/about/' className={`nav-link ${navLinkStatus.about}`}>
                 About
             </Link>
+            {/*TODO: remove before commit: commit auto deploys on prod*/}
+            {/*<Link to='/cosmos/test' className={`nav-link ${navLinkStatus.home}`}>*/}
+            {/*    TestPage*/}
+            {/*</Link>*/}
         </nav>
     )
 }

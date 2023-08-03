@@ -78,14 +78,13 @@
   width: auto;
   display: flex;
   flex-direction: row-reverse;
-  align-items: flex-start;
+  align-items: center;
 }
 .navBar .navRight .userName {
   justify-self: flex-start;
   display: flex;
   align-items: center;
   margin-right: 20px;
-  height: 100%;
   align-self: center;
 }
 .navBar .navRight .navBtnWrapper {
@@ -143,7 +142,8 @@
   }
 }
 @media screen and (max-width: 768px) {
-  .navRight, .navMid {
+  .navRight,
+  .navMid {
     justify-content: center;
     min-height: unset;
   }

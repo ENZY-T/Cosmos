@@ -5,8 +5,14 @@ import imgIotEng from '../img/Avatars/IotEng.jpg'
 import imgEngSpclProj from '../img/Avatars/Engineer_Special_proj.jpg'
 import imgAssistEng from '../img/Avatars/AssistantEng.jpg'
 
-export const serverUrl = 'https://cosmos.lk'
-// export const serverUrl = 'http://localhost:5000'
+export let serverUrl = ''
+if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+    // dev code
+    serverUrl = 'http://localhost:5000'
+} else {
+    // production code
+    serverUrl = 'https://cosmos.lk'
+}
 
 export const globalSettings = {
     isPurchaseOpen: false,

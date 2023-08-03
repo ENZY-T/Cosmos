@@ -1,5 +1,5 @@
 import React, {useContext, useEffect} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import ArticleSpace from '../Components/article_space';
 import ProjSpace from '../Components/proj_space';
 import Classes from '../Styles/Home.module.scss';
@@ -7,7 +7,6 @@ import QuickAbout from '../Components/QuickAbout';
 import TeamSpace from '../Components/Team_Space';
 import Mission from '../Components/Mission';
 import {StaticHostContext} from '../Context/StaticHostContext';
-import {setNavState} from "../Store/Slices/AppStateSlice";
 import axios from "axios";
 import {serverUrl} from "../GlobalData/Global";
 import {setIsLogged, setUser} from "../Store/Slices/UserSlice";
@@ -20,25 +19,25 @@ const Home = () => {
 
     useEffect(() => {
         // Fetching the logged user back
-        ;(async () =>
-            await axios
-                .get(serverUrl + '/api/auth/user', {withCredentials: true})
-                .then((res) => {
-                    res.status === 200 &&
-                    dispatch(setIsLogged(true)) &&
-                    dispatch(setUser(res.data))
-                }).catch(err=>{
-
-                }))()
+        axios
+            .get(serverUrl + '/api/auth/user', {withCredentials: true})
+            .then((res) => {
+                res.status === 200 &&
+                dispatch(setIsLogged(true))
+                dispatch(setUser(res.data))
+            }).catch(err => {
+            dispatch(setIsLogged(false))
+            dispatch(setUser(null))
+        })
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
 
     //region Use Context
     const {setActivePage} = {...useContext(StaticHostContext)};
-    useEffect(()=>{
+    useEffect(() => {
         setActivePage?.('home')
-    },[])
+    }, [])
     //endregion
 
     return (<div className={Classes.HomeWrapper}>

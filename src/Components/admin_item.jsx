@@ -1,13 +1,19 @@
 import React, {useState} from 'react'
 import Classes from '../Styles/Admin_item.module.css'
 import {serverUrl} from '../GlobalData/Global'
-import XPrompt from "./XPrompt";
-import EditBox from "./EditBox";
+import {useDispatch, useSelector} from "react-redux";
+import {setAdminFormOpen, setEditingAdminItem} from "../Store/Slices/AdminStateSlice";
 
 const AdminItem = (props) => {
     const [promptOpen, setPromptOpen] = useState(false)
-    const [isEditBoxOpen, setEditBoxOpen] = useState(false)
 
+    const dispatch = useDispatch()
+    const adminFormOpen = useSelector(state => state.adminState.adminFormOpen)
+
+    const handleEdit = () => {
+        dispatch(setEditingAdminItem(props.adminItem))
+        dispatch(setAdminFormOpen(true))
+    }
 
     //Casting Multiple CSS classes
     const classText = []
@@ -30,7 +36,7 @@ const AdminItem = (props) => {
             <div className={Classes.tagline}>{props.adminItem.tagline}</div>
             <div className={Classes.btnPanel}>
                 {props.isProjectsClicked && (
-                    <i onClick={() => setEditBoxOpen(true)} className='fas fa-edit'/>
+                    <i onClick={handleEdit} className='fas fa-edit'/>
                 )}
                 <i
                     aria-disabled
@@ -38,13 +44,13 @@ const AdminItem = (props) => {
                     className='fas fa-trash-alt'
                 />
             </div>
-            <XPrompt
-                title={'Edit All in Editor Box'} promptText={'Do you want to continue ?'}
-                setYes={setEditBoxOpen} isOpen={promptOpen} setOpen={setPromptOpen}/>
-            {isEditBoxOpen && (
-                <EditBox itemType={'Project'} adminItem={props.adminItem} isFullWidth
-                         setFormVisibility={setEditBoxOpen}/>
-            )}
+            {/*<XPrompt*/}
+            {/*    title={'Edit All in Editor Box'} promptText={'Do you want to continue ?'}*/}
+            {/*    setYes={setEditBoxOpen} isOpen={promptOpen} setOpen={setPromptOpen}/>*/}
+            {/*{isEditBoxOpen && (*/}
+            {/*    <EditBox itemType={'Project'} adminItem={props.adminItem} isFullWidth*/}
+            {/*             setFormVisibility={setEditBoxOpen}/>*/}
+            {/*)}*/}
         </div>
     )
 }

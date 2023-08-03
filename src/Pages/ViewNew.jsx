@@ -7,8 +7,9 @@ import {useEffect, useState} from 'react'
 import XButton_SquareDark from '../Components/StyledComponents/XButtonSquareDark'
 import {Link} from 'react-router-dom'
 import EditRoundedIcon from '@material-ui/icons/EditRounded'
-import {useSelector} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import RelatedProjects from '../Components/Later-Implements/RelatedProjects'
+import {setAlertMsg} from "../Store/Slices/AppStateSlice";
 
 // Initial project dummy
 const projDefault = {
@@ -24,8 +25,10 @@ const View = ({match}) => {
     // States
     const [project, setProject] = useState(projDefault)
     const loggedUser = useSelector(
-        (state) => state.loggedUserReducer
+        (state) => state.userState.user
     )
+
+    const dispatch = useDispatch()
 
     useEffect(() => {
         projectFetcher()
@@ -34,8 +37,6 @@ const View = ({match}) => {
             left: 0,
             behavior: 'smooth',
         })
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [match.url])
 
     // Projects fetching function
@@ -44,11 +45,10 @@ const View = ({match}) => {
             .get(serverUrl + `/api/cards/projects/${match.params.id}`)
             .then((res) => setProject(res.data))
             .catch((error) => {
-                // showAlert(error.status, error.message)
                 setProject(projDefault)
+                dispatch(setAlertMsg(error.message))
             })
     }
-
 
     return (
         <div className={Classes.view}>

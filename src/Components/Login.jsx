@@ -7,6 +7,7 @@ import Classes from '../Styles/login.module.scss'
 import XButton from './StyledComponents/XButton'
 import {ThirdPartyLogins} from '../Services/ThirdPartyLogins'
 import {setIsLogged, setUser} from "../Store/Slices/UserSlice";
+import {setAlertMsg} from "../Store/Slices/AppStateSlice";
 
 
 //Login component
@@ -22,24 +23,28 @@ const Login = (props) => {
 
     //#endregion
 
-    const submit = async (e) => {
+    const submit = (e) => {
         e.preventDefault()
 
         //Authentication
-        await axios
+        axios
             .post(serverUrl + '/api/auth/login', {email: email, password: password}, {withCredentials: true})
-            .then((res) => {
+            .then(async (res) => {
                 const isOK = res.status === 200
                 //On success login
                 if (isOK) {
-                    dispatch(setIsLogged(true))
+                    dispatch(setAlertMsg('Login Success !'))
                     setRedirect(true)
                 }
             }).catch(err => {
-
+                dispatch(setAlertMsg(err.message))
+                dispatch(setIsLogged(false))
+                setRedirect(false)
             })
+    }
 
-        // Fetching the logged user back
+    // Fetching the logged user back
+    const fetchUser = async () => {
         await axios
             .get(`${serverUrl}/api/auth/user`, {
                 withCredentials: true, headers: {

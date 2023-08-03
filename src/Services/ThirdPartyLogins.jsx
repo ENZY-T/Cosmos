@@ -10,6 +10,7 @@ export const ThirdPartyLogins = (props) => {
     return (
         <div style={{textAlign: 'center', marginTop: '1rem'}}>
             <GoogleLogin
+                // TODO: take this key to env variables and remove revealing
                 clientId={'739532960944-v3n8196hltf8hfnilr25nai2fkibeqh9.apps.googleusercontent.com'}
                 onSuccess={r => {
                     googleLogin((r).tokenId, dispatch, props.setSuccess)

@@ -4,7 +4,7 @@ import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
 import DialogTitle from '@mui/material/DialogTitle'
-import {createMuiTheme} from "@material-ui/core";
+import {createTheme} from "@material-ui/core/styles";
 import {ThemeProvider} from "@mui/material";
 import {common} from "@material-ui/core/colors";
 
@@ -19,7 +19,7 @@ export default function XPrompt(props) {
         props.setOpen(false)
     }
 
-    const theme = createMuiTheme({
+    const theme = createTheme({
         palette: {
             type: "dark",
         },

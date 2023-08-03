@@ -4,6 +4,7 @@ import AdminItem from './admin_item'
 import axios from 'axios'
 import {serverUrl} from '../GlobalData/Global'
 import {AdminPanelContext} from "../Context/AdminPanelContext";
+import {useDispatch} from "react-redux";
 
 const AdminItemSpace = (props) => {
     //#region States
@@ -12,11 +13,11 @@ const AdminItemSpace = (props) => {
     const [projects, setProjects] = useState([])
     const [alertVisible, setAlertVisible] = useState(false)
     const [alertMsg, setAlertMsg] = useState('')
+
+    const {needRefresh} = {...useContext(AdminPanelContext)}
+    const dispatch = useDispatch()
     //#endregion
 
-    //region Use Context
-    const {needRefresh} = {...useContext(AdminPanelContext)}
-    //endregion
 
     //#region Fetching
     useEffect(() => {
@@ -39,29 +40,18 @@ const AdminItemSpace = (props) => {
                 setArticles([])
             })
     }
-    //For fetching projects as IAdminItem's
+    //For fetching projects as AdminItems
     const projectFetcher = async () => {
         await axios
             .get(serverUrl + '/api/cards/projects')
             .then((res) => setProjects(res.data))
             .catch((error) => {
-                // showAlert(error.status, error.message)
+                dispatch(setAlertMsg(error.message))
                 setProjects([])
             })
     }
     //#endregion
 
-    //#region Alerting
-    // var alertMsg: string = ''
-    const showAlert = (errorStatus, msg) => {
-        if (errorStatus === 404) {
-            msg = `No ${props.clickedProjBtn ? 'Projects' : 'Articles'} to list`
-            props.clickedProjBtn ? setProjects([]) : setArticles([])
-        }
-        setAlertMsg(msg)
-        setAlertVisible(true)
-    }
-    //#endregion
 
     //#region Deleting
     const projectDeleter = async (id) => {
@@ -71,6 +61,7 @@ const AdminItemSpace = (props) => {
                 projectFetcher()
             })
             .catch((error) => {
+                dispatch(setAlertMsg(error.message))
                 projectFetcher()
             })
     }
@@ -80,7 +71,7 @@ const AdminItemSpace = (props) => {
             .delete(`${serverUrl}/api/cards/articles/${id}`)
             .then((res) => articleFetcher())
             .catch((error) => {
-                alert(error)
+                dispatch(setAlertMsg(error.message))
                 projectFetcher()
             })
     }
@@ -122,7 +113,7 @@ const AdminItemSpace = (props) => {
     // Rendering out
     return (
         <div className={Classes.contentSpace_Wrapper}>
-            {/*<Alert msg={alertMsg} setVisible={setAlertVisible} visible={alertVisible}/>*/}
+            {/*<AlertModal msg={alertMsg} setVisible={setAlertVisible} visible={alertVisible}/>*/}
             {itemList}
 
         </div>

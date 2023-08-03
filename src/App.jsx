@@ -18,6 +18,9 @@ import ViewNew from './Pages/ViewNew'
 import LiveEditorNew from './Pages/Live-Editor-New'
 import StaticPageHost from './Pages/StaticPageHost'
 import StaticHostContextProvider from './Context/StaticHostContext'
+import AlertModal from "./Components/AlertModal";
+import {createTheme, ThemeProvider} from "@mui/material/styles";
+import ProjectDetailsPage from "./Pages/ProjectDetailsPage";
 
 function App() {
     //Hooks
@@ -27,25 +30,30 @@ function App() {
 
     useEffect(() => {
         // Fetching the logged user back
-        ;(async () =>
-            await axios
-                .get(serverUrl + '/api/auth/user', {withCredentials: true})
-                .then((res) => {
-                    if (res.status === 200) {
-                        dispatch(setIsLogged(true))
-                        dispatch(setUser(res.data))
-                    } else {
-                        dispatch(setIsLogged(false))
-                    }
-                }).catch(err => {
+        ;(async () => await axios
+            .get(serverUrl + '/api/auth/user', {withCredentials: true})
+            .then((res) => {
+                if (res.status === 200) {
+                    dispatch(setIsLogged(true))
+                    dispatch(setUser(res.data))
+                } else {
                     dispatch(setIsLogged(false))
+                }
+            }).catch(err => {
+                dispatch(setIsLogged(false))
 
-                }))()
+            }))()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
-    return (
-        <div className='App'>
+    const theme = createTheme({
+        palette: {
+            mode: 'dark', // Set the theme type to 'dark'
+        },
+    });
+
+    return (<div className='App'>
+        <ThemeProvider theme={theme}>
             <BrowserRouter>
                 {/*region StaticPages*/}
                 <StaticHostContextProvider>
@@ -56,29 +64,26 @@ function App() {
                 </StaticHostContextProvider>
                 {/*endregion*/}
 
-                <Route path='/projects/:id' exact component={ViewNew}/>
+                {/*<Route path='/projects/:id' exact component={ViewNew}/>*/}
+                <Route path='/projects/:id' exact component={ProjectDetailsPage}/>
                 <PrivateRoute path='/admin/liveeditor/:id' component={LiveEditorNew}/>
 
                 <Switch>
                     <Route
                         path='/login'
                         exact
-                        component={() => (
-                            <>
+                        component={() => (<>
                                 <Login/>
                                 <Home/>
-                            </>
-                        )}
+                            </>)}
                     />
                     <Route
                         path='/register'
                         exact
-                        component={() => (
-                            <>
+                        component={() => (<>
                                 <Register/>
                                 <Home/>
-                            </>
-                        )}
+                            </>)}
                     />
                 </Switch>
                 <Switch>
@@ -87,8 +92,9 @@ function App() {
                 </Switch>
             </BrowserRouter>
             <LoaderSpinner isPending={false}/>
-        </div>
-    )
+            <AlertModal/>
+        </ThemeProvider>
+        </div>)
 }
 
 export default App

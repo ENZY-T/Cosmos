@@ -4,30 +4,32 @@ using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
+using Cosmos.Models.Interfaces;
 
 namespace Cosmos
 {
     public class DbClient : IDbClient
     {
-        public IMongoDatabase Cosmos_db;
+        private readonly IMongoDatabase Cosmos_db;
 
-        public DbClient(string ConnStr, string dbName)
+        public DbClient(string connStr, string dbName)
         {
             try
             {
-                var client = new MongoClient(ConnStr);
+                var client = new MongoClient(connStr);
                 Cosmos_db = client.GetDatabase(dbName);
 
                 //MakeUSerEmailUnique_Users();
-
             }
-            catch { }
+            catch
+            {
+                throw new MongoException("Connection failed");
+            }
         }
 
         #region Unique key specification per table
+
         /// <summary>
         /// Assigning a unique key if theres no. 
         /// </summary>
@@ -42,37 +44,38 @@ namespace Cosmos
         private async void MakeUSerEmailUnique_Projects()
         {
             var indexOptions = new CreateIndexOptions() { Unique = true, Name = "primary" };
-            var indexKeys = Builders<ProjectModel_Full>.IndexKeys.Ascending(table => table.Id);
-            var indexModel = new CreateIndexModel<ProjectModel_Full>(indexKeys, indexOptions);
-            await Cosmos_db.GetCollection<ProjectModel_Full>("Projects").Indexes.CreateOneAsync(indexModel);
+            var indexKeys = Builders<ProjectDbModel>.IndexKeys.Ascending(table => table.Id);
+            var indexModel = new CreateIndexModel<ProjectDbModel>(indexKeys, indexOptions);
+            await Cosmos_db.GetCollection<ProjectDbModel>("Projects").Indexes.CreateOneAsync(indexModel);
         }
 
 
         private async void MakeUSerEmailUnique_Articles()
         {
             var indexOptions = new CreateIndexOptions() { Unique = true, Name = "primary" };
-            var indexKeys = Builders<ArticleModel_Full>.IndexKeys.Ascending(table => table.Id);
-            var indexModel = new CreateIndexModel<ArticleModel_Full>(indexKeys, indexOptions);
-            await Cosmos_db.GetCollection<ArticleModel_Full>("Projects").Indexes.CreateOneAsync(indexModel);
+            var indexKeys = Builders<ArticleDbModel>.IndexKeys.Ascending(table => table.Id);
+            var indexModel = new CreateIndexModel<ArticleDbModel>(indexKeys, indexOptions);
+            await Cosmos_db.GetCollection<ArticleDbModel>("Projects").Indexes.CreateOneAsync(indexModel);
         }
+
         #endregion
 
-        public T GetbyId<T>(string table, string id)
+        public async Task<T> GetbyId<T>(string table, string id)
         {
             var Coll = Cosmos_db.GetCollection<T>(table);
             try
             {
-                ObjectId objectId = new ObjectId(id);
+                var objectId = new ObjectId(id);
 
                 var filter = Builders<T>.Filter.Eq("Id", objectId);
-                return Coll.Find(filter).Any() ? Coll.Find(filter).FirstOrDefault() : default(T);
-
+                return await Coll.Find(filter).FirstOrDefaultAsync();
             }
             catch (Exception)
             {
                 return default;
             }
         }
+
         public List<T> GetbyAny<T>(string table, string field, string searchKey)
         {
             var Coll = Cosmos_db.GetCollection<T>(table);
@@ -82,7 +85,6 @@ namespace Cosmos
                 var result = Coll.Find(filter).ToList();
 
                 return result.Any() ? result : new List<T>();
-
             }
             catch (Exception)
             {
@@ -90,49 +92,43 @@ namespace Cosmos
             }
         }
 
-        public List<T> Get<T>(string table)
+        public async Task<List<T>> Get<T>(string table)
         {
             var Coll = Cosmos_db.GetCollection<T>(table);
             try
             {
-                var result = Coll.Find(new BsonDocument()).Any() ? Coll.Find(new BsonDocument()).ToList() : new List<T>();
+                var result = await Coll.Find(new BsonDocument()).AnyAsync()
+                    ? Coll.Find(new BsonDocument()).ToList()
+                    : new List<T>();
                 return result;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return default;
             }
         }
 
 
-        public T Insert<T>(string table, T record)
+        public async Task<T> InsertAsync<T>(string table, T record)
         {
             var Coll = Cosmos_db.GetCollection<T>(table);
             try
             {
-                Coll.InsertOne(record);
+                await Coll.InsertOneAsync(record);
                 return record;
             }
-            catch (Exception)
+            catch
             {
                 return default(T);
             }
         }
 
-        public bool Delete<T>(string table, string keyName, string keyValue)
+        public async Task<bool> DeleteAsync<T>(string table, string keyName, string keyValue)
         {
             var Coll = Cosmos_db.GetCollection<T>(table);
-            try
-            {
-                var filter = Builders<T>.Filter.Eq(keyName, keyValue);
-                Coll.DeleteOne(filter);
-                return true;
-
-            }
-            catch (Exception)
-            {
-                return false; ;
-            }
+            var filter =  Builders<T>.Filter.Eq(keyName, keyValue);
+            var result = await Coll.DeleteOneAsync(filter);
+            return result.DeletedCount > 0;
         }
 
         public async Task<bool> DeleteAll<T>(string table)
@@ -142,21 +138,6 @@ namespace Cosmos
             {
                 await Coll.DeleteManyAsync(new BsonDocument());
                 return true;
-
-            }
-            catch (Exception)
-            {
-                return false; ;
-            }
-        }
-
-        public bool UpdateOne<T>(string table, FilterDefinition<T> filter, UpdateDefinition<T> update)
-        {
-            var Coll = Cosmos_db.GetCollection<T>(table);
-            try
-            {
-                var result = Coll.UpdateOne(filter, update);
-                return result.ModifiedCount > 0;
             }
             catch (Exception)
             {
@@ -164,6 +145,12 @@ namespace Cosmos
             }
         }
 
-
+        public async Task<bool> UpdateOne<T>(string table, T updatedRecord) where T : IMongoRecord
+        {
+                var delResult = await DeleteAsync<T>(table, "Id", updatedRecord.Id);
+                if (!delResult) return false;
+                await InsertAsync(table, updatedRecord);
+                return true;
+        }
     }
 }

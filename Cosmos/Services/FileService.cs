@@ -12,7 +12,9 @@ namespace Cosmos.Services
     public class FileService : IFileService
     {
         #region Initialization
+
         private readonly IWebHostEnvironment env;
+
         // Absolute path to uploads directory
         private readonly string RootUploadsPath;
         private readonly string UploadsDir = "uploaded_files";
@@ -45,22 +47,34 @@ namespace Cosmos.Services
                 if (!dirInfo.Exists) dirInfo.Create();
             }
         }
+
         #endregion
 
-        public bool CleanURIs(List<string> oldUriList, List<string> newUriList)
+        public async Task<bool> CleanURIs(List<string> oldUriList, List<string> newUriList)
         {
-            List<string> URIsToBeCleaned = new List<string>();
+            List<string> urisToDelete = new List<string>();
             oldUriList.ForEach(oldUri =>
             {
                 // Getting old URI to be cleaned
                 if (!newUriList.Any(newUri => newUri == oldUri))
                 {
-                    URIsToBeCleaned.Add(oldUri);
+                    urisToDelete.Add(oldUri);
                 }
             });
-            // Deleting the URIs found to be cleaned
-            bool status = DeleteFilesinLocalFSAsync(URIsToBeCleaned).Result;
-            return status;
+
+            try
+            {
+                foreach (var uri in urisToDelete)
+                {
+                    await DeleteFileByUri(uri);
+                }
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
         }
 
         public async Task<bool> DeleteAll(string KeyToDir)
@@ -75,44 +89,45 @@ namespace Cosmos.Services
             {
                 return false;
             }
+
             return true;
         }
 
 
-        public async Task<bool> DeleteFilesinLocalFSAsync(List<string> uriList)
+        public async Task<bool> DeleteFilesByUris(List<string> uris)
         {
-            bool anyErrorFound = false;
+            var anyErrorFound = false;
 
-            // If the URI list is null it is OK to give success on deletion
-            if (uriList == null || uriList?.Count < 1) return true;
+            // If the URI list is null it is OK to give success on deletion since no media exists. Therefore clean
+            if (uris == null || uris?.Count < 1) return true;
 
-            foreach (string uri in uriList)
+            foreach (var uri in uris)
             {
                 try
                 {
                     // Path.Combine behaves unusually... Not working here. Check out later
-                    string absPath = env.WebRootPath + uri;
-                    await Task.Run(() => File.Delete(absPath));
+                    await DeleteFileByUri(uri);
                 }
                 catch (Exception ex)
                 {
                     anyErrorFound = true;
                 }
-
             }
-            if (anyErrorFound) return false; else return true;
+
+            return !anyErrorFound;
         }
 
         public async Task<List<string>> WriteToFileinLocalFS(List<IFormFile> files, string dirKey)
         {
-            if (files != null || files?.Count<1)
+            if (files != null || files?.Count < 1)
             {
                 List<string> savedURIs = new List<string>();
                 foreach (var file in files)
                 {
                     if (file.Length <= 0) continue;
                     //Unique name for file
-                    string uniqueFileName = $"{file.FileName}_{files.IndexOf(file).ToString()}_{DateTime.Now.ToString("yyyyMMdd_HHmmss")}{new FileInfo(file.FileName).Extension}";
+                    string uniqueFileName =
+                        $"{file.FileName}_{files.IndexOf(file).ToString()}_{DateTime.Now.ToString("yyyyMMdd_HHmmss")}{new FileInfo(file.FileName).Extension}";
                     // URI of file
                     string relativePath = Path.Combine(UploadsDir, DirTree[dirKey.ToUpper()], uniqueFileName);
 
@@ -129,12 +144,27 @@ namespace Cosmos.Services
                             return null;
                         }
                     }
+
                     savedURIs.Add($"\\{relativePath}");
                 }
+
                 return savedURIs;
             }
             else return new List<string>();
-            
+        }
+
+        public async Task DeleteFileByUri(string uri)
+        {
+            var absPath = env.WebRootPath + uri;
+            await Task.Run(() => File.Delete(absPath));
+        }
+
+        public bool IsFileExist(string Uri)
+        {
+            var absPath = Path.Combine(env.WebRootPath, Uri);
+            var fileInfo = new FileInfo(absPath);
+
+            return fileInfo.Exists;
         }
     }
 }

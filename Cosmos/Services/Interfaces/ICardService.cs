@@ -9,22 +9,25 @@ namespace Cosmos.Services.Interfaces
     public interface ICardService
     {
         #region CRUD on projects
-        ProjectModel_Full GetProjById(string id);
-        List<ProjectModel_Full> GetProjAll();
-        bool CreateProj(ProjectModel_Full projectModel_Full);
-        bool DeleteProj(string id);
-        bool UpdateProj(AdminItemDto adminItemDto);
+
+        Task<ProjectDbModel> GetProjById(string id);
+        Task<List<ProjectDbModel>> GetProjAll();
+        Task<bool> CreateProj(ProjectDbModel projectDbModel);
+        Task<bool> DeleteProj(string id);
+        Task<bool> UpdateProj(ProjectDbModel projectDbModel);
+
         #endregion
 
         #region CRUD on Articles
-        ArticleModel_Full GetArticleById(string id);
-        List<ArticleModel_Full> GetArticleAll();
-        bool CreateArticle(ArticleModel_Full articleModel_Full);
-        bool DeleteArticle(string id);
-        bool UpdateArticle(AdminItemDto adminItemDto);
+
+        Task<ArticleDbModel> GetArticleById(string id);
+        Task<List<ArticleDbModel>> GetArticleAll();
+        Task<bool> CreateArticle(ArticleDbModel articleDbModel);
+        Task<bool> DeleteArticle(string id);
+        public Task<bool> UpdateArticle(ArticleDbModel newArticle);
         bool DeleteAllProjects();
         bool DeleteAllArticles();
-        #endregion
 
+        #endregion
     }
 }

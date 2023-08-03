@@ -11,6 +11,4 @@ namespace Cosmos.Services
         string Generate(string id);
         JwtSecurityToken Verify(string jwt);
     }
-
 }
-

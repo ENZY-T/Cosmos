@@ -34,7 +34,7 @@ const ProjectDetailsPage = ({ match }) => {
 			<div className='container g-4 g-md-0'>
 				<div className='row my-3 py-3'></div>
 				<div className='row my-3 py-3 justify-content-center'>
-					<div className='project-title col-8'>
+					<div className='project-title col-12 col-md-8'>
 						<figure class='text-center'>
 							<blockquote class='blockquote'>
 								<h1 className='display-3'>{project?.title}</h1>
@@ -45,7 +45,7 @@ const ProjectDetailsPage = ({ match }) => {
 					</div>
 				</div>
 				<div className='row my-1 py-1 justify-content-center'>
-					<div className='project-discription col-8 d-flex justify-content-center'>
+					<div className='project-discription col-12 col-md-8 col-lg-10 d-flex justify-content-center'>
 						<p className='d-inline' style={{ textAlign: 'justify' }}>
 							{project?.description}
 						</p>

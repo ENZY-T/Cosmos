@@ -20,11 +20,11 @@ namespace Cosmos.Services
         {
             var credential = new ServiceAccountCredential(new ServiceAccountCredential
                 .Initializer(Environment.GetEnvironmentVariable("CLIENT_ID"))
-            {
-                // Note: other scopes can be found here: https://developers.google.com/gmail/api/auth/scopes
-                Scopes = new[] { "https://mail.google.com/" },
-                User = "umeshanuc@gmail.com"
-            });
+                {
+                    // Note: other scopes can be found here: https://developers.google.com/gmail/api/auth/scopes
+                    Scopes = new[] { "https://mail.google.com/" },
+                    User = "umeshanuc@gmail.com"
+                });
 
             bool result = await credential.RequestAccessTokenAsync(CancellationToken.None);
             return result;
@@ -32,7 +32,6 @@ namespace Cosmos.Services
 
         public async Task<bool> SendEmail(string senderEmail, MailMessage email, ServiceAccountCredential credential)
         {
-
             using (var client = new MailKit.Net.Smtp.SmtpClient())
             {
                 await client.ConnectAsync("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
@@ -56,6 +55,7 @@ namespace Cosmos.Services
 
                 client.Disconnect(true);
             }
+
             return true;
         }
     }

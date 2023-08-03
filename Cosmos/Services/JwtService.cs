@@ -10,8 +10,8 @@ namespace Cosmos.Services
 {
     public class JwtService : IJwtService
     {
-
         private readonly string securityKey = "SecurityKeyCosmosByENZY";
+
         public string Generate(string id)
         {
             var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(securityKey));

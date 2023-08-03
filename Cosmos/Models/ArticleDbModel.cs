@@ -9,16 +9,18 @@ using System.Threading.Tasks;
 
 namespace Cosmos.Models
 {
-    public class ProjectModel_Full : IProject,IProjectOrArticle
+    public class ArticleDbModel : IArticle, IMongoRecord
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
+
         public string Title { get; set; }
         public string Tagline { get; set; }
         public string Description { get; set; }
         public string MediaType { get; set; }
         public List<string> MediaURIs { get; set; }
+
         [BsonDateTimeOptions(DateOnly = true, Kind = DateTimeKind.Utc)]
         public DateTime CreatedDate { get; set; }
     }

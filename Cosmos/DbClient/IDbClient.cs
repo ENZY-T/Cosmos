@@ -7,20 +7,18 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using Cosmos.Models.Interfaces;
 
 namespace Cosmos
 {
     public interface IDbClient
     {
-        List<T> Get<T>(string table);
-        T GetbyId<T>(string table, string id);
+        Task<List<T>> Get<T>(string table);
+        Task<T> GetbyId<T>(string table, string id);
         List<T> GetbyAny<T>(string table, string field, string searchKey);
-        bool UpdateOne<T>(string table, FilterDefinition<T> filter, UpdateDefinition<T> update);
-        T Insert<T>(string table, T record);
-        bool Delete<T>(string table, string keyName, string keyValue);
+        public Task<bool> UpdateOne<T>(string table, T updatedRecord) where T : IMongoRecord;
+        Task<T> InsertAsync<T>(string table, T record);
+        Task<bool> DeleteAsync<T>(string table, string keyName, string keyValue);
         Task<bool> DeleteAll<T>(string table);
-
-
-
     }
 }

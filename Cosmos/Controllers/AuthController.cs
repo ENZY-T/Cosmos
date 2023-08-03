@@ -1,16 +1,12 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
 using Cosmos.Services;
-using Cosmos;
 using Cosmos.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Cosmos.Dtos;
 using static Google.Apis.Auth.GoogleJsonWebSignature;
-using Google.Apis.Auth;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -32,12 +28,12 @@ namespace Cosmos.Controllers
         [HttpPost("login")]
         public IActionResult Login([FromBody] LoginDto loginDto)
         {
-            var user = _userService.GetbyEmail(loginDto.Email);
+            var user = _userService.GetByEmail(loginDto.Email);
             if (user != null)
             {
                 if (BCrypt.Net.BCrypt.Verify(loginDto.Password, user.Password))
                 {
-                    string jwt = _jwtService.Generate(_userService.GetbyEmail(user.Email).Id);
+                    string jwt = _jwtService.Generate(_userService.GetByEmail(user.Email).Id);
 
                     Response.Cookies.Append("jwt", jwt, new CookieOptions()
                     {
@@ -46,7 +42,8 @@ namespace Cosmos.Controllers
                     });
 
                     // Returning Status OK with the logged user details
-                    return Ok(new LoggedUserDto() { UserId = user.Id, Email = user.Email, FName = user.FName, LName = user.LName });
+                    return Ok(new LoggedUserDto()
+                        { UserId = user.Id, Email = user.Email, FName = user.FName, LName = user.LName });
                 }
                 else
                 {
@@ -77,29 +74,23 @@ namespace Cosmos.Controllers
             else
             {
                 return Created("Success", user);
-
             }
         }
 
 
         [HttpGet("user")]
-        public IActionResult GetUser()
+        public async Task<IActionResult> GetUser()
         {
             try
             {
                 var jwt = Request.Cookies["jwt"];
-
                 var token = _jwtService.Verify(jwt);
-
-                string UserId = token.Issuer;
-
-                var user = _userService.GetbyId(UserId);
-
+                var userId = token.Issuer;
+                var user = await _userService.GetById(userId);
                 return Ok(user);
             }
             catch (Exception)
             {
-
                 return Unauthorized();
             }
         }
@@ -112,6 +103,7 @@ namespace Cosmos.Controllers
         }
 
         #region Third party logind
+
         [HttpPost("google")]
         public async Task<IActionResult> GoogleSignInAsync([FromQuery] string token)
         {
@@ -131,10 +123,11 @@ namespace Cosmos.Controllers
             {
                 return Unauthorized();
             }
-            var result = _userService.ThirdPartySignIn(new UserModel
+
+            var result = await _userService.ThirdPartySignIn(new UserModel
             {
-                FName=payload.Name.Split(' ').First(),
-                LName=payload.Name.Split(' ').LastOrDefault(),
+                FName = payload.Name.Split(' ').First(),
+                LName = payload.Name.Split(' ').LastOrDefault(),
                 Email = payload.Email,
                 ExternalId = payload.Subject,
                 ExternalType = "GOOGLE"
@@ -142,8 +135,10 @@ namespace Cosmos.Controllers
 
             var jwtToken = _jwtService.Generate(result.Id);
             Response.Cookies.Append("jwt", jwtToken);
-            return Ok(new LoggedUserDto() { UserId = result.Id, Email = result.Email, FName = result.FName, LName = result.LName });
+            return Ok(new LoggedUserDto()
+                { UserId = result.Id, Email = result.Email, FName = result.FName, LName = result.LName });
         }
+
         #endregion
     }
 }

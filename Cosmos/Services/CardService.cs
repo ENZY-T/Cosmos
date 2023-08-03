@@ -1,5 +1,4 @@
-﻿using Cosmos.Dtos.Intefaces;
-using Cosmos.Models;
+﻿using Cosmos.Models;
 using Cosmos.Models.Interfaces;
 using Cosmos.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
@@ -15,179 +14,129 @@ namespace Cosmos.Services
     public class CardService : ICardService
     {
         #region Initialization
-        private readonly IDbClient dbClient;
-        private readonly IFileService fileService;
-        private readonly ICardHelperService cardHelperService;
 
-        public CardService(IDbClient dbClient, IFileService fileService, ICardHelperService cardHelperService)
+        private readonly IDbClient _dbClient;
+        private readonly IFileService _fileService;
+
+        public CardService(IDbClient dbClient, IFileService fileService)
         {
-            this.dbClient = dbClient;
-            this.fileService = fileService;
-            this.cardHelperService = cardHelperService;
+            this._dbClient = dbClient;
+            this._fileService = fileService;
         }
+
         #endregion
 
 
         #region CREATE
-        public bool CreateArticle(ArticleModel_Full articleModel_Full)
+
+        public async Task<bool> CreateArticle(ArticleDbModel articleDbModel)
         {
-            ArticleModel_Full status = dbClient.Insert<ArticleModel_Full>("Articles", articleModel_Full);
-            if (status != null) return true; else return false;
+            var status = await _dbClient.InsertAsync<ArticleDbModel>("Articles", articleDbModel);
+            return status != null;
         }
 
-        public bool CreateProj(ProjectModel_Full projectModel_Full)
+        public async Task<bool> CreateProj(ProjectDbModel projectDbModel)
         {
-            ProjectModel_Full status = dbClient.Insert<ProjectModel_Full>("Projects", projectModel_Full);
-            if (status != null) return true; else return false;
+            var status = await _dbClient.InsertAsync<ProjectDbModel>("Projects", projectDbModel);
+            return status != null;
         }
+
         #endregion
 
-        #region DELETE 
-        public bool DeleteArticle(string id)
+        #region DELETE
+
+        public async Task<bool> DeleteArticle(string id)
         {
-            var articleModel_Full = dbClient.GetbyId<ArticleModel_Full>("Articles", id);
-            if (articleModel_Full == null) return false;
-
-            // Deleting the related media files
-            bool mediaFilesCleanStatus = fileService.DeleteFilesinLocalFSAsync(articleModel_Full.MediaURIs).Result;
-
-            bool status = dbClient.Delete<ArticleModel_Full>("Articles", nameof(articleModel_Full.Id), articleModel_Full.Id);
-            return mediaFilesCleanStatus && status;
+            return await _dbClient.DeleteAsync<ArticleDbModel>("Articles", "Id", id);
         }
 
-        public bool DeleteProj(string id)
+        public async Task<bool> DeleteProj(string id)
         {
-            var project = dbClient.GetbyId<ProjectModel_Full>("Projects", id);
+            var project = await _dbClient.GetbyId<ProjectDbModel>("Projects", id);
             if (project == null) return false;
 
-            // Deleting the related media files
-            bool mediaFilesCleanStatus = fileService.DeleteFilesinLocalFSAsync(project.MediaURIs).Result;
+            if (!(project.MediaURIs == null || project.MediaURIs.Count < 1))
+            {
+                // Deleting the related media files
+                foreach (var uri in project.MediaURIs.Where(uri => _fileService.IsFileExist(uri)))
+                {
+                    await _fileService.DeleteFileByUri(uri);
+                }
+            }
 
-            bool status = dbClient.Delete<ProjectModel_Full>("Projects", nameof(project.Id), project.Id);
-            return mediaFilesCleanStatus && status;
+            var status = await _dbClient.DeleteAsync<ProjectDbModel>("Projects", nameof(project.Id), project.Id);
+            return status;
         }
+
+
+        public bool DeleteAllProjects()
+        {
+            var status = _dbClient.DeleteAll<ProjectDbModel>("Projects").Result;
+
+            // Clean the media files in FS
+            var delStatus = _fileService.DeleteAll("PROJECTS").Result;
+            return status && delStatus;
+        }
+
+        public bool DeleteAllArticles()
+        {
+            var status = _dbClient.DeleteAll<ArticleDbModel>("Articles").Result;
+
+            // Clean the media files in FS
+            var delStatus = _fileService.DeleteAll("ARTICLES").Result;
+            return status && delStatus;
+        }
+
         #endregion
 
         #region GET BY ID
-        public ProjectModel_Full GetProjById(string id)
-        {
-            var project = dbClient.GetbyId<ProjectModel_Full>("Projects", id);
-            if (project == null) return null;
-            else return project;
 
-        }
-        public ArticleModel_Full GetArticleById(string id)
+        public async Task<ProjectDbModel> GetProjById(string id)
         {
-            var articleModel_Full = dbClient.GetbyId<ArticleModel_Full>("Articles", id);
-            if (articleModel_Full == null) return null;
-            else return articleModel_Full;
+            return await _dbClient.GetbyId<ProjectDbModel>("Projects", id);
         }
+
+        public async Task<ArticleDbModel> GetArticleById(string id)
+        {
+            return await _dbClient.GetbyId<ArticleDbModel>("Articles", id);
+        }
+
         #endregion
 
         #region GET_ALL
-        public List<ArticleModel_Full> GetArticleAll()
+
+        public async Task<List<ArticleDbModel>> GetArticleAll()
         {
-            List<ArticleModel_Full> ArticleList = dbClient.Get<ArticleModel_Full>("Articles");
-            if (ArticleList == null || ArticleList?.Count == 0)
+            var articleList = await _dbClient.Get<ArticleDbModel>("Articles");
+            if (articleList == null || articleList?.Count == 0)
             {
                 return null;
             }
-            else
-            {
-                return ArticleList;
-            }
 
+            return articleList;
         }
 
 
-        public List<ProjectModel_Full> GetProjAll()
+        public async Task<List<ProjectDbModel>> GetProjAll()
         {
-            List<ProjectModel_Full> projList = dbClient.Get<ProjectModel_Full>("Projects");
-            if (projList == null || projList?.Count == 0)
-            {
-                return null;
-            }
-            else
-            {
-                return projList;
-            }
+            var projList = await _dbClient.Get<ProjectDbModel>("Projects");
+            return projList == null || projList?.Count == 0 ? null : projList;
         }
 
         #endregion
 
         #region UPDATE
-        public bool UpdateArticle(AdminItemDto adminItemDto)
+
+        public async Task<bool> UpdateArticle(ArticleDbModel newArticle)
         {
-            // Getting the record
-            var record = dbClient.GetbyId<ArticleModel_Full>("Articles", adminItemDto.Id);
-            if (record == null) return false;
-
-            // Getting the properties to be updated
-            List<UpdateDefinition<ArticleModel_Full>> updateList = cardHelperService.GetUpdateItemList<AdminItemDto,ArticleModel_Full>(adminItemDto,record);
-            
-
-            // Updating
-            var filter = Builders<ArticleModel_Full>.Filter.Eq("Id", adminItemDto.Id);
-            bool status = false;
-            foreach (var update in updateList)
-            {
-                status = dbClient.UpdateOne<ArticleModel_Full>("Articles", filter, update);
-
-            }
-            return status;
+            return await _dbClient.UpdateOne(DbTables.Articles.ToString(), newArticle);
         }
 
-        public bool UpdateProj(AdminItemDto adminItemDto)
+        public async Task<bool> UpdateProj(ProjectDbModel newProject)
         {
-            // Getting the record
-            var record = dbClient.GetbyId<ProjectModel_Full>("Projects", adminItemDto.Id);
-            if (record == null) return false;
-
-            // Getting the properties to be updated
-            List<UpdateDefinition<ProjectModel_Full>> updateList = cardHelperService.GetUpdateItemList<AdminItemDto, ProjectModel_Full>(adminItemDto, record);
-
-            // Updating
-            var filter = Builders<ProjectModel_Full>.Filter.Eq("Id", adminItemDto.Id);
-            bool status = false;
-            foreach (var update in updateList)
-            {
-                status = status || dbClient.UpdateOne<ProjectModel_Full>("Projects", filter, update);
-            }
-            return status;
+            return await _dbClient.UpdateOne(DbTables.Projects.ToString(), newProject);
         }
 
-        public bool DeleteAllProjects()
-        {
-            var status = dbClient.DeleteAll<ProjectModel_Full>("Projects").Result;
-
-            // Clean the media files in FS
-            bool delStatus = fileService.DeleteAll("PROJECTS").Result;
-            if (status && delStatus)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public bool DeleteAllArticles()
-        {
-            var status = dbClient.DeleteAll<ArticleModel_Full>("Articles").Result;
-
-            // Clean the media files in FS
-            bool delStatus = fileService.DeleteAll("ARTICLES").Result;
-            if (status && delStatus)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
         #endregion
-
     }
 }

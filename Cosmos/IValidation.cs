@@ -9,7 +9,6 @@ namespace Cosmos
 {
     public interface IValidation
     {
-
         public Tuple<bool, string> ValidateHEX(string hexStr);
     }
 }

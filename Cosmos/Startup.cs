@@ -13,13 +13,17 @@ using System.Threading.Tasks;
 using Cosmos.Services.Interfaces;
 using Microsoft.AspNetCore.HttpOverrides;
 using System.Net;
+using AutoMapper;
 
 namespace Cosmos
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly IHostEnvironment _env;
+
+        public Startup(IConfiguration configuration, IHostEnvironment env)
         {
+            _env = env;
             Configuration = configuration;
         }
 
@@ -32,10 +36,12 @@ namespace Cosmos
             services.AddTransient<IJwtService, JwtService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<ICardService, CardService>();
-            services.AddTransient<ICardHelperService, CardHelperService>();
             services.AddTransient<IDbClient>(
                 serviceProv => ActivatorUtilities.CreateInstance<DbClient>(
-                    serviceProv, Configuration.GetConnectionString("MongoConnStr"), Configuration.GetValue<string>("DbSettings:MongoDb:Name")
+                    serviceProv,
+                    Configuration.GetConnectionString(_env.IsDevelopment()
+                        ? "MongoConnStr_dev"
+                        : "MongoConnStr"), Configuration.GetValue<string>("DbSettings:MongoDb:Name")
                 )
             );
             services.AddTransient<IFileService, FileService>();
@@ -46,6 +52,7 @@ namespace Cosmos
             {
                 options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
             });
+            services.AddAutoMapper(typeof(MappingProfile));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -64,6 +71,7 @@ namespace Cosmos
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
             //app.UseHttpsRedirection();
             app.UseStaticFiles();
 

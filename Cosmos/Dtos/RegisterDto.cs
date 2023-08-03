@@ -10,8 +10,10 @@ namespace Cosmos.Models
 {
     public class RegisterDto
     {
-        [BsonId][BsonRepresentation(BsonType.ObjectId)]
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
         public string Email { get; set; }
+
         public string Name { get; set; }
         public string Password { get; set; }
     }

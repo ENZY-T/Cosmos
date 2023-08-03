@@ -1,13 +1,14 @@
-﻿
-using Cosmos;
+﻿using Cosmos;
 using Cosmos.Models;
 using Cosmos.Services.Interfaces;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -19,135 +20,153 @@ namespace Cosmos.Controllers
     public class CardsController : ControllerBase
     {
         #region Initialization
-        private readonly ICardService cardService;
-        private readonly IFileService fileService;
-        private readonly IWebHostEnvironment env;
 
-        public CardsController(ICardService cardService, IFileService fileService, IWebHostEnvironment env)
+        private readonly ICardService _cardService;
+        private readonly IFileService _fileService;
+        private readonly IWebHostEnvironment _env;
+        private readonly IMapper _mapper;
+
+        public CardsController(ICardService cardService,
+            IFileService fileService,
+            IWebHostEnvironment env,
+            IMapper mapper)
         {
-            this.cardService = cardService;
-            this.fileService = fileService;
-            this.env = env;
+            this._cardService = cardService;
+            this._fileService = fileService;
+            this._env = env;
+            _mapper = mapper;
         }
+
         #endregion
 
 
         #region GET ALL Methods
+
         // GET: api/Cards/projects
         [HttpGet("projects")]
-        public IActionResult GetProjects()
+        public async Task<IActionResult> GetProjects()
         {
-            List<ProjectModel_Full> projList = cardService.GetProjAll();
+            var projList = await _cardService.GetProjAll();
             if (projList != null)
             {
                 return Ok(projList);
             }
             else
             {
-                Response.Headers.Add("Messsage", "Data not found");
+                Response.Headers.Add("Message", "Data not found");
                 return NotFound();
             }
         }
 
         // GET: api/Cards/articles
         [HttpGet("articles")]
-        public IActionResult GetArticles()
+        public async Task<IActionResult> GetArticles()
         {
-            List<ArticleModel_Full> articleList = cardService.GetArticleAll();
+            var articleList = await _cardService.GetArticleAll();
             if (articleList != null)
             {
                 return Ok(articleList);
             }
             else
             {
-                Response.Headers.Add("Messsage", "Data not found");
+                Response.Headers.Add("Message", "Data not found");
                 return NotFound();
             }
         }
+
         #endregion
 
         #region GET by ID METHODS
+
         // GET: api/Cards/projects/{id}
         [HttpGet("projects/{id}")]
-        public IActionResult GetOneProject(string id)
+        public async Task<IActionResult> GetOneProject(string id)
         {
-            ProjectModel_Full projList = cardService.GetProjById(id);
+            var projList = await _cardService.GetProjById(id);
             if (projList != null)
             {
                 return Ok(projList);
             }
             else
             {
-                Response.Headers.Add("Messsage", "Data not found");
+                Response.Headers.Add("Message", "Data not found");
                 return NotFound();
             }
         }
 
         // GET: api/Cards/articles/{id}
         [HttpGet("articles/{id}")]
-        public IActionResult GetOneArticle(string id)
+        public async Task<IActionResult> GetOneArticle(string id)
         {
-            ArticleModel_Full articleList = cardService.GetArticleById(id);
-            if (articleList != null)
+            var articleDbList = await _cardService.GetArticleById(id);
+            if (articleDbList != null)
             {
-                return Ok(articleList);
+                return Ok(articleDbList);
             }
             else
             {
-                Response.Headers.Add("Messsage", "Data not found");
+                Response.Headers.Add("Message", "Data not found");
                 return NotFound();
             }
         }
+
         #endregion
 
         #region POST Methods
+
         // POST api/Cards
         [HttpPost("projects")]
         [RequestSizeLimit(104857600)] //100 MB
-        public IActionResult CreateProject([FromForm] AdminItemDto newAdminItem)
+        public async Task<IActionResult> CreateProject([FromForm] AdminItemDto newAdminItem)
         {
             // Saving the Files to WEB_ROOT/uploaded_files/projects/
-            var savedURIs = fileService.WriteToFileinLocalFS(newAdminItem.Media, "PROJECTS");
+            List<string> savedUris = null;
+            if (newAdminItem.Media != null)
+            {
+                savedUris = await _fileService.WriteToFileinLocalFS(newAdminItem.Media, "PROJECTS");
 
-            // If returned List<string> == null, Saving failed OR No image
-            if (savedURIs.Result == null || savedURIs.Result?.Count<1) Response.Headers.Add("Images", "No images/Failed");
-            else Response.Headers.Add("Images", "Saved");
+                var imageDescriptionEnumerator = newAdminItem.MediaDescriptions?.GetEnumerator();
+
+                var savedImages = new List<ImageModel>();
+                foreach (var uri in savedUris)
+                {
+                    savedImages.Add(new ImageModel() { Uri = uri, Description = imageDescriptionEnumerator?.Current });
+                    imageDescriptionEnumerator?.MoveNext();
+                }
+
+                // If returned List<string> == null, Saving failed OR No image
+                if (savedUris == null || savedUris?.Count < 1) Response.Headers.Add("Images", "No images/Failed");
+                else Response.Headers.Add("Images", "Saved");
+            }
 
             // Saving the record to DB
-            var status = cardService.CreateProj(new ProjectModel_Full
-            {
-                Title = newAdminItem.Title,
-                Tagline = newAdminItem.Tagline,
-                Description = newAdminItem.Description,
-                CreatedDate = DateTime.Today,
-                MediaURIs = savedURIs.Result,
-                MediaType = newAdminItem.MediaType
-            });
+            var project = _mapper.Map<ProjectDbModel>(newAdminItem);
+            project.MediaURIs = savedUris;
+            var status = await _cardService.CreateProj(project);
 
             if (status)
             {
                 return Created("Saved", null);
             }
-            else
-            {
-                Response.Headers.Add("Messsage", "Failed");
-                return BadRequest();
-            }
+
+            Response.Headers.Add("Message", "Failed");
+            return BadRequest();
         }
 
         // POST api/Cards
         [HttpPost("articles")]
-        public IActionResult CreateArticle([FromForm] AdminItemDto newAdminItem)
+        public async Task<IActionResult> CreateArticle([FromForm] AdminItemDto newAdminItem)
         {
             // Saving the Files to WEB_ROOT/uploaded_files/articles/
-            var savedURIs = fileService.WriteToFileinLocalFS(newAdminItem.Media, "ARTICLES");
+            var savedURIs = _fileService.WriteToFileinLocalFS(newAdminItem.Media, "ARTICLES");
 
             // If returned List<string> == null, Saving failed OR No image
-            if (savedURIs.Result == null || savedURIs.Result?.Count < 1) Response.Headers.Add("Images", "No images/Failed");
+            if (savedURIs.Result == null || savedURIs.Result?.Count < 1)
+                Response.Headers.Add("Images", "No images/Failed");
             else Response.Headers.Add("Images", "Saved");
 
             // Saving the record to DB
-            var status = cardService.CreateArticle(new ArticleModel_Full
+            var status = await _cardService.CreateArticle(new ArticleDbModel
             {
                 Title = newAdminItem.Title,
                 Tagline = newAdminItem.Tagline,
@@ -163,49 +182,67 @@ namespace Cosmos.Controllers
             }
             else
             {
-                Response.Headers.Add("Messsage", "Failed");
+                Response.Headers.Add("Message", "Failed");
                 return BadRequest();
             }
         }
+
         #endregion
 
         #region DELETE Methods
+
         [HttpDelete("articles/{id}")]
-        public IActionResult DelArticle(string id)
+        public async Task<IActionResult> DelArticle(string id)
         {
-            var status = cardService.DeleteArticle(id);
+            var article = await _cardService.GetArticleById(id);
+            if (article == null)
+                return BadRequest("Record not found.");
+
+            // Deleting the related media files
+            try
+            {
+                foreach (var uri in article.MediaURIs)
+                {
+                    await _fileService.DeleteFileByUri(uri);
+                }
+            }
+            catch
+            {
+                Request.Headers.Add("error", "Error in cleaning media files");
+            }
+
+            var status = await _cardService.DeleteArticle(id);
             if (status)
             {
                 return Ok();
             }
-            else
-            {
-                Response.Headers.Add("Messsage", "Failed");
-                return BadRequest();
-            }
+
+            return BadRequest();
         }
 
         [HttpDelete("projects/{id}")]
-        public IActionResult DelProject(string id)
+        public async Task<IActionResult> DelProject(string id)
         {
-            var status = cardService.DeleteProj(id);
+            var status = await _cardService.DeleteProj(id);
             if (status)
             {
                 return Ok();
             }
             else
             {
-                Response.Headers.Add("Messsage", "Failed");
+                Response.Headers.Add("Message", "Failed");
                 return BadRequest();
             }
         }
+
         #endregion
 
         #region DELETE ALL
+
         [HttpDelete("projects")]
         public IActionResult DeleteAllProjects()
         {
-            var status = cardService.DeleteAllProjects();
+            var status = _cardService.DeleteAllProjects();
 
             if (status)
             {
@@ -220,7 +257,7 @@ namespace Cosmos.Controllers
         [HttpDelete("articles")]
         public IActionResult DeleteAllArticles()
         {
-            var status = cardService.DeleteAllArticles();
+            var status = _cardService.DeleteAllArticles();
 
             if (status)
             {
@@ -235,35 +272,80 @@ namespace Cosmos.Controllers
         #endregion
 
         #region UPDATE BY ID METHODS
+
         [HttpPut("projects")]
-        public IActionResult UpdateProjects([FromForm] AdminItemDto adminItemDto)
+        public async Task<IActionResult> UpdateProjects([FromForm] AdminItemDto adminItemDto)
         {
-            var status = cardService.UpdateProj(adminItemDto);
+            // Get old record
+            var record = await _cardService.GetProjById(adminItemDto.Id);
+
+            if (record == null)
+            {
+                return BadRequest("Record not found");
+            }
+
+            // Delete old media which are not in request's mediaURIs
+            foreach (var uri in record.MediaURIs.Except(adminItemDto.MediaUris) ?? new List<string>())
+            {
+                await _fileService.DeleteFileByUri(uri);
+            }
+
+            // Save new media
+            var newUris = await _fileService.WriteToFileinLocalFS(adminItemDto.Media, "PROJECTS");
+
+            if (newUris is null) throw new IOException("error in file writes");
+            
+            var dbModel = _mapper.Map<ProjectDbModel>(adminItemDto);
+
+            newUris.ForEach(uri =>
+            {
+                dbModel.MediaURIs.Add(uri);
+            });
+            
+            // Image Descriptions
+            dbModel.MediaDescriptions = adminItemDto.UriDescriptions?.Concat(adminItemDto.MediaDescriptions ?? new List<string>()).ToList();
+            
+
+            var status = await _cardService.UpdateProj(dbModel);
             if (status)
             {
                 return Ok();
             }
-            else
-            {
-                Response.Headers.Add("Messsage", "Failed");
-                return BadRequest();
-            }
+
+            return BadRequest("Failed to update.");
         }
 
         [HttpPut("articles")]
-        public IActionResult UpdateArticles([FromForm] AdminItemDto adminItemDto)
+        public async Task<IActionResult> UpdateArticles([FromForm] AdminItemDto adminItemDto)
         {
-            var status = cardService.UpdateArticle(adminItemDto);
+            // Get old record
+            var record = await _cardService.GetArticleById(adminItemDto.Id);
+
+            if (record == null)
+            {
+                return BadRequest("Record not found");
+            }
+
+            // Delete old media
+            foreach (var uri in record.MediaURIs)
+            {
+                await _fileService.DeleteFileByUri(uri);
+            }
+
+            // Save new media
+            await _fileService.WriteToFileinLocalFS(adminItemDto.Media, "ARTICLES");
+
+            var dbModel = _mapper.Map<ArticleDbModel>(adminItemDto);
+
+            var status = await _cardService.UpdateArticle(dbModel);
             if (status)
             {
                 return Ok();
             }
-            else
-            {
-                Response.Headers.Add("Messsage", "Failed");
-                return BadRequest();
-            }
+
+            return BadRequest("Failed to update.");
         }
+
         #endregion
     }
 }

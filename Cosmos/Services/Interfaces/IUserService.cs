@@ -9,10 +9,10 @@ namespace Cosmos.Services
 {
     public interface IUserService
     {
-        UserModel Create(UserModel user);
-        UserModel GetbyId(string objectIdStr);
-        UserModel GetbyEmail(string email);
+        Task<UserModel> Create(UserModel user);
+        Task<UserModel> GetById(string objectIdStr);
+        UserModel GetByEmail(string email);
 
-        UserModel ThirdPartySignIn(UserModel user);
+        Task<UserModel> ThirdPartySignIn(UserModel user);
     }
 }

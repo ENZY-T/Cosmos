@@ -60,9 +60,9 @@ const ProjectDetailsPage = ({ match }) => {
 						if (index % 2 === 0)
 							return (
 								<div className='vhcf-row '>
-									<div className='row justify-content-center align-items-center'>
+									<div className='row mt-n48px justify-content-center align-items-center'>
 										<div className='col-md' data-aos='zoom-out' data-aos-dely='400'>
-											<img className='project-pic' src={serverUrl + uri} alt='' />
+											<img className='project-pic border-right-48px' src={serverUrl + uri} alt='' />
 										</div>
 										<div className='col-md py-5 p-md-2'>
 											<div className=''>
@@ -73,9 +73,9 @@ const ProjectDetailsPage = ({ match }) => {
 										</div>
 									</div>
 									<hr className='mb-5 d-md-none' />
-									<div className='row justify-content-center align-items-center'>
+									<div className='row mt-n48px justify-content-center align-items-center'>
 										<div className='col-md order-md-2' data-aos-dely='800' data-aos='zoom-in'>
-											<img className='project-pic' src={serverUrl + arr[index + 1]} alt='' />
+											<img className='project-pic border-left-48px' src={serverUrl + arr[index + 1]} alt='' />
 										</div>
 										<div className='col-md order-md-1 py-5 p-md-2'>
 											<div className=''>

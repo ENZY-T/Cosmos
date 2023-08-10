@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-
 * {
 	position: relative;
 	margin: 0;
@@ -233,8 +232,6 @@ img.project-pic {
 	width: 100%;
 	height: auto;
 	border: 1px solid #018a8aa7;
-	border-top-right-radius: 48px;
-	border-bottom-left-radius: 48px;
 }
 .effect4 {
 	position: relative;
@@ -258,4 +255,18 @@ img.project-pic {
 	-o-transform: rotate(3deg);
 	-ms-transform: rotate(3deg);
 	transform: rotate(3deg);
+}
+
+// Global Custom Classes bootstrap format
+.mt-n48px {
+	margin-top: -48px !important;
+}
+
+.border-right-48px {
+	border-bottom-right-radius: 48px;
+	border-top-right-radius: 48px;
+}
+.border-left-48px {
+	border-top-left-radius: 48px;
+	border-bottom-left-radius: 48px;
 }

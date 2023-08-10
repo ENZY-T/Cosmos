@@ -259,7 +259,9 @@ img.project-pic {
 
 // Global Custom Classes bootstrap format
 .mt-n48px {
-	margin-top: -48px !important;
+	@media screen and (min-width: 960px) {
+		margin-top: -48px !important;
+	}
 }
 
 .border-right-48px {

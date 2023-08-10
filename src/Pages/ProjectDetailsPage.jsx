@@ -55,6 +55,7 @@ const ProjectDetailsPage = ({ match }) => {
 
 				<div className='project-discription'></div>
 				<hr className='my-5' style={{ height: 2 }} />
+				<div className='row my-5 py-5 d-none d-lg-block'></div>
 				<div className='vhcf-section'>
 					{project?.mediaURIs?.map((uri, index, arr) => {
 						if (index % 2 === 0)

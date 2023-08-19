@@ -11,7 +11,7 @@ namespace Cosmos.Services
     {
         Task<UserModel> Create(UserModel user);
         Task<UserModel> GetById(string objectIdStr);
-        UserModel GetByEmail(string email);
+        Task<UserModel> GetByEmail(string email);
 
         Task<UserModel> ThirdPartySignIn(UserModel user);
     }

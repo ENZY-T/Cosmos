@@ -33,7 +33,7 @@ namespace Cosmos
         /// <summary>
         /// Assigning a unique key if theres no. 
         /// </summary>
-        private async void MakeUSerEmailUnique_Users()
+        private async void MakeUserEmailUnique_Users()
         {
             var indexOptions = new CreateIndexOptions() { Unique = true, Name = "primary" };
             var indexKeys = Builders<UserModel>.IndexKeys.Ascending(table => table.Email);
@@ -41,7 +41,7 @@ namespace Cosmos
             await Cosmos_db.GetCollection<UserModel>("Users").Indexes.CreateOneAsync(indexModel);
         }
 
-        private async void MakeUSerEmailUnique_Projects()
+        private async void MakeUserEmailUnique_Projects()
         {
             var indexOptions = new CreateIndexOptions() { Unique = true, Name = "primary" };
             var indexKeys = Builders<ProjectDbModel>.IndexKeys.Ascending(table => table.Id);
@@ -50,7 +50,7 @@ namespace Cosmos
         }
 
 
-        private async void MakeUSerEmailUnique_Articles()
+        private async void MakeUserEmailUnique_Articles()
         {
             var indexOptions = new CreateIndexOptions() { Unique = true, Name = "primary" };
             var indexKeys = Builders<ArticleDbModel>.IndexKeys.Ascending(table => table.Id);
@@ -60,7 +60,7 @@ namespace Cosmos
 
         #endregion
 
-        public async Task<T> GetbyId<T>(string table, string id)
+        public async Task<T> GetById<T>(string table, string id)
         {
             var Coll = Cosmos_db.GetCollection<T>(table);
             try
@@ -76,13 +76,13 @@ namespace Cosmos
             }
         }
 
-        public List<T> GetbyAny<T>(string table, string field, string searchKey)
+        public async Task<List<T>> GetByAnyAsync<T>(string table, string field, string searchKey)
         {
             var Coll = Cosmos_db.GetCollection<T>(table);
             try
             {
                 var filter = Builders<T>.Filter.Eq(field, searchKey);
-                var result = Coll.Find(filter).ToList();
+                var result = (await Coll.FindAsync(filter)).ToList();
 
                 return result.Any() ? result : new List<T>();
             }

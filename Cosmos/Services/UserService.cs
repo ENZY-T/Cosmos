@@ -19,18 +19,18 @@ namespace Cosmos.Services
 
         public async Task<UserModel> GetById(string objectIdStr)
         {
-            return await _dbClient.GetbyId<UserModel>("Users", objectIdStr);
+            return await _dbClient.GetById<UserModel>("Users", objectIdStr);
         }
 
-        public UserModel GetByEmail(string email)
+        public async Task<UserModel> GetByEmail(string email)
         {
-            return _dbClient.GetbyAny<UserModel>("Users", "Email", email).FirstOrDefault();
+            return (await _dbClient.GetByAnyAsync<UserModel>("Users", "Email", email)).FirstOrDefault();
         }
 
         public async Task<UserModel> ThirdPartySignIn(UserModel user)
         {
             // Get the user if there's one matching the external id and type
-            var registeredUser = _dbClient.GetbyAny<UserModel>("Users", "ExternalId", user.ExternalId)
+            var registeredUser = (await _dbClient.GetByAnyAsync<UserModel>("Users", "ExternalId", user.ExternalId))
                 .FirstOrDefault(u => u.ExternalType == user.ExternalType);
 
             // Register the user if there's none

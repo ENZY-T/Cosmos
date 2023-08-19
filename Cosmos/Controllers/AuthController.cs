@@ -26,14 +26,14 @@ namespace Cosmos.Controllers
         }
 
         [HttpPost("login")]
-        public IActionResult Login([FromBody] LoginDto loginDto)
+        public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
         {
-            var user = _userService.GetByEmail(loginDto.Email);
+            var user = await _userService.GetByEmail(loginDto.Email);
             if (user != null)
             {
                 if (BCrypt.Net.BCrypt.Verify(loginDto.Password, user.Password))
                 {
-                    string jwt = _jwtService.Generate(_userService.GetByEmail(user.Email).Id);
+                    string jwt = _jwtService.Generate((await _userService.GetByEmail(user.Email)).Id);
 
                     Response.Cookies.Append("jwt", jwt, new CookieOptions()
                     {

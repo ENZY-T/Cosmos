@@ -1,5 +1,6 @@
 ﻿using System;
 using AutoMapper;
+using Cosmos.Dtos;
 using Cosmos.Models;
 
 namespace Cosmos
@@ -17,6 +18,9 @@ namespace Cosmos
                 .ForMember(adm =>
                     adm.CreatedDate, opt =>
                     opt.MapFrom(src => DateTime.Today));
+
+            CreateMap<ReviewDbModel, ReviewDto>();
+            CreateMap<ReviewDto, ReviewDbModel>();
         }
     }
 }

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Cosmos.Dtos;
 
 namespace Cosmos.Services.Interfaces
 {
@@ -27,6 +28,17 @@ namespace Cosmos.Services.Interfaces
         public Task<bool> UpdateArticle(ArticleDbModel newArticle);
         bool DeleteAllProjects();
         bool DeleteAllArticles();
+
+        #endregion
+
+        #region Reviews
+
+        Task<List<ReviewDbModel>> GetReviewsByProjectId(string projectId);
+        Task<ReviewDbModel> GetReviewById(int id);
+        Task<ReviewDbModel> InsertReview(ReviewDto review);
+        Task<bool> DeleteReview(string id);
+        Task<bool> UpdateReview(ReviewDto review);
+        
 
         #endregion
     }

@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Cosmos.Dtos;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -345,6 +346,71 @@ namespace Cosmos.Controllers
 
             return BadRequest("Failed to update.");
         }
+
+        #endregion
+
+        #region Card Reviews
+
+        [HttpGet("projects/{projectId}/reviews")]
+        public async Task<IActionResult> GetReviews(string projectId)
+        {
+            //null check is not needed since Guid is not nullable with implicitly throw an error if not sent
+            var reviews = await _cardService.GetReviewsByProjectId(projectId);
+            if (reviews is not null)
+            {
+                return Ok(reviews);
+            }
+
+            return BadRequest();
+        } 
+
+        [HttpPost("projects/{projectId}/reviews")]
+        public async Task<IActionResult> AddReview(string projectId, [FromBody]ReviewDto reviewDto)
+        {
+            if (reviewDto == null) return BadRequest("null review is not allowed.");
+
+            if(string.IsNullOrEmpty(reviewDto.ProjectId)) reviewDto.ProjectId = projectId;   
+            
+            var result = await _cardService.InsertReview(reviewDto);
+
+            var responseDto = _mapper.Map<ReviewDto>(result);
+            
+            if (result is not null && !string.IsNullOrEmpty(result.Id))
+            {
+                return Created(result.Id, result);
+            }
+            return BadRequest();
+        } 
+
+        [HttpPut("projects/{projectId}/reviews/{id}")]
+        public async Task<IActionResult> UpdateReview(string projectId,string id, [FromBody]ReviewDto reviewDto)
+        {
+            if (reviewDto == null) return BadRequest("null review is not allowed.");
+            if (string.IsNullOrEmpty(id) && string.IsNullOrEmpty(reviewDto.Id)) return BadRequest("review id should not be 0");
+
+            if (string.IsNullOrEmpty(reviewDto.ProjectId)) reviewDto.ProjectId = projectId;
+            if (string.IsNullOrEmpty(reviewDto.Id)) reviewDto.Id = id;
+
+            var result = await _cardService.UpdateReview(reviewDto);
+            if (result)
+            {
+                return Ok();
+            }
+            return BadRequest();
+        } 
+
+        [HttpDelete("projects/{projectId}/reviews/{id}")]
+        public async Task<IActionResult> DeleteReview(string projectId, string id)
+        {
+            if (string.IsNullOrEmpty(id)) return BadRequest("review id should not be 0");
+            
+            var result = await _cardService.DeleteReview(id);
+            if (result)
+            {
+                return Ok();
+            }
+            return NotFound();
+        } 
 
         #endregion
     }

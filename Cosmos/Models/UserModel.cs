@@ -2,10 +2,11 @@
 using MongoDB.Bson.Serialization.IdGenerators;
 using MongoDB.Bson.Serialization.Attributes;
 using System.Text.Json.Serialization;
+using Cosmos.Models.Interfaces;
 
 namespace Cosmos
 {
-    public class UserModel
+    public class UserModel : IMongoRecord
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]

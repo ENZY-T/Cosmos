@@ -1,27 +1,28 @@
 ﻿using Cosmos.Models;
-using Cosmos.Models.Interfaces;
 using Cosmos.Services.Interfaces;
-using Microsoft.AspNetCore.Http;
-using MongoDB.Bson;
-using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using Cosmos.Dtos;
 
 namespace Cosmos.Services
 {
     public class CardService : ICardService
     {
+
         #region Initialization
 
         private readonly IDbClient _dbClient;
         private readonly IFileService _fileService;
+        private readonly IMapper _mapper;
 
-        public CardService(IDbClient dbClient, IFileService fileService)
+        public CardService(IDbClient dbClient, IFileService fileService, IMapper mapper)
         {
-            this._dbClient = dbClient;
-            this._fileService = fileService;
+            _dbClient = dbClient;
+            _fileService = fileService;
+            _mapper = mapper;
         }
 
         #endregion
@@ -52,7 +53,7 @@ namespace Cosmos.Services
 
         public async Task<bool> DeleteProj(string id)
         {
-            var project = await _dbClient.GetbyId<ProjectDbModel>("Projects", id);
+            var project = await _dbClient.GetById<ProjectDbModel>("Projects", id);
             if (project == null) return false;
 
             if (!(project.MediaURIs == null || project.MediaURIs.Count < 1))
@@ -93,12 +94,12 @@ namespace Cosmos.Services
 
         public async Task<ProjectDbModel> GetProjById(string id)
         {
-            return await _dbClient.GetbyId<ProjectDbModel>("Projects", id);
+            return await _dbClient.GetById<ProjectDbModel>("Projects", id);
         }
 
         public async Task<ArticleDbModel> GetArticleById(string id)
         {
-            return await _dbClient.GetbyId<ArticleDbModel>("Articles", id);
+            return await _dbClient.GetById<ArticleDbModel>("Articles", id);
         }
 
         #endregion
@@ -135,6 +136,45 @@ namespace Cosmos.Services
         public async Task<bool> UpdateProj(ProjectDbModel newProject)
         {
             return await _dbClient.UpdateOne(DbTables.Projects.ToString(), newProject);
+        }
+
+        #endregion
+
+        #region Reviews
+
+        public Task<List<ReviewDbModel>> GetReviewsByProjectId(string projectId)
+        {
+            var reviews = _dbClient.GetByAnyAsync<ReviewDbModel>("Reviews", "ProjectId", projectId);
+            
+            return reviews;
+        }
+
+        public Task<ReviewDbModel> GetReviewById(int id)
+        {
+            return _dbClient.GetById<ReviewDbModel>("Reviews", id.ToString());
+        }
+
+        public async Task<ReviewDbModel> InsertReview(ReviewDto review)
+        {
+            var model = _mapper.Map<ReviewDbModel>(review);
+
+            var createdReview = await _dbClient.InsertAsync("Reviews", model);
+            return createdReview;
+        }
+
+        public async Task<bool> DeleteReview(string id)
+        {
+            var result = await _dbClient.DeleteAsync<ReviewDbModel>("Reviews", "Id", id);
+            return result;
+        }
+
+        public async Task<bool> UpdateReview(ReviewDto review)
+        {
+            var model = _mapper.Map<ReviewDbModel>(review);
+
+            var result = await _dbClient.UpdateOne("Reviews", model);
+
+            return result;
         }
 
         #endregion

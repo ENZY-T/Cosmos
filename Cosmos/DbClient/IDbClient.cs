@@ -14,8 +14,8 @@ namespace Cosmos
     public interface IDbClient
     {
         Task<List<T>> Get<T>(string table);
-        Task<T> GetbyId<T>(string table, string id);
-        List<T> GetbyAny<T>(string table, string field, string searchKey);
+        Task<T> GetById<T>(string table, string id);
+        Task<List<T>> GetByAnyAsync<T>(string table, string field, string searchKey);
         public Task<bool> UpdateOne<T>(string table, T updatedRecord) where T : IMongoRecord;
         Task<T> InsertAsync<T>(string table, T record);
         Task<bool> DeleteAsync<T>(string table, string keyName, string keyValue);

@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { serverUrl } from '../GlobalData/Global';
 import { setAlertMsg } from '../Store/Slices/AppStateSlice';
+import ReviewPanel from '../Components/Reviews/ReviewPanel';
+import RelatedProjects from '../Components/Later-Implements/RelatedProjects';
 
 const ProjectDetailsPage = ({ match }) => {
 	// States
@@ -92,6 +94,13 @@ const ProjectDetailsPage = ({ match }) => {
 					})}
 				</div>
 			</div>
+
+			<hr className='my-5' />
+			<div className='my-5'>
+				<ReviewPanel projectId={project?.id} />
+			</div>
+			<hr className='my-5' />
+			<RelatedProjects />
 		</div>
 	);
 };

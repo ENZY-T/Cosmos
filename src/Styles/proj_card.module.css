@@ -1,0 +1,100 @@
+/*"https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_cards"   card template*/
+.projCard {
+  width: 360px;
+  aspect-ratio: 1/1;
+  margin: 15px;
+  border-radius: 4px;
+  background-color: rgba(5, 130, 131, 0.1490196078);
+  box-shadow: rgba(0, 0, 0, 0.3) 0 1px 2px 0, rgba(2, 2, 2, 0.4) 0 2px 6px 2px;
+  transition: all 0.1s ease-out;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  text-align: center;
+  align-items: center;
+  justify-content: space-evenly;
+}
+.projCard:hover {
+  color: azure;
+  box-shadow: var(--globalBoxShadow_Hover);
+  cursor: pointer;
+  transform: scale(1.02, 1.02);
+}
+.projCard:hover .cover {
+  filter: blur(2px);
+  transition: all 2s ease-out;
+  transform: scale(1, 1);
+}
+.projCard:hover .overlay {
+  background-color: var(--globalGreen);
+  opacity: 0.7;
+  transition: all 0.5s ease-out;
+}
+.projCard:hover .tagline {
+  visibility: visible;
+}
+.projCard:hover .title {
+  color: azure;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+.projCard .cover {
+  transform: scale(1.1, 1.1);
+  z-index: 200;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: relative;
+  align-self: center;
+  display: flex;
+}
+.projCard .overlay {
+  z-index: 400;
+  background-color: black;
+  opacity: 0.05;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-items: center;
+  align-items: center;
+}
+.projCard .title {
+  z-index: 800;
+  bottom: 0;
+  height: auto;
+  min-height: 35px;
+  width: 100%;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.65);
+  font-weight: 600;
+  font-size: 17px;
+  color: var(--globalWhite);
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.projCard .tagline {
+  visibility: hidden;
+  z-index: 800;
+  position: absolute;
+  width: 100%;
+  color: white;
+  font-weight: 400;
+  word-wrap: break-word;
+  padding: 48px;
+  place-items: center;
+  text-align: center;
+}
+
+@media screen and (max-width: 768px) {
+  .wrapper {
+    width: 100% !important;
+    border-radius: 6px;
+  }
+  .projCard {
+    aspect-ratio: 4/3;
+  }
+}
+
+/*# sourceMappingURL=proj_card.module.css.map */

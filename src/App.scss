@@ -272,3 +272,20 @@ img.project-pic {
 	border-top-left-radius: 48px;
 	border-bottom-left-radius: 48px;
 }
+
+.scroll-x {
+	overflow-x: scroll;
+	width: 100%;
+}
+
+.scroll-y {
+	overflow-y: scroll;
+	height: 400px;
+}
+
+.scroll-md-x {
+	@media screen and (min-width: 768px) {
+		overflow-x: scroll;
+		width: 100%;
+	}
+}

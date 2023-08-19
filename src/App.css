@@ -218,8 +218,6 @@ img.project-pic {
   width: 100%;
   height: auto;
   border: 1px solid rgba(1, 138, 138, 0.6549019608);
-  border-top-right-radius: 48px;
-  border-bottom-left-radius: 48px;
 }
 
 .effect4 {
@@ -245,6 +243,39 @@ img.project-pic {
   -o-transform: rotate(3deg);
   -ms-transform: rotate(3deg);
   transform: rotate(3deg);
+}
+
+@media screen and (min-width: 960px) {
+  .mt-n48px {
+    margin-top: -48px !important;
+  }
+}
+
+.border-right-48px {
+  border-bottom-right-radius: 48px;
+  border-top-right-radius: 48px;
+}
+
+.border-left-48px {
+  border-top-left-radius: 48px;
+  border-bottom-left-radius: 48px;
+}
+
+.scroll-x {
+  overflow-x: scroll;
+  width: 100%;
+}
+
+.scroll-y {
+  overflow-y: scroll;
+  height: 400px;
+}
+
+@media screen and (min-width: 768px) {
+  .scroll-md-x {
+    overflow-x: scroll;
+    width: 100%;
+  }
 }
 
 /*# sourceMappingURL=App.css.map */

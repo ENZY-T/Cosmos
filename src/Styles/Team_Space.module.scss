@@ -1,74 +1,69 @@
 .teamSpace {
-  text-align: center;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  width: auto;
-  box-sizing: border-box;
-  height: auto;
-  background-color: var(--secondary-bg-color-dark);
+	text-align: center;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	flex-wrap: wrap;
+	width: auto;
+	box-sizing: border-box;
+	height: auto;
+	background-color: var(--secondary-bg-color-dark);
 
-  //padding: 140px;
-  padding: 140px 50px;
+	//padding: 140px;
+	padding: 140px 50px;
 
+	.title {
+		color: White;
+		font-family: 'Poppins', sans-serif;
+		width: 100%;
+		font-weight: 800;
+		font-size: 3rem;
+		text-align: center;
+		margin: 10px auto 50px;
 
-  .title {
-    color: White;
-    font-family: 'Poppins', sans-serif;
-    width: 100%;
-    font-weight: 800;
-    font-size: 3rem;
-    text-align: center;
-    margin: 10px auto 50px;
+		> span {
+			border-radius: 0;
+			border: solid var(--secondaryText-Green);
+			border-width: 1px 0;
+			padding: 5px 0;
 
-    > span {
-      border-radius: 0;
-      border: solid var(--secondaryText-Green);
-      border-width: 1px 0;
-      padding: 5px 0;
+			> span {
+				background-color: var(--secondaryText-Green-Trans);
+				padding: 0 10px;
+				border-radius: 4px;
+			}
+		}
+	}
 
+	.text {
+		width: 100%;
+		padding: 0 18%;
+		margin-bottom: 150px;
+	}
 
-      > span {
-        background-color: var(--secondaryText-Green-Trans);
-        padding: 0 10px;
-        border-radius: 4px;
-
-      }
-    }
-  }
-
-  .text {
-    width: 100%;
-    padding: 0 18%;
-    margin-bottom: 150px;
-  }
-
-  p {
-    font-size: 18px;
-    font-family: Montserrat, sans-serif;
-    color: #c0c3d0;
-  }
-
+	p {
+		font-size: 18px;
+		font-family: Montserrat, sans-serif;
+		color: #c0c3d0;
+	}
 }
 
 @media screen and (max-width: 768px) {
-  .teamSpace {
-    align-items: flex-start;
-    padding: 5%;
-    padding-top: 10%;
-    .title {
-      font-size: 2.5rem;
-    }
+	.teamSpace {
+		align-items: flex-start;
+		padding: 5%;
+		padding-top: 10%;
+		.title {
+			font-size: 2.5rem;
+		}
 
-    .text {
-      padding: unset !important;
-      margin-bottom: 25px;
-      p {
-        font-size: 1.2rem !important;
-      }
-    }
-
-  }
+		.text {
+			padding: unset !important;
+			margin-bottom: 25px;
+			p {
+				font-size: 1.2rem !important;
+			}
+		}
+	}
 }

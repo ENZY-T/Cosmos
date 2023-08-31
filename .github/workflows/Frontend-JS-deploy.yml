@@ -42,6 +42,16 @@ jobs:
           privateKey: ${{ secrets.HOST_PRIVATE_KEY }}
           concurrency: 500
 
+      - name: Copy to deployment server via scp
+        uses: garygrossgarten/github-action-ssh@v0.3.0
+        with:
+          command: |
+            scp -i ./build/ ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:/${{ secrets.REMOTE_FE_TARGET }}
+
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          password: ${{ secrets.REMOTE_PASS }}
+
       - name: Restart nginx
         uses: garygrossgarten/github-action-ssh@v0.3.0
         with:

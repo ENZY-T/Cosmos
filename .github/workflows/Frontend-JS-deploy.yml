@@ -50,4 +50,4 @@ jobs:
 
           host: ${{ secrets.REMOTE_HOST }}
           username: ${{ secrets.REMOTE_USER }}
-          password: ${{ secrets.REMOTE_PASS }}
+          privateKey: ${{ secrets.HOST_PRIVATE_KEY }}

@@ -4,6 +4,8 @@ import umeshan from '../img/Avatars/umeshan.jpg';
 import suranga from '../img/Avatars/suranga.jpg';
 import sanju from '../img/Avatars/sanju.jpg';
 import dilshan from '../img/Avatars/dilshan.jpg';
+import dinuka from '../img/Avatars/dinuka.jpg';
+import dulan from '../img/Avatars/dulan.jpg';
 
 export let serverUrl = '';
 if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
@@ -65,7 +67,7 @@ export const teamCrew = [
 		avatar: suranga,
 	},
 	{
-		name: 'N. Ariyarathne',
+		name: 'Mr. Ariyarathne',
 		position: 'Food Processing Engineer',
 		avatar: ariyarathne,
 	},
@@ -84,8 +86,18 @@ export const teamCrew = [
 	},
 	{
 		name: 'Mr. Dilshan',
-		position: 'Engineering Intern',
+		position: 'Trainee Engineering',
 		avatar: dilshan,
+	},
+	{
+		name: 'Mr. Dinuka',
+		position: 'Trainee Engineering',
+		avatar: dinuka,
+	},
+	{
+		name: 'Mr. Dulan',
+		position: 'Trainee Engineering',
+		avatar: dulan,
 	},
 ];
 

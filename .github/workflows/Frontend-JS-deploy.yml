@@ -36,12 +36,12 @@ jobs:
       - name: Copy to deployment server via scp
         run: |
           echo "============================"
+          pwd
           ls -lrt ./build
           echo "============================"
-          echo ${{ secrets.HOST_PRIVATE_KEY }} > tempKey
+          echo "${{ secrets.HOST_PRIVATE_KEY }}" > tempKey
           ssh -i tempKey ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} 'rm -rf /var/www/html'
-          ssh -i tempKey ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} 'mkdir /var/www/html'
-          scp -r ./build/* ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:/var/www/html/
+          scp -r ./build ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:/var/www/html
           rm -rf tempKey
           
 

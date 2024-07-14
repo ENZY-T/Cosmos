@@ -40,8 +40,8 @@ jobs:
           ls -lrt ./build
           echo "============================"
           echo "${{ secrets.HOST_PRIVATE_KEY }}" > tempKey
-          ssh -i tempKey ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} 'rm -rf /var/www/html'
-          scp -r ./build ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:/var/www/html
+          ssh -o StrictHostKeyChecking=no -i tempKey ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} 'rm -rf /var/www/html'
+          scp -o StrictHostKeyChecking=no -r ./build ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:/var/www/html
           rm -rf tempKey
           
 

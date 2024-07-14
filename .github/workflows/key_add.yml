@@ -3,7 +3,7 @@ name: key_add
 on:
   # workflow_dispatch
   push:
-    branches: [key_add]
+    branches: [temp]
 
 jobs:
   build:

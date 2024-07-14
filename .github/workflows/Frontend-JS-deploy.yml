@@ -39,7 +39,7 @@ jobs:
         uses: garygrossgarten/github-action-scp@0.9.0
         with:
           local: ./build/
-          remote: /var/www/html
+          remote: /var/www/html/
           host: ${{ secrets.REMOTE_HOST }}
           username: ${{ secrets.REMOTE_USER }}
           privateKey: ${{ secrets.HOST_PRIVATE_KEY }}
@@ -51,6 +51,7 @@ jobs:
         uses: garygrossgarten/github-action-ssh@v0.3.0
         with:
           command: |
+            ls -lrt /var/www/html
             chown -R www-data:www-data /var/www/html
             nginx -s reload
 

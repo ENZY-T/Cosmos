@@ -41,8 +41,8 @@ jobs:
           echo "============================"
           echo "${{ secrets.HOST_PRIVATE_KEY }}" > tempKey
           chmod 600 tempKey
-          ssh -o StrictHostKeyChecking=no -i tempKey "${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}" 'rm -rf /var/www/html'
-          scp -o StrictHostKeyChecking=no -r ./build "${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:/var/www/html"
+          ssh -o StrictHostKeyChecking=no -i tempKey "root@${{ secrets.REMOTE_HOST }}" 'rm -rf /var/www/html'
+          scp -o StrictHostKeyChecking=no -r -i tempKey ./build "root@${{ secrets.REMOTE_HOST }}:/var/www/html"
           rm -rf tempKey
           
 

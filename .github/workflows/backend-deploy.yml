@@ -14,40 +14,41 @@ jobs:
         with:
           ref: 'Backend-master'
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: 5.0.x
+      # - name: Setup .NET
+      #   uses: actions/setup-dotnet@v1
+      #   with:
+      #     dotnet-version: 5.0.x
 
-      - name: Restore dependencies
-        run: dotnet restore
+      # - name: Restore dependencies
+      #   run: dotnet restore
 
-      - name: Build
-        run: dotnet build -c Release --no-restore
+      # - name: Build
+      #   run: dotnet build -c Release --no-restore
 
-      - name: Run automated tests
-        run: dotnet test -c Release --no-build
+      # - name: Run automated tests
+      #   run: dotnet test -c Release --no-build
 
-      - name: Publish
-        run: dotnet publish -f net5.0 --self-contained -r linux-x64 -p:TrimMode=Link -p:PublishTrimmed=True -o ./deploy/
-        # run: dotnet publish -f net5.0 --self-contained -r linux-x64  -p:PublishSingleFile=true -p:TrimMode=Link -p:PublishTrimmed=True -o ./deploy/
+      # - name: Publish
+      #   run: dotnet publish -f net5.0 --self-contained -r linux-x64 -p:TrimMode=Link -p:PublishTrimmed=True -o ./deploy/
+      #   # run: dotnet publish -f net5.0 --self-contained -r linux-x64  -p:PublishSingleFile=true -p:TrimMode=Link -p:PublishTrimmed=True -o ./deploy/
 
-      - name: Copy to deployment server via scp
-        uses: garygrossgarten/github-action-scp@v0.5.3
-        with:
-          local: ./deploy/
-          remote: ${{ secrets.REMOTE_BE_TARGET }}
-          host: ${{ vars.REMOTE_HOST }}
-          username: ${{ secrets.REMOTE_USER }}
-          password: ${{ secrets.REMOTE_PASS }}
-          concurrency: 500
+      # - name: Copy to deployment server via scp
+      #   uses: garygrossgarten/github-action-scp@v0.5.3
+      #   with:
+      #     local: ./deploy/
+      #     remote: ${{ secrets.REMOTE_BE_TARGET }}
+      #     host: ${{ vars.REMOTE_HOST }}
+      #     username: ${{ secrets.REMOTE_USER }}
+      #     password: ${{ secrets.REMOTE_PASS }}
+      #     concurrency: 500
 
       - name: Restart cosmos-webapp-be service via ssh.
         uses: garygrossgarten/github-action-ssh@v0.3.0
         with:
           command: |
-            systemctl restart cosmos-webapp-be
-            nginx -s reload
+            echo "${{ secrets.REMOTE_BE_TARGET }}"> dir.txt
+            #systemctl restart cosmos-webapp-be
+            #nginx -s reload
 
           host: ${{ vars.REMOTE_HOST }}
           username: ${{ secrets.REMOTE_USER }}

@@ -37,7 +37,7 @@ jobs:
         with:
           local: ./deploy/
           remote: ${{ secrets.REMOTE_BE_TARGET }}
-          host: ${{ secrets.REMOTE_HOST }}
+          host: ${{ vars.REMOTE_HOST }}
           username: ${{ secrets.REMOTE_USER }}
           password: ${{ secrets.REMOTE_PASS }}
           concurrency: 500
@@ -49,6 +49,6 @@ jobs:
             systemctl restart cosmos-webapp-be
             nginx -s reload
 
-          host: ${{ secrets.REMOTE_HOST }}
+          host: ${{ secrets. }}
           username: ${{ secrets.REMOTE_USER }}
           password: ${{ secrets.REMOTE_PASS }}

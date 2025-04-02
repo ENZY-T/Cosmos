@@ -49,6 +49,6 @@ jobs:
             systemctl restart cosmos-webapp-be
             nginx -s reload
 
-          host: ${{ secrets. }}
+          host: ${{ vars.REMOTE_HOST }}
           username: ${{ secrets.REMOTE_USER }}
           password: ${{ secrets.REMOTE_PASS }}

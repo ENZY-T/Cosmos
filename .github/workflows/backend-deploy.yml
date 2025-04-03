@@ -35,11 +35,13 @@ jobs:
       - name: Copy to deployment server via scp
         uses: garygrossgarten/github-action-scp@0.9.0
         with:
-          local: ./deploy/
+          local: ./deploy
           remote: ${{ vars.REMOTE_BE_TARGET }}
           host: ${{ vars.REMOTE_HOST }}
           username: ${{ secrets.REMOTE_USER }}
           password: ${{ secrets.REMOTE_PASS }}
+          atomicPut: true
+          rmRemote: true
           concurrency: 500
 
       - name: Restart cosmos-webapp-be service via ssh.

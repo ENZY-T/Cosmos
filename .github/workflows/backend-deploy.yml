@@ -44,6 +44,7 @@ jobs:
           username: ${{ secrets.REMOTE_USER }}
           password: ${{ secrets.REMOTE_PASS }}
           rm: true
+          strip_components: 1
 
       - name: Restart cosmos-webapp-be service via ssh.
         uses: garygrossgarten/github-action-ssh@v0.3.0

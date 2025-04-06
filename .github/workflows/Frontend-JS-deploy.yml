@@ -52,6 +52,6 @@ jobs:
             chown -R www-data:www-data /var/www/html
             nginx -s reload
 
-          host: ${{ secrets.REMOTE_HOST }}
+          host: ${{ vars.REMOTE_HOST }}
           username: ${{ secrets.REMOTE_USER }}
           privateKey: ${{ secrets.HOST_PRIVATE_KEY }}

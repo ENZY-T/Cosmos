@@ -1,9 +1,9 @@
 name: Frontend-Js Deployment
 
 on:
-  # workflow_dispatch
-  push:
-    branches: [Frontend-dev-js]
+  workflow_dispatch
+  # push:
+  #   branches: [Frontend-dev-js]
 
 jobs:
   build:
